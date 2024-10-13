@@ -10,7 +10,7 @@ function App() {
   const { _, width } = useWindowDimensions();
 
   const fetchData = async () => {
-    fetch("http://localhost:80/").then((res) => {
+    fetch("https://petrolistan/api/").then((res) => {
       res.json().then((result) => {
         setData(result.data);
       });
