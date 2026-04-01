@@ -1,24 +1,11 @@
-import MapView from "./components/view/MapView";
-import { useState, useEffect } from "react";
+import React from 'react';
+import { Home } from './pages/Home';
 
 function App() {
-  const [data, setData] = useState();
-
-  const fetchData = async () => {
-    fetch("https://petrolistan.com/api/").then((res) => {
-      res.json().then((result) => {
-        setData(result.data);
-      });
-    });
-  };
-
-  useEffect(() => {
-    fetchData()}, 
-    []);
-
   return (
+    // Fragment (<>...</>) kullanarak gereksiz div kirliliğinden kaçınıyoruz
     <>
-      <MapView mapData={data}></MapView>
+      <Home />
     </>
   );
 }
