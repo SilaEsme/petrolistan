@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#f5f7fa]">
+      <body className="min-h-full flex flex-col bg-[#F5F5F0] text-gray-900">
         <Topbar />
         <Navbar />
         <Ticker />

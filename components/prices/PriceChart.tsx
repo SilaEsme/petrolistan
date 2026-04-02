@@ -20,7 +20,7 @@ export default function PriceChart({ data, isLoading }: PriceChartProps) {
   const last = data.length - 1
 
   return (
-    <section>
+    <section className="bg-white rounded-lg p-4">
       <div className="flex items-center justify-between mb-2.5">
         <h2 className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
           Brent 30 günlük seyir

@@ -32,7 +32,7 @@ export default function PriceGrid({
   title = "Piyasa Fiyatları",
 }: Props) {
   return (
-    <section>
+    <section className="bg-white rounded-lg p-4 mb-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-[#042C53] font-bold text-lg">{title}</h2>
