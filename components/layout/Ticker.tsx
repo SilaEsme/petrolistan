@@ -12,9 +12,9 @@ const PLACEHOLDER_ITEMS: TickerItem[] = [
   { label: "WTI", value: "83.15", change: -0.31, unit: "$/varil" },
   { label: "USD/TRY", value: "32.87", change: 0.12 },
   { label: "EUR/TRY", value: "35.64", change: -0.08 },
-  { label: "Motorin", value: "43.85", change: 0.0, unit: "₺/L" },
-  { label: "Benzin 95", value: "45.20", change: 0.0, unit: "₺/L" },
-  { label: "LPG", value: "18.63", change: 0.0, unit: "₺/L" },
+  { label: "Motorin", value: "68.05", change: 0.0, unit: "₺/L" },
+  { label: "Benzin 95", value: "72.40", change: 0.0, unit: "₺/L" },
+  { label: "LPG", value: "34.20", change: 0.0, unit: "₺/L" },
   { label: "Doğalgaz", value: "12.45", change: -1.2, unit: "$/MMBtu" },
 ];
 
