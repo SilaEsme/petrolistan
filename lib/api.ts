@@ -45,3 +45,24 @@ export function usePriceHistory() {
     isLoading,
   };
 }
+
+export interface FuelItem {
+  name: string;
+  value: number;
+  unit: string;
+  change: number;
+  barPercent: number;
+  source: string;
+}
+
+export function useFuel() {
+  const { data, isLoading } = useSWR<{ data: FuelItem[] }>(
+    "/api/fuel",
+    fetcher,
+    { refreshInterval: 3_600_000 }
+  );
+  return {
+    fuel: data?.data ?? [],
+    isLoading,
+  };
+}

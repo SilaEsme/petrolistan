@@ -2,6 +2,7 @@
 import { usePrices, usePriceHistory } from '@/lib/api'
 import PriceGrid from '@/components/prices/PriceGrid'
 import PriceChart from '@/components/prices/PriceChart'
+import FuelSidebar from '@/components/sidebar/FuelSidebar'
 
 export default function HomePage() {
   const { prices, updatedAt, isLoading } = usePrices()
@@ -23,12 +24,19 @@ export default function HomePage() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6">
-      <PriceGrid
-        items={prices}
-        lastUpdated={formattedTime}
-        isLoading={isLoading}
-      />
-      <PriceChart data={history} isLoading={historyLoading} />
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
+          <PriceGrid
+            items={prices}
+            lastUpdated={formattedTime}
+            isLoading={isLoading}
+          />
+          <PriceChart data={history} isLoading={historyLoading} />
+        </div>
+        <div className="w-64 shrink-0">
+          <FuelSidebar />
+        </div>
+      </div>
     </main>
   )
 }
