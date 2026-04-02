@@ -37,6 +37,10 @@ export default function NewsCard({ item, isLast = false }: Props) {
   const initials = CATEGORY_INITIALS[item.category] ?? item.category.slice(0, 2)
 
   return (
+    <a
+      href={`/haberler/${item.slug}`}
+      className="block hover:bg-gray-50/50 transition-colors cursor-pointer"
+    >
     <article
       className={`flex gap-3 py-3 ${
         item.featured ? 'border-l-2 border-[#378ADD] pl-3 -ml-3' : ''
@@ -72,5 +76,6 @@ export default function NewsCard({ item, isLast = false }: Props) {
         {initials}
       </div>
     </article>
+    </a>
   )
 }

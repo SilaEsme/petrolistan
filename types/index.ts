@@ -27,6 +27,7 @@ export interface NewsItem {
   source: string;
   readingTime: number;
   featured?: boolean;
+  content?: string;
 }
 
 export interface FuelPrice {
