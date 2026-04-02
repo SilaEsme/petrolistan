@@ -19,13 +19,14 @@ export interface TickerItem {
 
 export interface NewsItem {
   id: string;
+  slug: string;
   title: string;
-  summary: string;
-  url: string;
-  source: string;
+  excerpt: string;
+  category: string;
   publishedAt: string;
-  imageUrl?: string;
-  tags?: string[];
+  source: string;
+  readingTime: number;
+  featured?: boolean;
 }
 
 export interface FuelPrice {

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "1",
+    "slug": "opec-uretim-kisintisi-haziran-2026",
+    "title": "OPEC+ üretim kısıntısını Haziran'a kadar uzattı",
+    "excerpt": "OPEC+ ittifakı, küresel petrol piyasalarındaki denge için günlük 2.2 milyon varillik üretim kısıntısını Haziran 2026 sonuna kadar sürdürme kararı aldı.",
+    "category": "OPEC+",
+    "publishedAt": "2026-04-02T08:00:00Z",
+    "source": "Petrolistan",
+    "readingTime": 3,
+    "featured": true
+  },
+  {
+    "id": "2",
+    "slug": "botас-boru-hatti-kapasitesi-2026",
+    "title": "BOTAŞ doğalgaz boru hattı kapasitesini yüzde 15 artırıyor",
+    "excerpt": "BOTAŞ, Türkiye'nin enerji güvenliğini artırmak amacıyla 2026 yılı için 4.2 milyar dolarlık boru hattı yatırım planını açıkladı.",
+    "category": "TÜRKİYE",
+    "publishedAt": "2026-04-02T06:30:00Z",
+    "source": "Petrolistan",
+    "readingTime": 2
+  },
+  {
+    "id": "3",
+    "slug": "brent-70-dolar-analiz",
+    "title": "Akdeniz'de arz fazlası: Brent 70 doların altına düşer mi?",
+    "excerpt": "Akdeniz havzasındaki arz artışı ve Asya talebindeki yavaşlama Brent fiyatlarını baskı altına alıyor. Analistler kısa vadeli görünümü değerlendirdi.",
+    "category": "ANALİZ",
+    "publishedAt": "2026-04-01T14:00:00Z",
+    "source": "Petrolistan",
+    "readingTime": 4
+  },
+  {
+    "id": "4",
+    "slug": "rusya-petrol-ihracati-mart-2026",
+    "title": "Rusya petrol ihracatı Mart'ta beklentinin üzerinde geldi",
+    "excerpt": "Rusya'nın Mart 2026 petrol ihracatı günlük 3.6 milyon varile ulaşarak OPEC+ taahhütlerini sorgulatır hale geldi.",
+    "category": "PAZAR",
+    "publishedAt": "2026-04-01T10:00:00Z",
+    "source": "Reuters",
+    "readingTime": 3
+  },
+  {
+    "id": "5",
+    "slug": "benzin-fiyati-nisan-2026",
+    "title": "Nisan 2026 akaryakıt fiyatlarına zam yok",
+    "excerpt": "EPDK'nın haftalık açıklamasına göre Nisan ayının ilk haftasında benzin ve motorin fiyatlarında değişiklik yapılmadı.",
+    "category": "TÜRKİYE",
+    "publishedAt": "2026-04-01T09:00:00Z",
+    "source": "EPDK",
+    "readingTime": 1
+  }
+]
