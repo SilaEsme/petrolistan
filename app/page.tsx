@@ -1,9 +1,11 @@
 'use client'
-import { usePrices } from '@/lib/api'
+import { usePrices, usePriceHistory } from '@/lib/api'
 import PriceGrid from '@/components/prices/PriceGrid'
+import PriceChart from '@/components/prices/PriceChart'
 
 export default function HomePage() {
   const { prices, updatedAt, isLoading } = usePrices()
+  const { history, isLoading: historyLoading } = usePriceHistory()
 
   const formattedTime = (() => {
     if (!updatedAt) return undefined
@@ -26,6 +28,7 @@ export default function HomePage() {
         lastUpdated={formattedTime}
         isLoading={isLoading}
       />
+      <PriceChart data={history} isLoading={historyLoading} />
     </main>
   )
 }
