@@ -3,7 +3,7 @@ import Link from "next/link";
 const navLinks = [
   { label: "Ana Sayfa", href: "/" },
   { label: "Ham Petrol", href: "/ham-petrol" },
-  { label: "Akaryakıt", href: "/akaryakıt" },
+  { label: "Akaryakıt", href: "/akaryakit" },
   { label: "Doğalgaz", href: "/dogalgaz" },
   { label: "Haberler", href: "/haberler" },
   { label: "Analizler", href: "/analizler" },
@@ -39,7 +39,7 @@ export default function Navbar() {
         {/* CTA */}
         <div className="flex items-center gap-2">
           <Link
-            href="/bülten"
+            href="/bulten"
             className="hidden sm:inline-flex items-center px-4 py-1.5 bg-[#BA7517] hover:bg-[#a5671a] text-white text-sm font-semibold rounded transition-colors"
           >
             Bülten

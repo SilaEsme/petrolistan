@@ -3,7 +3,7 @@ import Link from "next/link";
 const footerLinks = {
   "Fiyatlar": [
     { label: "Ham Petrol", href: "/ham-petrol" },
-    { label: "Akaryakıt", href: "/akaryakıt" },
+    { label: "Akaryakıt", href: "/akaryakit" },
     { label: "Doğalgaz", href: "/dogalgaz" },
     { label: "LPG", href: "/lpg" },
   ],
