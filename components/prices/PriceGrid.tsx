@@ -31,23 +31,16 @@ export default function PriceGrid({
   lastUpdated,
   title = "Piyasa Fiyatları",
 }: Props) {
-  const formattedTime = lastUpdated
-    ? new Date(lastUpdated).toLocaleTimeString("tr-TR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : null;
-
   return (
     <section>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-[#042C53] font-bold text-lg">{title}</h2>
-        {formattedTime && (
-          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <span className="w-2 h-2 rounded-full bg-[#3B6D11] inline-block" />
-            <span>Son güncelleme: {formattedTime}</span>
-          </div>
+        {lastUpdated && lastUpdated !== 'Invalid Date' && (
+          <span className="flex items-center gap-1 text-[10px] text-gray-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3B6D11] inline-block" />
+            Güncellendi {lastUpdated}
+          </span>
         )}
       </div>
 

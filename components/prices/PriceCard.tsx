@@ -57,7 +57,7 @@ export default function PriceCard({
   source,
   updatedAt,
   featured = false,
-}: Props) {
+}: Omit<Props, 'updatedAt'> & { updatedAt?: string }) {
   const borderClass = featured
     ? "border-[#378ADD] border-2"
     : "border-gray-200/80 border";
@@ -67,10 +67,12 @@ export default function PriceCard({
     maximumFractionDigits: 2,
   });
 
-  const time = new Date(updatedAt).toLocaleTimeString("tr-TR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const time = updatedAt
+    ? new Date(updatedAt).toLocaleTimeString("tr-TR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : null;
 
   return (
     <div
@@ -100,15 +102,18 @@ export default function PriceCard({
         <span className="text-gray-500 text-sm font-medium">
           {currency}/{unit}
         </span>
+
       </div>
 
       {/* Change */}
       <ChangeIndicator change={change} changePercent={changePercent} />
 
       {/* Footer */}
-      <div className="text-gray-400 text-[10px] mt-auto pt-1 border-t border-gray-100">
-        Güncellendi: {time}
-      </div>
+      {time && (
+        <div className="text-gray-400 text-[10px] mt-auto pt-1 border-t border-gray-100">
+          Güncellendi: {time}
+        </div>
+      )}
     </div>
   );
 }

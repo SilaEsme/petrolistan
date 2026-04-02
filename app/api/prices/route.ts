@@ -56,16 +56,19 @@ export async function GET() {
       fetchUSDTRY(),
     ])
 
+    const updatedAt = new Date().toISOString()
+    console.log('updatedAt:', updatedAt)
+
     return NextResponse.json(
       {
-        updatedAt: new Date().toISOString(),
+        updatedAt,
         ttl: 300,
         usdtry,
         data: [
           {
             label: 'Brent ham petrol',
             value: brent.value,
-            unit: '/varil',
+            unit: 'varil',
             currency: '$',
             change: brent.change,
             changePercent: brent.changePercent,
@@ -75,7 +78,7 @@ export async function GET() {
           {
             label: 'WTI ham petrol',
             value: wti.value,
-            unit: '/varil',
+            unit: 'varil',
             currency: '$',
             change: wti.change,
             changePercent: wti.changePercent,
@@ -84,7 +87,7 @@ export async function GET() {
           {
             label: 'Brent (TL karsiligi)',
             value: parseFloat((brent.value * usdtry).toFixed(2)),
-            unit: '/varil',
+            unit: 'varil',
             currency: 'TL',
             change: parseFloat((brent.change * usdtry).toFixed(2)),
             changePercent: brent.changePercent,
