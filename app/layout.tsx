@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Topbar, Navbar, Ticker, Footer } from "@/components/layout";
 
@@ -21,6 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className={`${geistSans.variable} h-full antialiased`}>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5969246291079798"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <body className="min-h-full flex flex-col bg-[#F5F5F0] text-gray-900">
         <Topbar />
         <Navbar />
