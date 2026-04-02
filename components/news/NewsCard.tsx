@@ -36,9 +36,14 @@ export default function NewsCard({ item, isLast = false }: Props) {
   const style = CATEGORY_STYLES[item.category] ?? CATEGORY_STYLES['DÜNYA']
   const initials = CATEGORY_INITIALS[item.category] ?? item.category.slice(0, 2)
 
+  const href = item.externalUrl ?? `/haberler/${item.slug}`
+  const isExternal = !!item.externalUrl
+
   return (
     <a
-      href={`/haberler/${item.slug}`}
+      href={href}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
       className="block hover:bg-gray-50/50 transition-colors cursor-pointer"
     >
     <article

@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import type { ApiResponse, PriceData } from "@/types";
+import type { ApiResponse, NewsItem, PriceData } from "@/types";
 
 export const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -53,6 +53,18 @@ export interface FuelItem {
   change: number;
   barPercent: number;
   source: string;
+}
+
+export function useNews() {
+  const { data, isLoading } = useSWR<{ data: NewsItem[] }>(
+    '/api/news/rss',
+    fetcher,
+    { refreshInterval: 3_600_000 }
+  )
+  return {
+    news: data?.data ?? [],
+    isLoading,
+  }
 }
 
 export function useFuel() {

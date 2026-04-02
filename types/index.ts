@@ -28,6 +28,7 @@ export interface NewsItem {
   readingTime: number;
   featured?: boolean;
   content?: string;
+  externalUrl?: string;
 }
 
 export interface FuelPrice {
