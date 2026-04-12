@@ -1,6 +1,6 @@
 "use client";
 
-import { useFuelBrands } from "@/lib/api";
+import { useFuelBrands, usePrices } from "@/lib/api";
 
 export type TickerItem = {
   label: string;
@@ -9,11 +9,9 @@ export type TickerItem = {
   unit?: string;
 };
 
-const BASE_ITEMS: TickerItem[] = [
+const STATIC_ITEMS: TickerItem[] = [
   { label: "Brent", value: "87.42", change: 0.54, unit: "$/varil" },
   { label: "WTI", value: "83.15", change: -0.31, unit: "$/varil" },
-  { label: "USD/TRY", value: "32.87", change: 0.12 },
-  { label: "EUR/TRY", value: "35.64", change: -0.08 },
   { label: "Doğalgaz", value: "12.45", change: -1.2, unit: "$/MMBtu" },
 ];
 
@@ -30,13 +28,20 @@ function fmt(val: number) {
   });
 }
 
-function useFuelItems(): TickerItem[] {
-  const { data } = useFuelBrands("34");
-  const brands = data?.data ?? [];
+function useTickerItems(): TickerItem[] {
+  const { data: pricesData } = usePrices();
+  const { data: brandsData } = useFuelBrands("34");
+  const brands = brandsData?.data ?? [];
 
   const gasoline = avg(brands.map((b) => b.gasoline));
   const diesel = avg(brands.map((b) => b.diesel));
   const lpg = avg(brands.map((b) => b.lpg));
+
+  const fxItems: TickerItem[] = [];
+  if ((pricesData?.usdtry ?? 0) > 0)
+    fxItems.push({ label: "USD/TRY", value: fmt(pricesData!.usdtry!), change: 0 });
+  if ((pricesData?.eurtry ?? 0) > 0)
+    fxItems.push({ label: "EUR/TRY", value: fmt(pricesData!.eurtry!), change: 0 });
 
   const fuelItems: TickerItem[] = [];
   if (diesel > 0)
@@ -46,7 +51,7 @@ function useFuelItems(): TickerItem[] {
   if (lpg > 0)
     fuelItems.push({ label: "LPG", value: fmt(lpg), change: 0, unit: "₺/L" });
 
-  return [...BASE_ITEMS, ...fuelItems];
+  return [...STATIC_ITEMS, ...fxItems, ...fuelItems];
 }
 
 function TickerEntry({ item }: { item: TickerItem }) {
@@ -81,7 +86,7 @@ function TickerEntry({ item }: { item: TickerItem }) {
 }
 
 export default function Ticker({ items }: { items?: TickerItem[] }) {
-  const fuelItems = useFuelItems();
+  const fuelItems = useTickerItems();
   const resolved = items ?? fuelItems;
   const doubled = [...resolved, ...resolved];
 
