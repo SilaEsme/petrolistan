@@ -40,7 +40,7 @@ export default function KarsilastirmaClient({
   )
 
   function handleProvinceChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    router.push(`/akaryakit/karsılastirma?province=${e.target.value}`, { scroll: false })
+    router.push(`/akaryakit/karsilastirma?province=${e.target.value}`, { scroll: false })
   }
 
   const brands = data?.data ?? []
