@@ -10,9 +10,27 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Petrolistan — Türkiye Petrol & Enerji Fiyatları",
+  title: 'Petrolistan — Türkiye Petrol & Enerji Fiyatları',
   description:
-    "Türkiye'nin petrol ve enerji fiyatları platformu. Brent, WTI, akaryakıt ve doğalgaz fiyatları, haberler ve analizler.",
+    'Güncel benzin, motorin, LPG fiyatları. Brent, WTI ham petrol fiyatları. OPET, Shell, Petrol Ofisi marka karşılaştırması. Türkiye enerji haberleri.',
+  keywords: [
+    'benzin fiyatı',
+    'motorin fiyatı',
+    'akaryakıt fiyatları',
+    'petrol fiyatı',
+    'LPG fiyatı',
+    'brent petrol',
+  ],
+  openGraph: {
+    title: 'Petrolistan — Türkiye Petrol & Enerji Fiyatları',
+    description: 'Güncel akaryakıt ve petrol fiyatları',
+    url: 'https://petrolistan.com',
+    siteName: 'Petrolistan',
+    locale: 'tr_TR',
+    type: 'website',
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: 'https://petrolistan.com' },
 };
 
 export default function RootLayout({
