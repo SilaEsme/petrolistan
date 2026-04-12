@@ -57,3 +57,19 @@ export interface ApiResponse<T> {
   ok: boolean;
   error?: string;
 }
+
+export interface BrandPrice {
+  brand: string
+  gasoline: number
+  diesel: number
+  lpg: number
+  updatedAt: string
+  error?: string
+}
+
+export interface BrandsResponse {
+  data: BrandPrice[]
+  cached: boolean
+  cachedAt: string
+  status: boolean
+}

@@ -1,33 +1,15 @@
-@AGENTS.md
-
-# Petrolistan — proje bağlamı
-
-## Ne yapıyoruz
-Türkiye odaklı petrol & enerji haber/veri platformu.
-Gelir modeli: Google AdSense + doğrudan sponsorluk.
+# Frontend Context
 
 ## Stack
-- Frontend: React (Next.js önerilen)
-- Backend: Go
-- Veri kaynakları: EIA API, TCMB API, EPDK scrape
+Next.js 14, Tailwind, SWR, Recharts
 
-## Renk paleti
-Ana: #0C447C | Vurgu: #BA7517 | Koyu bg: #042C53
+## API endpoint'leri
+- /api/prices → EIA + ExchangeRate (5 dk cache)
+- /api/prices/history → EIA 30 günlük (1 saat cache)
+- /api/fuel/brands → Go backend proxy
+- /api/news/rss → NewsData.io
 
-## Öncelikli görevler
-1. EIA API entegrasyonu — Brent/WTI fiyatları
-2. TCMB API — TL kur çevirisi
-3. EPDK scraper — akaryakıt fiyatları
-4. PriceCard, TickerBar, NewsItem, AdSlot komponentleri
-
-# Petrolistan — Claude Code bağlamı
-Stack: Next.js 14 + Tailwind + SWR + Recharts
-Renkler: Ana #0C447C | Amber #BA7517 | Koyu #042C53
-Artış: #3B6D11 | Düşüş: #A32D2D
-
-Öncelik:
-1. components/layout/ — Topbar, Navbar, Ticker, Footer
-2. components/prices/ — PriceCard, PriceGrid, PriceChart
-3. app/api/prices/  — EIA + TCMB proxy
-4. components/ads/  — AdSlot wrapper
-5. components/sidebar/ — FuelSidebar, Newsletter
+## Önemli notlar
+- Türkçe karakter içeren dizin adları 404 yapar — ASCII kullan
+- Next.js 15: params Promise<{slug}> → await params
+- .env.local: EIA_API_KEY, NEWSDATA_API_KEY, GO_BACKEND_URL

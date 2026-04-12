@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import type { ApiResponse, NewsItem, PriceData } from "@/types";
+import type { ApiResponse, NewsItem, PriceData, BrandPrice, BrandsResponse } from "@/types";
 
 export const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -46,15 +46,6 @@ export function usePriceHistory() {
   };
 }
 
-export interface FuelItem {
-  name: string;
-  value: number;
-  unit: string;
-  change: number;
-  barPercent: number;
-  source: string;
-}
-
 export function useNews() {
   const { data, isLoading } = useSWR<{ data: NewsItem[] }>(
     '/api/news/rss',
@@ -67,14 +58,17 @@ export function useNews() {
   }
 }
 
-export function useFuel() {
-  const { data, isLoading } = useSWR<{ data: FuelItem[] }>(
-    "/api/fuel",
+export type { BrandPrice, BrandsResponse }
+
+export function useFuelBrands(province = '34', fallbackData?: BrandsResponse) {
+  const { data, isLoading, error } = useSWR<BrandsResponse>(
+    `/api/fuel/brands?province=${province}`,
     fetcher,
-    { refreshInterval: 3_600_000 }
-  );
+    { refreshInterval: 3_600_000, fallbackData }
+  )
   return {
-    fuel: data?.data ?? [],
+    data,
     isLoading,
-  };
+    isError: !!error,
+  }
 }
