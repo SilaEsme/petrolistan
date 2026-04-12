@@ -106,7 +106,7 @@ export default function FuelSidebar({ province = '34' }: { province?: string }) 
       </p>
 
       <Link
-        href={`/akaryakit/karsılastirma?province=${province}`}
+        href={`/akaryakit/karsilastirma?province=${province}`}
         className="mt-2 block text-[11px] text-[#185FA5] hover:underline"
       >
         Marka karşılaştırması →
