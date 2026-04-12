@@ -1,5 +1,7 @@
 "use client";
 
+import { useFuelBrands } from "@/lib/api";
+
 export type TickerItem = {
   label: string;
   value: string;
@@ -7,16 +9,45 @@ export type TickerItem = {
   unit?: string;
 };
 
-const PLACEHOLDER_ITEMS: TickerItem[] = [
+const BASE_ITEMS: TickerItem[] = [
   { label: "Brent", value: "87.42", change: 0.54, unit: "$/varil" },
   { label: "WTI", value: "83.15", change: -0.31, unit: "$/varil" },
   { label: "USD/TRY", value: "32.87", change: 0.12 },
   { label: "EUR/TRY", value: "35.64", change: -0.08 },
-  { label: "Motorin", value: "68.05", change: 0.0, unit: "₺/L" },
-  { label: "Benzin 95", value: "72.40", change: 0.0, unit: "₺/L" },
-  { label: "LPG", value: "34.20", change: 0.0, unit: "₺/L" },
   { label: "Doğalgaz", value: "12.45", change: -1.2, unit: "$/MMBtu" },
 ];
+
+function avg(vals: number[]) {
+  const nonZero = vals.filter((v) => v > 0);
+  if (!nonZero.length) return 0;
+  return nonZero.reduce((s, v) => s + v, 0) / nonZero.length;
+}
+
+function fmt(val: number) {
+  return val.toLocaleString("tr-TR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function useFuelItems(): TickerItem[] {
+  const { data } = useFuelBrands("34");
+  const brands = data?.data ?? [];
+
+  const gasoline = avg(brands.map((b) => b.gasoline));
+  const diesel = avg(brands.map((b) => b.diesel));
+  const lpg = avg(brands.map((b) => b.lpg));
+
+  const fuelItems: TickerItem[] = [];
+  if (diesel > 0)
+    fuelItems.push({ label: "Motorin", value: fmt(diesel), change: 0, unit: "₺/L" });
+  if (gasoline > 0)
+    fuelItems.push({ label: "Benzin 95", value: fmt(gasoline), change: 0, unit: "₺/L" });
+  if (lpg > 0)
+    fuelItems.push({ label: "LPG", value: fmt(lpg), change: 0, unit: "₺/L" });
+
+  return [...BASE_ITEMS, ...fuelItems];
+}
 
 function TickerEntry({ item }: { item: TickerItem }) {
   const isUp = item.change > 0;
@@ -49,8 +80,10 @@ function TickerEntry({ item }: { item: TickerItem }) {
   );
 }
 
-export default function Ticker({ items = PLACEHOLDER_ITEMS }: { items?: TickerItem[] }) {
-  const doubled = [...items, ...items];
+export default function Ticker({ items }: { items?: TickerItem[] }) {
+  const fuelItems = useFuelItems();
+  const resolved = items ?? fuelItems;
+  const doubled = [...resolved, ...resolved];
 
   return (
     <div className="w-full bg-[#042C53] border-b border-white/10 overflow-hidden h-8 flex items-center">
