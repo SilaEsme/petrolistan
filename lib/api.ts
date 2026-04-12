@@ -11,6 +11,7 @@ export const fetcher = (url: string) =>
 
 interface PricesResponse extends ApiResponse<PriceData[]> {
   usdtry?: number;
+  eurtry?: number;
 }
 
 export interface HistoryPoint {
@@ -29,6 +30,7 @@ export function usePrices() {
     prices: data?.data ?? [],
     updatedAt: data?.updatedAt as string | undefined,
     usdtry: data?.usdtry,
+    eurtry: data?.eurtry,
     isLoading,
     isError: !!error,
   };

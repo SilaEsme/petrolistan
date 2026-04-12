@@ -33,12 +33,25 @@ async function fetchEiaProduct(product: string): Promise<PriceResult> {
   return { value: today, change, changePercent }
 }
 
-async function fetchUSDTRY(): Promise<number> {
-  const res = await fetch('https://open.er-api.com/v6/latest/USD', {
-    next: { revalidate: 300 },
-  })
-  const json = await res.json()
-  return json.rates.TRY
+async function fetchUSDTRY(): Promise<{ usd: number; eur: number }> {
+  const res = await fetch(
+    'https://www.tcmb.gov.tr/kurlar/today.xml',
+    { next: { revalidate: 300 }, signal: AbortSignal.timeout(5000) }
+  )
+  const text = await res.text()
+
+  const usdMatch = text.match(
+    /<Currency[^>]*CurrencyCode="USD"[^>]*>[\s\S]*?<ForexBuying>([\d.]+)<\/ForexBuying>/
+  )
+  const eurMatch = text.match(
+    /<Currency[^>]*CurrencyCode="EUR"[^>]*>[\s\S]*?<ForexBuying>([\d.]+)<\/ForexBuying>/
+  )
+
+  if (!usdMatch || !eurMatch) throw new Error('TCMB parse hatası')
+  return {
+    usd: parseFloat(usdMatch[1]),
+    eur: parseFloat(eurMatch[1]),
+  }
 }
 
 export async function GET() {
@@ -50,7 +63,7 @@ export async function GET() {
       )
     }
 
-    const [brent, wti, usdtry] = await Promise.all([
+    const [brent, wti, fx] = await Promise.all([
       fetchEiaProduct('EPCBRENT'),
       fetchEiaProduct('EPCWTI'),
       fetchUSDTRY(),
@@ -63,7 +76,8 @@ export async function GET() {
       {
         updatedAt,
         ttl: 300,
-        usdtry,
+        usdtry: fx.usd,
+        eurtry: fx.eur,
         data: [
           {
             label: 'Brent ham petrol',
@@ -86,12 +100,12 @@ export async function GET() {
           },
           {
             label: 'Brent (TL karsiligi)',
-            value: parseFloat((brent.value * usdtry).toFixed(2)),
+            value: parseFloat((brent.value * fx.usd).toFixed(2)),
             unit: 'varil',
             currency: 'TL',
-            change: parseFloat((brent.change * usdtry).toFixed(2)),
+            change: parseFloat((brent.change * fx.usd).toFixed(2)),
             changePercent: brent.changePercent,
-            source: 'EIA x ExchangeRate',
+            source: 'EIA x TCMB',
           },
         ],
       },
