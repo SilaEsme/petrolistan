@@ -33,7 +33,7 @@ async function fetchEiaProduct(product: string): Promise<PriceResult> {
   return { value: today, change, changePercent }
 }
 
-async function fetchUSDTRY(): Promise<{ usd: number; eur: number }> {
+async function fetchRates(): Promise<{ usd: number; eur: number }> {
   const res = await fetch(
     'https://www.tcmb.gov.tr/kurlar/today.xml',
     { next: { revalidate: 300 }, signal: AbortSignal.timeout(5000) }
@@ -66,7 +66,7 @@ export async function GET() {
     const [brent, wti, fx] = await Promise.all([
       fetchEiaProduct('EPCBRENT'),
       fetchEiaProduct('EPCWTI'),
-      fetchUSDTRY(),
+      fetchRates(),
     ])
 
     const updatedAt = new Date().toISOString()
