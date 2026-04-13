@@ -1,3 +1,6 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import type { NewsItem } from '@/types'
 
 const CATEGORY_STYLES: Record<string, { badge: string; icon: string }> = {
@@ -35,6 +38,13 @@ interface Props {
 export default function NewsCard({ item, isLast = false }: Props) {
   const style = CATEGORY_STYLES[item.category] ?? CATEGORY_STYLES['DÜNYA']
   const initials = CATEGORY_INITIALS[item.category] ?? item.category.slice(0, 2)
+  const [timeLabel, setTimeLabel] = useState<string>('')
+
+  useEffect(() => {
+    setTimeLabel(relativeTime(item.publishedAt))
+    const id = setInterval(() => setTimeLabel(relativeTime(item.publishedAt)), 60_000)
+    return () => clearInterval(id)
+  }, [item.publishedAt])
 
   const href = item.externalUrl ?? `/haberler/${item.slug}`
   const isExternal = !!item.externalUrl
@@ -65,7 +75,7 @@ export default function NewsCard({ item, isLast = false }: Props) {
           {item.excerpt}
         </p>
         <div className="flex items-center gap-2 text-[10px] text-gray-400">
-          <span>{relativeTime(item.publishedAt)}</span>
+          <span>{timeLabel}</span>
           <span>·</span>
           <span>{item.source}</span>
           <span>·</span>
