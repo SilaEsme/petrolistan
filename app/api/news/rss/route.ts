@@ -12,38 +12,57 @@ function slugify(text: string): string {
     .substring(0, 80)
 }
 
+function detectCategory(title: string, excerpt: string): NewsItem['category'] {
+  const text = (title + ' ' + excerpt).toLowerCase()
+  if (/opec|brent|wti|ham petrol/.test(text)) return 'OPEC+'
+  if (/türkiye|botaş|epdk|akaryakıt|benzin|motorin|tüpraş/.test(text)) return 'TÜRKİYE'
+  if (/analiz|yorum|değerlendirme|beklenti|tahmin/.test(text)) return 'ANALİZ'
+  if (/fiyat|piyasa|borsa|dolar|kur/.test(text)) return 'PAZAR'
+  return 'DÜNYA'
+}
+
 export async function GET() {
   try {
     const key = process.env.NEWSDATA_API_KEY
     if (!key) return NextResponse.json({ data: [], error: 'API key eksik' })
 
-    // İki paralel sorgu: Türkçe + İngilizce enerji haberleri
-    const [trRes, enRes] = await Promise.allSettled([
-      fetch(
-        `https://newsdata.io/api/1/news?apikey=${key}&q=petrol+do%C4%9Falgaz+enerji+akaryak%C4%B1t&language=tr&category=business,politics&size=10`,
-        { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) }
-      ),
-      fetch(
-        `https://newsdata.io/api/1/news?apikey=${key}&q=oil+gas+energy+OPEC+crude&language=en&category=business&size=10`,
-        { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) }
-      ),
-    ])
+    const queries = [
+      // Türkiye odaklı enerji haberleri
+      `https://newsdata.io/api/1/news?apikey=${key}&q=petrol+akaryak%C4%B1t+do%C4%9Falgaz+enerji&language=tr&size=10`,
+      // OPEC ve küresel petrol - Türkçe
+      `https://newsdata.io/api/1/news?apikey=${key}&q=OPEC+ham+petrol+brent&language=tr&size=10`,
+    ]
+
+    const results = await Promise.allSettled(
+      queries.map((url) =>
+        fetch(url, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) })
+      )
+    )
 
     const news: NewsItem[] = []
+    const seenTitles = new Set<string>()
 
-    for (const result of [trRes, enRes]) {
+    for (const result of results) {
       if (result.status !== 'fulfilled') continue
       const json = await result.value.json()
       if (!json.results) continue
 
       for (const item of json.results) {
         if (!item.title) continue
+        if (seenTitles.has(item.title)) continue
+        seenTitles.add(item.title)
+
+        const excerpt =
+          item.description?.substring(0, 200) ??
+          item.content?.substring(0, 200) ??
+          ''
+
         news.push({
           id: item.article_id ?? item.link ?? Math.random().toString(36),
           slug: slugify(item.title),
           title: item.title,
-          excerpt: item.description?.substring(0, 200) ?? item.content?.substring(0, 200) ?? '',
-          category: item.language === 'tr' ? 'TÜRKİYE' : 'DÜNYA',
+          excerpt,
+          category: detectCategory(item.title, excerpt),
           publishedAt: item.pubDate
             ? new Date(item.pubDate).toISOString()
             : new Date().toISOString(),
