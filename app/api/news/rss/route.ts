@@ -27,7 +27,7 @@ export async function GET() {
     if (!key) return NextResponse.json({ data: [], error: 'API key eksik' })
 
     const queries = [
-      `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('petrol enerji akaryakit')}&language=tr&category=business,politics&size=10`,
+      `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('petrol enerji akaryakit')}&language=tr&size=10`,
       `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('dogalgaz brent OPEC')}&language=tr&size=10`,
     ]
 
