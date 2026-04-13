@@ -12,12 +12,13 @@ export default function HaberlerPage() {
   const [activeCategory, setActiveCategory] = useState('Tümü')
 
   useEffect(() => {
-    fetch('/data/news.json')
+    fetch('/api/news/rss')
       .then((r) => r.json())
       .then((data) => {
-        setNews(data)
+        setNews(data.data ?? [])
         setIsLoading(false)
       })
+      .catch(() => setIsLoading(false))
   }, [])
 
   const filtered =

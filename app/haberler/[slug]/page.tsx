@@ -1,8 +1,16 @@
-import { notFound } from 'next/navigation'
-import newsData from '@/public/data/news.json'
+import { notFound, redirect } from 'next/navigation'
 
-export async function generateStaticParams() {
-  return newsData.map((n: any) => ({ slug: n.slug }))
+async function getNews(): Promise<any[]> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}/api/news/rss`,
+      { next: { revalidate: 3600 } }
+    )
+    const json = await res.json()
+    return json.data ?? []
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({
@@ -11,7 +19,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const item = newsData.find((n: any) => n.slug === slug)
+  const news = await getNews()
+  const item = news.find((n: any) => n.slug === slug)
   if (!item) return {}
   return {
     title: `${item.title} — Petrolistan`,
@@ -25,8 +34,13 @@ export default async function HaberDetayPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const item = newsData.find((n: any) => n.slug === slug)
+  const news = await getNews()
+  const item = news.find((n: any) => n.slug === slug)
   if (!item) notFound()
+
+  if (item.externalUrl) {
+    redirect(item.externalUrl)
+  }
 
   const categoryColors: Record<string, { bg: string; text: string }> = {
     'OPEC+':    { bg: '#E6F1FB', text: '#0C447C' },
@@ -41,7 +55,7 @@ export default async function HaberDetayPage({
   })
 
   // Aynı kategorideki diğer haberler (max 3)
-  const related = newsData
+  const related = news
     .filter((n: any) => n.category === item.category && n.slug !== item.slug)
     .slice(0, 3)
 
