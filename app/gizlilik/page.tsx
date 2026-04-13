@@ -1,3 +1,10 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Gizlilik Politikası | Petrolistan',
+  description: 'Petrolistan gizlilik politikası: kişisel veri, çerezler, Google AdSense ve KVKK uyumu.',
+}
+
 export default function GizlilikPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
@@ -5,21 +12,21 @@ export default function GizlilikPage() {
 
       <div className="space-y-6 text-sm text-gray-600 leading-relaxed">
         <section>
-          <h2 className="text-base font-medium text-gray-800 mb-2">Kişisel Veri</h2>
+          <h2 className="text-base font-medium text-gray-800 mb-2">Kişisel Veri (KVKK)</h2>
           <p>
             Petrolistan, ziyaretçilerine ait kişisel veri toplamamakta ve
             işlememektedir. Siteyi kullanmak için kayıt veya hesap oluşturmanız
-            gerekmez.
+            gerekmez. 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK)
+            kapsamında herhangi bir kişisel veri işleme faaliyeti yürütülmemektedir.
           </p>
         </section>
 
         <section>
           <h2 className="text-base font-medium text-gray-800 mb-2">Çerezler ve Reklamlar</h2>
           <p>
-            Sitede Google AdSense reklam hizmeti kullanılmaktadır. Google AdSense,
-            ziyaretçilere ilgi alanlarına göre reklam göstermek amacıyla çerez
-            (cookie) kullanabilir. Google'ın çerez politikası hakkında daha fazla
-            bilgi almak için{' '}
+            Bu site, reklam göstermek amacıyla <strong>Google AdSense</strong> kullanmaktadır.
+            Google AdSense, ziyaretçilerin ilgi alanlarına göre reklam göstermek için çerez
+            (cookie) kullanır. Google&apos;ın çerez politikası hakkında daha fazla bilgi almak için{' '}
             <a
               href="https://policies.google.com/technologies/ads"
               target="_blank"
