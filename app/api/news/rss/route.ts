@@ -26,47 +26,46 @@ export async function GET() {
     const key = process.env.NEWSDATA_API_KEY
     if (!key) return NextResponse.json({ data: [], error: 'API key eksik' })
 
-    const queries = [
-      `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('petrol enerji akaryakit')}&language=tr&size=10`,
-      `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('dogalgaz brent OPEC')}&language=tr&size=10`,
-    ]
+    const url = `https://newsdata.io/api/1/news?apikey=${key}&q=${encodeURIComponent('petrol enerji akaryakit dogalgaz')}&language=tr&size=10`
+
+    const res = await fetch(url, {
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(15000),
+    })
+
+    const json = await res.json()
+    console.log('[news/rss]', json.status, json.totalResults, json.results?.length)
+
+    if (!json.results?.length) {
+      return NextResponse.json({ data: [], updatedAt: new Date().toISOString() })
+    }
 
     const news: NewsItem[] = []
     const seenTitles = new Set<string>()
 
-    for (const url of queries) {
-      const res = await fetch(url, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) })
-      const json = await res.json()
-      console.log('[news] query results:', json.status, json.totalResults, json.results?.length)
-      if (!json.results) {
-        console.error('[news/rss] Hata:', json)
-        continue
-      }
+    for (const item of json.results) {
+      if (!item.title) continue
+      if (seenTitles.has(item.title)) continue
+      seenTitles.add(item.title)
 
-      for (const item of json.results) {
-        if (!item.title) continue
-        if (seenTitles.has(item.title)) continue
-        seenTitles.add(item.title)
+      const excerpt =
+        item.description?.substring(0, 200) ??
+        item.content?.substring(0, 200) ??
+        ''
 
-        const excerpt =
-          item.description?.substring(0, 200) ??
-          item.content?.substring(0, 200) ??
-          ''
-
-        news.push({
-          id: item.article_id ?? item.link ?? Math.random().toString(36),
-          slug: slugify(item.title),
-          title: item.title,
-          excerpt,
-          category: detectCategory(item.title, excerpt),
-          publishedAt: item.pubDate
-            ? new Date(item.pubDate).toISOString()
-            : new Date().toISOString(),
-          source: item.source_name ?? item.source_id ?? 'Haber',
-          readingTime: 2,
-          externalUrl: item.link,
-        })
-      }
+      news.push({
+        id: item.article_id ?? item.link ?? Math.random().toString(36),
+        slug: slugify(item.title),
+        title: item.title,
+        excerpt,
+        category: detectCategory(item.title, excerpt),
+        publishedAt: item.pubDate
+          ? new Date(item.pubDate).toISOString()
+          : new Date().toISOString(),
+        source: item.source_name ?? item.source_id ?? 'Haber',
+        readingTime: 2,
+        externalUrl: item.link,
+      })
     }
 
     // Tarihe göre sırala, en yeni önce
