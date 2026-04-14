@@ -2,8 +2,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 
-const EIA_KEY = process.env.EIA_API_KEY
-
 const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8' }
 
 interface PriceResult {
@@ -12,25 +10,32 @@ interface PriceResult {
   changePercent: number
 }
 
-async function fetchEiaProduct(product: string): Promise<PriceResult> {
-  const url = new URL('https://api.eia.gov/v2/petroleum/pri/spt/data/')
-  url.searchParams.set('api_key', EIA_KEY!)
-  url.searchParams.set('frequency', 'daily')
-  url.searchParams.append('data[]', 'value')
-  url.searchParams.append(`facets[product][]`, product)
-  url.searchParams.append('sort[0][column]', 'period')
-  url.searchParams.append('sort[0][direction]', 'desc')
-  url.searchParams.set('length', '2')
+async function fetchBrent(): Promise<PriceResult> {
+  const res = await fetch(
+    'https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?interval=1d&range=2d',
+    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+  )
+  const data = await res.json()
+  const meta = data.chart.result[0].meta
+  const price = meta.regularMarketPrice
+  const prev = meta.chartPreviousClose
+  const change = parseFloat((price - prev).toFixed(2))
+  const changePercent = parseFloat(((change / prev) * 100).toFixed(2))
+  return { value: price, change, changePercent }
+}
 
-  const res = await fetch(url.toString(), { next: { revalidate: 300 } })
-  const json = await res.json()
-
-  const today = parseFloat(json.response.data[0].value)
-  const yesterday = parseFloat(json.response.data[1].value)
-  const change = parseFloat((today - yesterday).toFixed(2))
-  const changePercent = parseFloat(((change / yesterday) * 100).toFixed(2))
-
-  return { value: today, change, changePercent }
+async function fetchWTI(): Promise<PriceResult> {
+  const res = await fetch(
+    'https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=1d&range=2d',
+    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+  )
+  const data = await res.json()
+  const meta = data.chart.result[0].meta
+  const price = meta.regularMarketPrice
+  const prev = meta.chartPreviousClose
+  const change = parseFloat((price - prev).toFixed(2))
+  const changePercent = parseFloat(((change / prev) * 100).toFixed(2))
+  return { value: price, change, changePercent }
 }
 
 async function fetchRates(): Promise<{ usd: number; eur: number }> {
@@ -56,21 +61,13 @@ async function fetchRates(): Promise<{ usd: number; eur: number }> {
 
 export async function GET() {
   try {
-    if (!EIA_KEY) {
-      return NextResponse.json(
-        { error: 'EIA_API_KEY eksik' },
-        { status: 500, headers: JSON_HEADERS }
-      )
-    }
-
     const [brent, wti, fx] = await Promise.all([
-      fetchEiaProduct('EPCBRENT'),
-      fetchEiaProduct('EPCWTI'),
+      fetchBrent(),
+      fetchWTI(),
       fetchRates(),
     ])
 
     const updatedAt = new Date().toISOString()
-    console.log('updatedAt:', updatedAt)
 
     return NextResponse.json(
       {
@@ -86,7 +83,7 @@ export async function GET() {
             currency: '$',
             change: brent.change,
             changePercent: brent.changePercent,
-            source: 'EIA',
+            source: 'Yahoo Finance',
             featured: true,
           },
           {
@@ -96,7 +93,7 @@ export async function GET() {
             currency: '$',
             change: wti.change,
             changePercent: wti.changePercent,
-            source: 'NYMEX',
+            source: 'Yahoo Finance',
           },
           {
             label: 'Brent (TL karsiligi)',
@@ -105,7 +102,7 @@ export async function GET() {
             currency: 'TL',
             change: parseFloat((brent.change * fx.usd).toFixed(2)),
             changePercent: brent.changePercent,
-            source: 'EIA x TCMB',
+            source: 'Yahoo Finance x TCMB',
           },
         ],
       },
