@@ -9,10 +9,6 @@ export type TickerItem = {
   unit?: string;
 };
 
-const STATIC_ITEMS: TickerItem[] = [
-  { label: "Doğalgaz", value: "12.45", change: -1.2, unit: "$/MMBtu" },
-];
-
 function avg(vals: number[]) {
   const nonZero = vals.filter((v) => v > 0);
   if (!nonZero.length) return 0;
@@ -38,10 +34,13 @@ function useTickerItems(): TickerItem[] {
   const crudItems: TickerItem[] = [];
   const brent = pricesData?.data?.[0]; // featured: true, Brent ham petrol
   const wti = pricesData?.data?.[1];   // WTI ham petrol
+  const ng = pricesData?.data?.[3];    // Doğalgaz
   if ((brent?.value ?? 0) > 0)
     crudItems.push({ label: 'Brent', value: brent!.value.toFixed(2), change: brent!.changePercent ?? 0, unit: '$/varil' });
   if ((wti?.value ?? 0) > 0)
     crudItems.push({ label: 'WTI', value: wti!.value.toFixed(2), change: wti!.changePercent ?? 0, unit: '$/varil' });
+  if ((ng?.value ?? 0) > 0)
+    crudItems.push({ label: 'Doğalgaz', value: ng!.value.toFixed(2), change: ng!.changePercent ?? 0, unit: '$/MMBtu' });
 
   const fxItems: TickerItem[] = [];
   if ((pricesData?.usdtry ?? 0) > 0)
@@ -57,7 +56,7 @@ function useTickerItems(): TickerItem[] {
   if (lpg > 0)
     fuelItems.push({ label: "LPG", value: fmt(lpg), unit: "₺/L" });
 
-  return [...crudItems, ...STATIC_ITEMS, ...fxItems, ...fuelItems];
+  return [...crudItems, ...fxItems, ...fuelItems];
 }
 
 function TickerEntry({ item }: { item: TickerItem }) {

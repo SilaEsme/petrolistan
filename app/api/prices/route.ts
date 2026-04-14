@@ -22,6 +22,19 @@ async function fetchBrent(): Promise<PriceResult> {
   return { value: price, changePercent }
 }
 
+async function fetchNaturalGas(): Promise<PriceResult> {
+  const res = await fetch(
+    'https://query1.finance.yahoo.com/v8/finance/chart/NG=F?interval=1d&range=2d',
+    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+  )
+  const data = await res.json()
+  const meta = data.chart.result[0].meta
+  const price = meta.regularMarketPrice
+  const prev = meta.chartPreviousClose
+  const changePercent = parseFloat(((price - prev) / prev * 100).toFixed(2))
+  return { value: price, changePercent }
+}
+
 async function fetchWTI(): Promise<PriceResult> {
   const res = await fetch(
     'https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=1d&range=2d',
@@ -95,9 +108,10 @@ async function fetchRates(): Promise<{
 
 export async function GET() {
   try {
-    const [brent, wti, fx] = await Promise.all([
+    const [brent, wti, ng, fx] = await Promise.all([
       fetchBrent(),
       fetchWTI(),
+      fetchNaturalGas(),
       fetchRates(),
     ])
 
@@ -138,6 +152,14 @@ export async function GET() {
             currency: 'TL',
             changePercent: brent.changePercent,
             source: 'Yahoo Finance x TCMB',
+          },
+          {
+            label: 'Doğalgaz',
+            value: ng.value,
+            unit: 'MMBtu',
+            currency: '$',
+            changePercent: ng.changePercent,
+            source: 'Yahoo Finance',
           },
         ],
       },
