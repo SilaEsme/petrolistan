@@ -10,8 +10,6 @@ export type TickerItem = {
 };
 
 const STATIC_ITEMS: TickerItem[] = [
-  { label: "Brent", value: "87.42", change: 0.54, unit: "$/varil" },
-  { label: "WTI", value: "83.15", change: -0.31, unit: "$/varil" },
   { label: "Doğalgaz", value: "12.45", change: -1.2, unit: "$/MMBtu" },
 ];
 
@@ -37,11 +35,19 @@ function useTickerItems(): TickerItem[] {
   const diesel = avg(brands.map((b) => b.diesel));
   const lpg = avg(brands.map((b) => b.lpg));
 
+  const crudItems: TickerItem[] = [];
+  const brent = pricesData?.data?.find((d: any) => d.label?.includes('Brent') && d.currency === '$');
+  const wti = pricesData?.data?.find((d: any) => d.label?.includes('WTI'));
+  if ((brent?.value ?? 0) > 0)
+    crudItems.push({ label: 'Brent', value: fmt(brent!.value), change: brent!.changePercent ?? 0, unit: '$/varil' });
+  if ((wti?.value ?? 0) > 0)
+    crudItems.push({ label: 'WTI', value: fmt(wti!.value), change: wti!.changePercent ?? 0, unit: '$/varil' });
+
   const fxItems: TickerItem[] = [];
   if ((pricesData?.usdtry ?? 0) > 0)
-    fxItems.push({ label: "USD/TRY", value: fmt(pricesData!.usdtry!), change: 0 });
+    fxItems.push({ label: "USD/TRY", value: fmt(pricesData!.usdtry!), change: pricesData?.usdtryChangePercent ?? 0 });
   if ((pricesData?.eurtry ?? 0) > 0)
-    fxItems.push({ label: "EUR/TRY", value: fmt(pricesData!.eurtry!), change: 0 });
+    fxItems.push({ label: "EUR/TRY", value: fmt(pricesData!.eurtry!), change: pricesData?.eurtryChangePercent ?? 0 });
 
   const fuelItems: TickerItem[] = [];
   if (diesel > 0)
@@ -51,7 +57,7 @@ function useTickerItems(): TickerItem[] {
   if (lpg > 0)
     fuelItems.push({ label: "LPG", value: fmt(lpg), change: 0, unit: "₺/L" });
 
-  return [...STATIC_ITEMS, ...fxItems, ...fuelItems];
+  return [...crudItems, ...STATIC_ITEMS, ...fxItems, ...fuelItems];
 }
 
 function TickerEntry({ item }: { item: TickerItem }) {
