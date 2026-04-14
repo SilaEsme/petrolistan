@@ -19,8 +19,9 @@ async function fetchBrent(): Promise<PriceResult> {
   const meta = data.chart.result[0].meta
   const price = meta.regularMarketPrice
   const prev = meta.chartPreviousClose
-  const change = parseFloat((price - prev).toFixed(2))
-  const changePercent = parseFloat(((change / prev) * 100).toFixed(2))
+  const rawChange = price - prev
+  const change = parseFloat(rawChange.toFixed(2))
+  const changePercent = parseFloat(((rawChange / prev) * 100).toFixed(2))
   return { value: price, change, changePercent }
 }
 
@@ -33,8 +34,9 @@ async function fetchWTI(): Promise<PriceResult> {
   const meta = data.chart.result[0].meta
   const price = meta.regularMarketPrice
   const prev = meta.chartPreviousClose
-  const change = parseFloat((price - prev).toFixed(2))
-  const changePercent = parseFloat(((change / prev) * 100).toFixed(2))
+  const rawChange = price - prev
+  const change = parseFloat(rawChange.toFixed(2))
+  const changePercent = parseFloat(((rawChange / prev) * 100).toFixed(2))
   return { value: price, change, changePercent }
 }
 
