@@ -1,49 +1,72 @@
 'use client'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 type DataPoint = { date: string; value: number }
 type PriceChartProps = { data: DataPoint[]; isLoading?: boolean }
 
-function CustomTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs shadow-sm">
-      <p className="text-gray-400 mb-0.5">{label}</p>
-      <p className="font-medium text-gray-900">${payload[0].value.toFixed(2)}</p>
-    </div>
-  )
+const TR_MONTHS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+
+function formatDate(d: string): string {
+  const dt = new Date(d)
+  return `${dt.getDate()} ${TR_MONTHS[dt.getMonth()]}`
 }
 
 export default function PriceChart({ data, isLoading }: PriceChartProps) {
-  if (isLoading) return <div className="h-[90px] bg-gray-100 rounded-lg animate-pulse" />
-
-  const last = data.length - 1
+  if (isLoading) return <div className="h-[220px] bg-gray-100 rounded-lg animate-pulse" />
 
   return (
     <section className="bg-white rounded-lg p-4">
       <div className="flex items-center justify-between mb-2.5">
         <h2 className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
-          Brent 30 günlük seyir
+          BRENT — 30 GÜNLÜK SEYİR
         </h2>
       </div>
-      <ResponsiveContainer width="100%" height={90}>
-        <BarChart data={data} barCategoryGap="15%" margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={220}>
+        <AreaChart data={data} margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
+          <defs>
+            <linearGradient id="brentGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0C447C" stopOpacity={0.3} />
+              <stop offset="100%" stopColor="#0C447C" stopOpacity={0.0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
           <XAxis
             dataKey="date"
-            tickFormatter={(d) => new Date(d).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
-            tick={{ fontSize: 10, fill: '#9ca3af' }}
+            tickFormatter={formatDate}
+            tick={{ fontSize: 11, fill: '#9ca3af' }}
             tickLine={false}
             axisLine={false}
             interval={6}
           />
-          <YAxis hide domain={['auto', 'auto']} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.04)' }} />
-          <Bar dataKey="value" radius={[2, 2, 0, 0]}>
-            {data.map((_, i) => (
-              <Cell key={i} fill={i === last ? '#378ADD' : '#185FA5'} opacity={i === last ? 1 : 0.6} />
-            ))}
-          </Bar>
-        </BarChart>
+          <YAxis
+            domain={['auto', 'auto']}
+            tick={{ fontSize: 11, fill: '#9ca3af' }}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(v) => `$${v}`}
+            width={45}
+          />
+          <Tooltip
+            contentStyle={{
+              background: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: 8,
+              padding: '8px 12px',
+              fontSize: 12,
+            }}
+            formatter={(value: any) => [`${Number(value).toFixed(2)} $/varil`, 'Brent']}
+            labelFormatter={(label: any) => formatDate(String(label))}
+            cursor={{ stroke: '#0C447C', strokeWidth: 1, strokeDasharray: '4 4' }}
+          />
+          <Area
+            type="monotone"
+            dataKey="value"
+            stroke="#0C447C"
+            strokeWidth={2}
+            dot={false}
+            fill="url(#brentGradient)"
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </section>
   )
