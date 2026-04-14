@@ -3,7 +3,6 @@ export interface PriceData {
   value: number;
   unit: string;
   currency: string;
-  change: number;
   changePercent: number;
   source: string;
   updatedAt: string; // ISO 8601

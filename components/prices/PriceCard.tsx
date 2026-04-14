@@ -3,37 +3,24 @@ import type { PriceData } from "@/types";
 
 type Props = PriceData;
 
-function ChangeIndicator({
-  change,
-  changePercent,
-}: {
-  change: number;
-  changePercent: number;
-}) {
-  if (change > 0) {
+function ChangeIndicator({ changePercent }: { changePercent: number }) {
+  if (changePercent > 0) {
     return (
       <span className="inline-flex items-center gap-1 text-[#3B6D11] font-semibold text-sm">
         <ArrowUp className="w-3.5 h-3.5" />
         <span>
-          +{change.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </span>
-        <span className="text-[#3B6D11]/70 font-normal text-xs">
-          ({changePercent > 0 ? "+" : ""}
-          {changePercent.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%)
+          +{changePercent.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
         </span>
       </span>
     );
   }
 
-  if (change < 0) {
+  if (changePercent < 0) {
     return (
       <span className="inline-flex items-center gap-1 text-[#A32D2D] font-semibold text-sm">
         <ArrowDown className="w-3.5 h-3.5" />
         <span>
-          {change.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </span>
-        <span className="text-[#A32D2D]/70 font-normal text-xs">
-          ({changePercent.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%)
+          {changePercent.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
         </span>
       </span>
     );
@@ -52,12 +39,11 @@ export default function PriceCard({
   value,
   unit,
   currency,
-  change,
   changePercent,
   source,
   updatedAt,
   featured = false,
-}: Omit<Props, 'updatedAt'> & { updatedAt?: string }) {
+}: Omit<Props, 'updatedAt' | 'change'> & { updatedAt?: string }) {
   const borderClass = featured
     ? "border-[#378ADD] border-2"
     : "border-gray-200/80 border";
@@ -106,7 +92,7 @@ export default function PriceCard({
       </div>
 
       {/* Change */}
-      <ChangeIndicator change={change} changePercent={changePercent} />
+      <ChangeIndicator changePercent={changePercent} />
 
       {/* Footer */}
       {time && (

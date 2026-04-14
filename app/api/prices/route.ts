@@ -6,7 +6,6 @@ const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8' }
 
 interface PriceResult {
   value: number
-  change: number
   changePercent: number
 }
 
@@ -20,8 +19,7 @@ async function fetchBrent(): Promise<PriceResult> {
   const price = meta.regularMarketPrice
   const prev = meta.chartPreviousClose
   const changePercent = parseFloat(((price - prev) / prev * 100).toFixed(2))
-  const change = parseFloat((prev * changePercent / 100).toFixed(2))
-  return { value: price, change, changePercent }
+  return { value: price, changePercent }
 }
 
 async function fetchWTI(): Promise<PriceResult> {
@@ -34,8 +32,7 @@ async function fetchWTI(): Promise<PriceResult> {
   const price = meta.regularMarketPrice
   const prev = meta.chartPreviousClose
   const changePercent = parseFloat(((price - prev) / prev * 100).toFixed(2))
-  const change = parseFloat((prev * changePercent / 100).toFixed(2))
-  return { value: price, change, changePercent }
+  return { value: price, changePercent }
 }
 
 function getPrevBusinessDay(): Date {
@@ -122,7 +119,6 @@ export async function GET() {
             value: brent.value,
             unit: 'varil',
             currency: '$',
-            change: brent.change,
             changePercent: brent.changePercent,
             source: 'Yahoo Finance',
             featured: true,
@@ -132,7 +128,6 @@ export async function GET() {
             value: wti.value,
             unit: 'varil',
             currency: '$',
-            change: wti.change,
             changePercent: wti.changePercent,
             source: 'Yahoo Finance',
           },
@@ -142,7 +137,6 @@ export async function GET() {
             unit: 'varil',
             currency: 'TL',
             changePercent: brent.changePercent,
-            change: parseFloat((brent.value * fx.usd * brent.changePercent / 100).toFixed(2)),
             source: 'Yahoo Finance x TCMB',
           },
         ],
