@@ -38,60 +38,62 @@ async function fetchWTI(): Promise<PriceResult> {
   return { value: price, change, changePercent }
 }
 
-interface RateResult {
-  value: number
-  change: number
-  changePercent: number
+function getPrevBusinessDay(): Date {
+  const d = new Date()
+  d.setDate(d.getDate() - 1)
+  while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1)
+  return d
 }
 
-function parseXmlRates(text: string): { usd: number; eur: number } {
-  const usdMatch = text.match(
-    /<Currency[^>]*CurrencyCode="USD"[^>]*>[\s\S]*?<ForexBuying>([\d.]+)<\/ForexBuying>/
+function parseRate(xml: string, currency: string): number {
+  const match = xml.match(
+    new RegExp(`<Currency[^>]*CurrencyCode="${currency}"[^>]*>[\\s\\S]*?<ForexBuying>([\\d.]+)<\\/ForexBuying>`)
   )
-  const eurMatch = text.match(
-    /<Currency[^>]*CurrencyCode="EUR"[^>]*>[\s\S]*?<ForexBuying>([\d.]+)<\/ForexBuying>/
-  )
-  if (!usdMatch || !eurMatch) throw new Error('TCMB parse hatası')
-  return { usd: parseFloat(usdMatch[1]), eur: parseFloat(eurMatch[1]) }
+  return match ? parseFloat(match[1]) : 0
 }
 
-async function fetchRates(): Promise<{ usd: RateResult; eur: RateResult }> {
-  const todayRes = await fetch(
+async function fetchRates(): Promise<{
+  usd: number; eur: number
+  usdChange: number; usdChangePercent: number
+  eurChange: number; eurChangePercent: number
+}> {
+  const todayXml = await fetch(
     'https://www.tcmb.gov.tr/kurlar/today.xml',
     { next: { revalidate: 300 }, signal: AbortSignal.timeout(5000) }
   )
-  const today = parseXmlRates(await todayRes.text())
+  const todayText = await todayXml.text()
+  const usdToday = parseRate(todayText, 'USD')
+  const eurToday = parseRate(todayText, 'EUR')
 
-  const yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1)
-  if (yesterday.getDay() === 0) yesterday.setDate(yesterday.getDate() - 1) // Pazar
-  if (yesterday.getDay() === 6) yesterday.setDate(yesterday.getDate() - 1) // Cumartesi
-
+  const yesterday = getPrevBusinessDay()
   const dd = String(yesterday.getDate()).padStart(2, '0')
   const mm = String(yesterday.getMonth() + 1).padStart(2, '0')
   const yyyy = yesterday.getFullYear()
 
-  const yestRes = await fetch(
+  const yestXml = await fetch(
     `https://www.tcmb.gov.tr/kurlar/${yyyy}${mm}/${dd}${mm}${yyyy}.xml`,
-    { signal: AbortSignal.timeout(5000) }
-  )
-  const prev = parseXmlRates(await yestRes.text())
+    { next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) }
+  ).catch(() => null)
 
-  const usdChange = parseFloat((today.usd - prev.usd).toFixed(4))
-  const eurChange = parseFloat((today.eur - prev.eur).toFixed(4))
+  let usdChange = 0, usdChangePercent = 0
+  let eurChange = 0, eurChangePercent = 0
 
-  return {
-    usd: {
-      value: today.usd,
-      change: usdChange,
-      changePercent: parseFloat(((usdChange / prev.usd) * 100).toFixed(2)),
-    },
-    eur: {
-      value: today.eur,
-      change: eurChange,
-      changePercent: parseFloat(((eurChange / prev.eur) * 100).toFixed(2)),
-    },
+  if (yestXml?.ok) {
+    const yestText = await yestXml.text()
+    const usdYest = parseRate(yestText, 'USD')
+    const eurYest = parseRate(yestText, 'EUR')
+
+    if (usdYest > 0) {
+      usdChange = parseFloat((usdToday - usdYest).toFixed(4))
+      usdChangePercent = parseFloat(((usdChange / usdYest) * 100).toFixed(2))
+    }
+    if (eurYest > 0) {
+      eurChange = parseFloat((eurToday - eurYest).toFixed(4))
+      eurChangePercent = parseFloat(((eurChange / eurYest) * 100).toFixed(2))
+    }
   }
+
+  return { usd: usdToday, eur: eurToday, usdChange, usdChangePercent, eurChange, eurChangePercent }
 }
 
 export async function GET() {
@@ -108,12 +110,12 @@ export async function GET() {
       {
         updatedAt,
         ttl: 300,
-        usdtry: fx.usd.value,
-        usdtryChange: fx.usd.change,
-        usdtryChangePercent: fx.usd.changePercent,
-        eurtry: fx.eur.value,
-        eurtryChange: fx.eur.change,
-        eurtryChangePercent: fx.eur.changePercent,
+        usdtry: fx.usd,
+        usdtryChange: fx.usdChange,
+        usdtryChangePercent: fx.usdChangePercent,
+        eurtry: fx.eur,
+        eurtryChange: fx.eurChange,
+        eurtryChangePercent: fx.eurChangePercent,
         data: [
           {
             label: 'Brent ham petrol',
@@ -136,10 +138,10 @@ export async function GET() {
           },
           {
             label: 'Brent (TL karsiligi)',
-            value: parseFloat((brent.value * fx.usd.value).toFixed(2)),
+            value: parseFloat((brent.value * fx.usd).toFixed(2)),
             unit: 'varil',
             currency: 'TL',
-            change: parseFloat((brent.change * fx.usd.value).toFixed(2)),
+            change: parseFloat((brent.change * fx.usd).toFixed(2)),
             changePercent: brent.changePercent,
             source: 'Yahoo Finance x TCMB',
           },
