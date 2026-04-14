@@ -3,21 +3,21 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const url = new URL('https://api.eia.gov/v2/petroleum/pri/spt/data/')
-    url.searchParams.set('api_key', process.env.EIA_API_KEY!)
-    url.searchParams.set('frequency', 'daily')
-    url.searchParams.append('data[]', 'value')
-    url.searchParams.append('facets[product][]', 'EPCBRENT')
-    url.searchParams.append('sort[0][column]', 'period')
-    url.searchParams.append('sort[0][direction]', 'desc')
-    url.searchParams.set('length', '30')
-
-    const res = await fetch(url.toString(), { next: { revalidate: 3600 } })
+    const res = await fetch(
+      'https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?interval=1d&range=30d',
+      { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) }
+    )
     const json = await res.json()
 
-    const data = json.response.data
-      .map((d: any) => ({ date: d.period, value: parseFloat(d.value) }))
-      .reverse()
+    const timestamps = json.chart.result[0].timestamp
+    const closes = json.chart.result[0].indicators.quote[0].close
+
+    const data = timestamps
+      .map((ts: number, i: number) => ({
+        date: new Date(ts * 1000).toISOString().split('T')[0],
+        value: parseFloat(closes[i]?.toFixed(2) ?? '0'),
+      }))
+      .filter((d: any) => d.value > 0)
 
     return NextResponse.json(
       { data, updatedAt: new Date().toISOString() },
