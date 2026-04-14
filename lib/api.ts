@@ -11,7 +11,11 @@ export const fetcher = (url: string) =>
 
 interface PricesResponse extends ApiResponse<PriceData[]> {
   usdtry?: number;
+  usdtryChange?: number;
+  usdtryChangePercent?: number;
   eurtry?: number;
+  eurtryChange?: number;
+  eurtryChangePercent?: number;
 }
 
 export interface HistoryPoint {
@@ -23,14 +27,23 @@ export function usePrices() {
   const { data, error, isLoading } = useSWR<PricesResponse>(
     "/api/prices",
     fetcher,
-    { refreshInterval: 300_000 }
+    {
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+      dedupingInterval: 0,
+      refreshInterval: 300_000,
+    }
   );
   return {
     data,
     prices: data?.data ?? [],
     updatedAt: data?.updatedAt as string | undefined,
     usdtry: data?.usdtry,
+    usdtryChange: data?.usdtryChange,
+    usdtryChangePercent: data?.usdtryChangePercent,
     eurtry: data?.eurtry,
+    eurtryChange: data?.eurtryChange,
+    eurtryChangePercent: data?.eurtryChangePercent,
     isLoading,
     isError: !!error,
   };
