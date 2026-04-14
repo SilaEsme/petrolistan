@@ -5,7 +5,7 @@ import { useFuelBrands, usePrices } from "@/lib/api";
 export type TickerItem = {
   label: string;
   value: string;
-  change: number; // positive = up, negative = down
+  change?: number; // positive = up, negative = down; omit to hide indicator
   unit?: string;
 };
 
@@ -51,18 +51,19 @@ function useTickerItems(): TickerItem[] {
 
   const fuelItems: TickerItem[] = [];
   if (diesel > 0)
-    fuelItems.push({ label: "Motorin", value: fmt(diesel), change: 0, unit: "₺/L" });
+    fuelItems.push({ label: "Motorin", value: fmt(diesel), unit: "₺/L" });
   if (gasoline > 0)
-    fuelItems.push({ label: "Benzin 95", value: fmt(gasoline), change: 0, unit: "₺/L" });
+    fuelItems.push({ label: "Benzin 95", value: fmt(gasoline), unit: "₺/L" });
   if (lpg > 0)
-    fuelItems.push({ label: "LPG", value: fmt(lpg), change: 0, unit: "₺/L" });
+    fuelItems.push({ label: "LPG", value: fmt(lpg), unit: "₺/L" });
 
   return [...crudItems, ...STATIC_ITEMS, ...fxItems, ...fuelItems];
 }
 
 function TickerEntry({ item }: { item: TickerItem }) {
-  const isUp = item.change > 0;
-  const isDown = item.change < 0;
+  const hasChange = item.change !== undefined;
+  const isUp = hasChange && item.change! > 0;
+  const isDown = hasChange && item.change! < 0;
   const changeColor = isUp
     ? "text-[#3B6D11]"
     : isDown
@@ -79,14 +80,16 @@ function TickerEntry({ item }: { item: TickerItem }) {
           <span className="text-white/50 font-normal ml-0.5">{item.unit}</span>
         )}
       </span>
-      <span className={`text-xs font-medium ${changeColor}`}>
-        {arrow}
-        {item.change !== 0 && (
-          <span className="ml-0.5">
-            {Math.abs(item.change).toFixed(2)}%
-          </span>
-        )}
-      </span>
+      {hasChange && (
+        <span className={`text-xs font-medium ${changeColor}`}>
+          {arrow}
+          {item.change !== 0 && (
+            <span className="ml-0.5">
+              {Math.abs(item.change!).toFixed(2)}%
+            </span>
+          )}
+        </span>
+      )}
     </span>
   );
 }
