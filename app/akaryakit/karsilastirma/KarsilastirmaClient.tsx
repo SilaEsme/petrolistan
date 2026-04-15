@@ -78,7 +78,7 @@ export default function KarsilastirmaClient({
             {provinceName} — Marka Karşılaştırması
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Moil güncel pompa fiyatları
+            OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total, Moil güncel pompa fiyatları
           </p>
         </div>
 
