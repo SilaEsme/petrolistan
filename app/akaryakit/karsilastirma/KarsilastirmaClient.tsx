@@ -57,7 +57,7 @@ export default function KarsilastirmaClient({
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
       {/* Başlık + İl seçici */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
         <div>
@@ -110,10 +110,10 @@ export default function KarsilastirmaClient({
               <thead>
                 <tr className="bg-[#0C447C] text-white">
                   <th className="py-3 px-4 text-left font-medium">Marka</th>
-                  <th className="py-3 px-4 text-right font-medium">Benzin 95</th>
+                  <th className="py-3 px-4 text-right font-medium"><span className="hidden sm:inline">Benzin </span>95</th>
                   <th className="py-3 px-4 text-right font-medium">Motorin</th>
-                  <th className="py-3 px-4 text-right font-medium">LPG</th>
-                  <th className="py-3 px-4 text-right font-medium hidden sm:table-cell">Son Güncelleme</th>
+                  <th className="py-3 px-4 text-right font-medium hidden sm:table-cell">LPG</th>
+                  <th className="py-3 px-4 text-right font-medium hidden md:table-cell">Son Güncelleme</th>
                 </tr>
               </thead>
               <tbody>
@@ -134,17 +134,19 @@ export default function KarsilastirmaClient({
                       className={`border-t border-gray-100 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-amber-50 transition-colors`}
                     >
                       <td className="py-3 px-4 font-medium text-gray-800">
-                        <span>{brand.brand}</span>
-                        {isNational && (
-                          <span className="ml-2 text-[10px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
-                            ulusal fiyat
-                          </span>
-                        )}
-                        {brand.error && (
-                          <span className="ml-2 text-xs text-gray-400" title={brand.error}>
-                            ⚠
-                          </span>
-                        )}
+                        <div className="flex flex-wrap items-center gap-1">
+                          <span>{brand.brand}</span>
+                          {isNational && (
+                            <span className="text-[10px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
+                              ulusal fiyat
+                            </span>
+                          )}
+                          {brand.error && (
+                            <span className="text-xs text-gray-400" title={brand.error}>
+                              ⚠
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className={`py-3 px-4 text-right tabular-nums ${colorClass(brand.gasoline, minG, maxG)}`}>
                         {brand.gasoline > 0 ? `${fmt(brand.gasoline)} ₺` : '—'}
@@ -152,10 +154,10 @@ export default function KarsilastirmaClient({
                       <td className={`py-3 px-4 text-right tabular-nums ${colorClass(brand.diesel, minD, maxD)}`}>
                         {brand.diesel > 0 ? `${fmt(brand.diesel)} ₺` : '—'}
                       </td>
-                      <td className={`py-3 px-4 text-right tabular-nums ${colorClass(brand.lpg, minL, maxL)}`}>
+                      <td className={`py-3 px-4 text-right tabular-nums hidden sm:table-cell ${colorClass(brand.lpg, minL, maxL)}`}>
                         {brand.lpg > 0 ? `${fmt(brand.lpg)} ₺` : '—'}
                       </td>
-                      <td className="py-3 px-4 text-right text-gray-400 hidden sm:table-cell text-xs">
+                      <td className="py-3 px-4 text-right text-gray-400 hidden md:table-cell text-xs">
                         {updatedAt}
                       </td>
                     </tr>
