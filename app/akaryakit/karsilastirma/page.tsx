@@ -34,10 +34,25 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 export default async function KarsilastirmaPage({ searchParams }: { searchParams: SearchParams }) {
   const { province = '34' } = await searchParams
   const initialData = await fetchInitialData(province)
+  const cityName = PROVINCES[province] ?? 'Türkiye'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${cityName} Akaryakıt Fiyatları Karşılaştırması`,
+    description: `${cityName} için güncel benzin, motorin ve LPG fiyatları`,
+    url: `https://petrolistan.com/akaryakit/karsilastirma?province=${province}`,
+  }
 
   return (
-    <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
-      <KarsilastirmaClient initialData={initialData} />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
+        <KarsilastirmaClient initialData={initialData} />
+      </Suspense>
+    </>
   )
 }

@@ -56,6 +56,11 @@ export default function KarsilastirmaClient({
   const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
+  const cheapestDiesel   = brands.filter(b => b.diesel > 0).sort((a, b) => a.diesel - b.diesel)[0]
+  const expensiveDiesel  = brands.filter(b => b.diesel > 0).sort((a, b) => b.diesel - a.diesel)[0]
+  const cheapestGasoline  = brands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
+  const expensiveGasoline = brands.filter(b => b.gasoline > 0).sort((a, b) => b.gasoline - a.gasoline)[0]
+
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
       {/* Başlık + İl seçici */}
@@ -99,6 +104,26 @@ export default function KarsilastirmaClient({
               <div className="h-4 w-16 bg-gray-100 rounded animate-pulse" />
             </div>
           ))}
+        </div>
+      )}
+
+      {/* En ucuz banner */}
+      {brands.length > 0 && (cheapestDiesel || cheapestGasoline) && (
+        <div className="bg-[#0C447C] text-white rounded-xl p-4 mb-6 grid grid-cols-2 gap-4">
+          {cheapestDiesel && (
+            <div>
+              <p className="text-xs text-white/60 uppercase tracking-wide">En Ucuz Motorin</p>
+              <p className="text-xl font-bold">{cheapestDiesel.brand}</p>
+              <p className="text-2xl font-bold text-[#BA7517]">{fmt(cheapestDiesel.diesel)} ₺/L</p>
+            </div>
+          )}
+          {cheapestGasoline && (
+            <div>
+              <p className="text-xs text-white/60 uppercase tracking-wide">En Ucuz Benzin 95</p>
+              <p className="text-xl font-bold">{cheapestGasoline.brand}</p>
+              <p className="text-2xl font-bold text-[#BA7517]">{fmt(cheapestGasoline.gasoline)} ₺/L</p>
+            </div>
+          )}
         </div>
       )}
 
@@ -190,6 +215,35 @@ export default function KarsilastirmaClient({
               </span>
             )}
           </div>
+          {/* SSS */}
+          <section className="mt-8">
+            <h2 className="text-lg font-semibold text-[#0C447C] mb-4">Sıkça Sorulan Sorular</h2>
+            <div className="space-y-4">
+              {[
+                {
+                  q: `Bugün ${provinceName}'da motorin kaç lira?`,
+                  a: `${new Date().toLocaleDateString('tr-TR')} itibarıyla ${provinceName}'da motorin fiyatları ${cheapestDiesel ? fmt(cheapestDiesel.diesel) : '—'} ile ${expensiveDiesel ? fmt(expensiveDiesel.diesel) : '—'} ₺/L arasında değişmektedir. En ucuz motorin ${cheapestDiesel?.brand ?? '—'} istasyonlarında bulunmaktadır.`,
+                },
+                {
+                  q: `Bugün ${provinceName}'da benzin 95 kaç lira?`,
+                  a: `${provinceName}'da kurşunsuz 95 oktan benzin fiyatları ${cheapestGasoline ? fmt(cheapestGasoline.gasoline) : '—'} ile ${expensiveGasoline ? fmt(expensiveGasoline.gasoline) : '—'} ₺/L arasında değişmektedir.`,
+                },
+                {
+                  q: 'OPET mi Shell mi daha ucuz?',
+                  a: 'Akaryakıt fiyatları şehre ve güne göre değişmektedir. Yukarıdaki tabloda bulunduğunuz şehir için güncel OPET ve Shell fiyatlarını karşılaştırabilirsiniz.',
+                },
+                {
+                  q: 'LPG otogaz fiyatı ne kadar?',
+                  a: `${provinceName}'da LPG otogaz fiyatı Shell ve Petrol Ofisi istasyonlarında güncel olarak tabloda gösterilmektedir.`,
+                },
+              ].map(({ q, a }) => (
+                <details key={q} className="border border-gray-200 rounded-lg p-4">
+                  <summary className="font-medium cursor-pointer text-gray-800">{q}</summary>
+                  <p className="mt-2 text-gray-600 text-sm">{a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
         </>
       )}
     </div>
