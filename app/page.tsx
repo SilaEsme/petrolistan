@@ -27,7 +27,7 @@ export default function HomePage() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6">
-      <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
         <div className="flex-1 space-y-6">
           <PriceGrid
             items={prices}
@@ -36,7 +36,7 @@ export default function HomePage() {
           />
           <PriceChart data={history} isLoading={historyLoading} />
         </div>
-        <div className="w-64 shrink-0 space-y-2">
+        <div className="w-full md:w-64 shrink-0 space-y-2">
           <div className="flex flex-col gap-0.5">
             <label htmlFor="sidebar-province" className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
               Şehir
