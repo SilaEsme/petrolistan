@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useFuelBrands } from '@/lib/api'
-import { PROVINCES } from '@/lib/provinces'
+import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
 import type { BrandPrice, BrandsResponse } from '@/types'
 
 // Bu markalar il parametresini desteklemiyor — ulusal fiyat gösterir
@@ -25,13 +25,15 @@ function nonZero(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
 
 export default function KarsilastirmaClient({
   initialData,
+  initialProvince,
 }: {
   initialData: BrandsResponse | null
+  initialProvince?: string
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const province = searchParams.get('province') ?? '34'
+  const province = initialProvince ?? searchParams.get('province') ?? '34'
   const provinceName = PROVINCES[province] ?? 'Türkiye'
 
   const { data, isLoading } = useFuelBrands(
@@ -40,7 +42,13 @@ export default function KarsilastirmaClient({
   )
 
   function handleProvinceChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    router.push(`/akaryakit/karsilastirma?province=${e.target.value}`, { scroll: false })
+    const code = parseInt(e.target.value)
+    const slug = provinceCodeToSlug[code]
+    if (slug) {
+      router.push(`/akaryakit/karsilastirma/${slug}`, { scroll: false })
+    } else {
+      router.push(`/akaryakit/karsilastirma?province=${e.target.value}`, { scroll: false })
+    }
   }
 
   const brands = data?.data ?? []
