@@ -242,7 +242,7 @@ export default function KarsilastirmaClient({
                 },
                 {
                   q: 'LPG otogaz fiyatı ne kadar?',
-                  a: `${provinceName}'da LPG otogaz fiyatı Shell ve Petrol Ofisi istasyonlarında güncel olarak tabloda gösterilmektedir.`,
+                  a: `${provinceName}'da Shell, Petrol Ofisi ve Total istasyonlarında LPG otogaz fiyatları tabloda gösterilmektedir.`,
                 },
               ].map(({ q, a }) => (
                 <details key={q} className="border border-gray-200 rounded-lg p-4">
