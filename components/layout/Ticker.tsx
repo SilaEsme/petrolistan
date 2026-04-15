@@ -32,9 +32,9 @@ function useTickerItems(): TickerItem[] {
   const lpg = avg(brands.map((b) => b.lpg));
 
   const crudItems: TickerItem[] = [];
-  const brent = pricesData?.data?.[0]; // featured: true, Brent ham petrol
-  const wti = pricesData?.data?.[1];   // WTI ham petrol
-  const ng = pricesData?.data?.[3];    // Doğalgaz
+  const brent = pricesData?.data?.find((d: any) => d.featured === true || d.label?.includes('Brent ham'));
+  const wti = pricesData?.data?.find((d: any) => d.label?.includes('WTI'));
+  const ng = pricesData?.data?.find((d: any) => d.label?.includes('Doğalgaz') || d.label?.includes('dogalgaz'));
   if ((brent?.value ?? 0) > 0)
     crudItems.push({ label: 'Brent', value: brent!.value.toFixed(2), change: brent!.changePercent ?? 0, unit: '$/varil' });
   if ((wti?.value ?? 0) > 0)
