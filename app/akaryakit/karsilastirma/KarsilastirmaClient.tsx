@@ -6,7 +6,7 @@ import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
 import type { BrandPrice, BrandsResponse } from '@/types'
 
 // Bu markalar il parametresini desteklemiyor — ulusal fiyat gösterir
-const NATIONAL_BRANDS = new Set(['Petrol Ofisi', 'Aytemiz', 'Lukoil', 'Moil'])
+const NATIONAL_BRANDS = new Set(['Moil'])
 
 function fmt(val: number) {
   return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
