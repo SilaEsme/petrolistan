@@ -1,5 +1,4 @@
 import { MetadataRoute } from 'next'
-import { provinceSlugToCode } from '@/lib/provinces'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,13 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  const ilPages: MetadataRoute.Sitemap = Object.keys(provinceSlugToCode).map((il) => ({
-    url: `${base}/akaryakit/karsilastirma/${il}`,
-    lastModified: now,
-    changeFrequency: 'hourly' as const,
-    priority: 0.85,
-  }))
-
+  // noindex olan 81 il sayfası sitemap'e dahil edilmiyor
   const analizler = [
     'turkiye-benzin-neden-pahali',
     'opec-turkiye-etkisi',
@@ -62,7 +55,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/analizler`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/gizlilik`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${base}/iletisim`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
-    ...ilPages,
     ...analizPages,
     ...haberler,
   ]

@@ -27,6 +27,12 @@ export default function TurkiyeBenzinNedenPahaliPage() {
         Türkiye&apos;de akaryakıt fiyatları Avrupa ortalamasının üzerinde seyrediyor. Bunun ardında yalnızca ham petrol fiyatları değil; ağır vergi yükü, kur riski ve yapısal maliyet unsurları yatıyor.
       </p>
 
+      {/* Editöryal not */}
+      <div className="flex items-start gap-2 bg-blue-50/60 border border-blue-100 rounded-lg px-4 py-3 mb-6 text-xs text-gray-500">
+        <span className="shrink-0 font-bold text-[#0C447C]">✍</span>
+        <span>Bu makale <strong className="text-gray-700">Petrolistan editöryal ekibi</strong> tarafından yazılmış, EIA, TCMB ve piyasa verileriyle desteklenmiştir.</span>
+      </div>
+
       {/* İçerik */}
       <article className="space-y-8 text-gray-700 text-[15px] leading-relaxed">
         <section>
@@ -95,6 +101,16 @@ export default function TurkiyeBenzinNedenPahaliPage() {
           </p>
         </section>
       </article>
+
+      {/* Güncel Veri Kutusu */}
+      <div className="my-8 bg-[#042C53]/5 border border-[#0C447C]/20 rounded-xl p-4">
+        <p className="text-xs font-semibold text-[#0C447C] uppercase tracking-wide mb-2">Güncel Veri — Nisan 2026</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-700">
+          <span>Brent petrol <strong>~97 $/varil</strong></span>
+          <span>USD/TRY <strong>~44,6</strong></span>
+          <span>İstanbul motorin <strong>~75,5 ₺/L</strong></span>
+        </div>
+      </div>
 
       {/* Paylaş */}
       <div className="flex gap-2 mt-10 mb-10">

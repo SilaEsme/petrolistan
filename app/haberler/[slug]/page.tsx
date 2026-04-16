@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
 async function getNews(): Promise<any[]> {
   try {
@@ -38,10 +38,6 @@ export default async function HaberDetayPage({
   const item = news.find((n: any) => n.slug === slug)
   if (!item) notFound()
 
-  if (item.externalUrl) {
-    redirect(item.externalUrl)
-  }
-
   const categoryColors: Record<string, { bg: string; text: string }> = {
     'OPEC+':    { bg: '#E6F1FB', text: '#0C447C' },
     'TÜRKİYE': { bg: '#E1F5EE', text: '#085041' },
@@ -54,7 +50,6 @@ export default async function HaberDetayPage({
     day: 'numeric', month: 'long', year: 'numeric'
   })
 
-  // Aynı kategorideki diğer haberler (max 3)
   const related = news
     .filter((n: any) => n.category === item.category && n.slug !== item.slug)
     .slice(0, 3)
@@ -84,19 +79,37 @@ export default async function HaberDetayPage({
         {item.excerpt}
       </p>
 
+      {/* Haberin devamını oku */}
+      {item.externalUrl && (
+        <div className="mb-10">
+          <a
+            href={item.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#0C447C] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0a3a6b] transition-colors"
+          >
+            Haberin devamını oku
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+          <p className="text-xs text-gray-400 mt-2">Kaynak: {item.source}</p>
+        </div>
+      )}
+
       {/* Sosyal paylaşım */}
       <div className="flex gap-2 mb-10">
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(item.title)}&url=https://petrolistan.com/haberler/${slug}`}
           target="_blank" rel="noopener noreferrer"
           className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded transition-colors">
-          X'te paylaş
+          X&apos;te paylaş
         </a>
         <a
           href={`https://www.linkedin.com/sharing/share-offsite/?url=https://petrolistan.com/haberler/${slug}`}
           target="_blank" rel="noopener noreferrer"
           className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded transition-colors">
-          LinkedIn'de paylaş
+          LinkedIn&apos;de paylaş
         </a>
       </div>
 
