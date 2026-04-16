@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: `${cityName} Akaryakıt Fiyatları — OPET Shell Petrol Ofisi Karşılaştırma | Petrolistan`,
     description: `${cityName} için güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz marka karşılaştırması. ${new Date().toLocaleDateString('tr-TR')} güncel fiyatlar.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
+    robots: { index: false, follow: true },
   }
 }
 
