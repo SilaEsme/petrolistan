@@ -37,6 +37,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }))
 
+  const analizler = [
+    'turkiye-benzin-neden-pahali',
+    'opec-turkiye-etkisi',
+    'motorin-mi-benzin-mi',
+    '2026-petrol-fiyat-tahmini',
+    'elektrikli-arac-yakit-maliyeti',
+  ]
+
+  const analizPages: MetadataRoute.Sitemap = analizler.map((slug) => ({
+    url: `${base}/analizler/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
   return [
     { url: base, lastModified: now, changeFrequency: 'daily', priority: 1 },
     { url: `${base}/haberler`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
@@ -48,6 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/gizlilik`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${base}/iletisim`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     ...ilPages,
+    ...analizPages,
     ...haberler,
   ]
 }
