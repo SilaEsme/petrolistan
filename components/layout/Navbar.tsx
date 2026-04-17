@@ -41,14 +41,8 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA + Hamburger */}
+        {/* Hamburger */}
         <div className="flex items-center gap-2">
-          <Link
-            href="/bulten"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 bg-[#BA7517] hover:bg-[#a5671a] text-white text-sm font-semibold rounded transition-colors"
-          >
-            Bülten
-          </Link>
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -82,13 +76,6 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/bulten"
-            onClick={() => setIsOpen(false)}
-            className="mt-2 inline-flex items-center justify-center px-4 py-2 bg-[#BA7517] hover:bg-[#a5671a] text-white text-sm font-semibold rounded transition-colors"
-          >
-            Bülten
-          </Link>
         </div>
       )}
     </nav>
