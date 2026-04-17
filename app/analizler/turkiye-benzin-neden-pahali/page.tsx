@@ -128,6 +128,13 @@ export default function TurkiyeBenzinNedenPahaliPage() {
         </a>
       </div>
 
+      <div className="mt-6 p-4 bg-blue-50/50 border border-blue-100 rounded-xl text-sm text-gray-600">
+        İlgili: Güncel benzin, motorin ve LPG fiyatlarını şehir bazında karşılaştırmak için{' '}
+        <Link href="/akaryakit/karsilastirma" className="text-[#185FA5] font-medium hover:underline">
+          akaryakıt karşılaştırma sayfamıza bakın →
+        </Link>
+      </div>
+
       {/* Geri dön */}
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">
