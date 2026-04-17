@@ -15,15 +15,17 @@ export default function IletisimPage() {
 
       <div className="grid md:grid-cols-2 gap-10">
         {/* Form */}
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-5" action="mailto:info@petrolistan.com" method="post" encType="text/plain">
           <div>
             <label htmlFor="name" className="block text-xs font-medium text-gray-600 mb-1.5">
               Ad Soyad
             </label>
             <input
               id="name"
+              name="name"
               type="text"
               placeholder="Adınız Soyadınız"
+              required
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
             />
           </div>
@@ -34,8 +36,10 @@ export default function IletisimPage() {
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               placeholder="ornek@email.com"
+              required
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
             />
           </div>
@@ -46,6 +50,7 @@ export default function IletisimPage() {
             </label>
             <select
               id="konu"
+              name="konu"
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
             >
               <option value="">Konu seçin</option>
@@ -63,8 +68,10 @@ export default function IletisimPage() {
             </label>
             <textarea
               id="mesaj"
+              name="mesaj"
               rows={5}
               placeholder="Mesajınızı buraya yazın..."
+              required
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition resize-none"
             />
           </div>
