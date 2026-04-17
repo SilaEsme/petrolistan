@@ -32,10 +32,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // noindex olan 81 il sayfası sitemap'e dahil edilmiyor
   const analizler = [
     'turkiye-benzin-neden-pahali',
+    'benzin-fiyati-nasil-hesaplanir',
+    'dolar-kuru-akaryakit-fiyat-etkisi',
+    'turk-lirasi-petrol-fiyatlari-iliskisi',
     'opec-turkiye-etkisi',
-    'motorin-mi-benzin-mi',
+    'opec-plus-nedir-nasil-calisir',
     '2026-petrol-fiyat-tahmini',
+    'kuzey-irak-petrol-turkiye',
+    'turkiye-enerji-ithalati-ekonomik-etkileri',
+    'motorin-mi-benzin-mi',
+    'lpg-otogaz-avantajlari-dezavantajlari',
+    'rafine-petrol-urunleri-neler',
+    'akaryakit-tasarrufu-ipuclari',
     'elektrikli-arac-yakit-maliyeti',
+    'surdurulebilir-enerji-turkiye-2030',
   ]
 
   const analizPages: MetadataRoute.Sitemap = analizler.map((slug) => ({
