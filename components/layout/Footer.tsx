@@ -5,13 +5,11 @@ const footerLinks = {
     { label: "Ham Petrol", href: "/ham-petrol" },
     { label: "Akaryakıt", href: "/akaryakit" },
     { label: "Doğalgaz", href: "/dogalgaz" },
-    { label: "LPG", href: "/lpg" },
   ],
   "İçerik": [
     { label: "Haberler", href: "/haberler" },
     { label: "Analizler", href: "/analizler" },
-    { label: "Piyasa Verileri", href: "/piyasa" },
-    { label: "Bülten", href: "/bulten" },
+    { label: "Marka Karşılaştırma", href: "/akaryakit/karsilastirma" },
   ],
   "Kurumsal": [
     { label: "Hakkımızda", href: "/hakkimizda" },

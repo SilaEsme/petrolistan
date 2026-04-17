@@ -12,9 +12,6 @@ export default function Topbar() {
           <a href="/iletisim" className="hover:text-white transition-colors">
             İletişim
           </a>
-          <a href="/rss" className="hover:text-white transition-colors">
-            RSS
-          </a>
         </div>
       </div>
     </div>
