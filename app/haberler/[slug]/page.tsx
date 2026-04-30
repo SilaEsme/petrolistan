@@ -25,6 +25,7 @@ export async function generateMetadata({
   return {
     title: `${item.title} — Petrolistan`,
     description: item.excerpt,
+    robots: { index: false, follow: true },
   }
 }
 
