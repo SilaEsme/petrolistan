@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import Link from 'next/link'
 
 async function getNews(): Promise<any[]> {
   try {
@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { slug } = await params
   const news = await getNews()
   const item = news.find((n: any) => n.slug === slug)
-  if (!item) return {}
+  if (!item) return { robots: { index: false, follow: true } }
   return {
     title: `${item.title} — Petrolistan`,
     description: item.excerpt,
@@ -37,7 +37,21 @@ export default async function HaberDetayPage({
   const { slug } = await params
   const news = await getNews()
   const item = news.find((n: any) => n.slug === slug)
-  if (!item) notFound()
+  if (!item) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          Bu haber artık mevcut değil
+        </h1>
+        <p className="text-gray-600 mb-6">
+          Haberler düzenli olarak güncellenmektedir.
+        </p>
+        <Link href="/haberler" className="text-[#0C447C] underline">
+          Güncel haberlere dön →
+        </Link>
+      </div>
+    )
+  }
 
   const categoryColors: Record<string, { bg: string; text: string }> = {
     'OPEC+':    { bg: '#E6F1FB', text: '#0C447C' },
