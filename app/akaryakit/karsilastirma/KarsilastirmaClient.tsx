@@ -5,22 +5,74 @@ import { useFuelBrands } from '@/lib/api'
 import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
 import type { BrandPrice, BrandsResponse } from '@/types'
 
-// Bu markalar il parametresini desteklemiyor — ulusal fiyat gösterir
 const NATIONAL_BRANDS = new Set(['Moil'])
 
 function fmt(val: number) {
   return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
-function colorClass(val: number, min: number, max: number): string {
-  if (val <= 0) return ''
-  if (val === min) return 'text-[#3B6D11] font-semibold'
-  if (val === max) return 'text-[#A32D2D] font-semibold'
-  return ''
+function brandInitials(name: string): string {
+  const words = name.trim().split(/\s+/)
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
+  return name.slice(0, 2).toUpperCase()
 }
 
 function nonZero(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
   return brands.map((b) => b[key]).filter((v) => v > 0)
+}
+
+// Inline SVGs
+const CheckIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+)
+const TriangleIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 4 L4 18 L20 18 Z" />
+  </svg>
+)
+
+interface PriceCellProps {
+  val: number
+  isMin: boolean
+  isMax: boolean
+  hidden?: boolean
+}
+function PriceCell({ val, isMin, isMax, hidden }: PriceCellProps) {
+  const tdClass = [
+    'py-3.5 px-4 text-right tabular-nums',
+    hidden ? 'hidden sm:table-cell' : '',
+    isMin ? 'bg-[#ECFDF5]' : isMax ? 'bg-[#FEF2F2]' : '',
+  ].join(' ')
+
+  if (val <= 0) {
+    return <td className={tdClass + ' text-gray-300'}>—</td>
+  }
+
+  const priceClass = isMin
+    ? 'text-[#047857] font-semibold'
+    : isMax
+      ? 'text-[#B91C1C] font-semibold'
+      : 'text-gray-600'
+
+  return (
+    <td className={tdClass}>
+      <span className="inline-flex items-center gap-2 justify-end">
+        {isMin && (
+          <span className="w-[18px] h-[18px] rounded-full bg-[#10B981] text-white flex items-center justify-center flex-shrink-0">
+            <CheckIcon />
+          </span>
+        )}
+        {isMax && (
+          <span className="w-[18px] h-[18px] rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center flex-shrink-0">
+            <TriangleIcon />
+          </span>
+        )}
+        <span className={`text-[13px] ${priceClass}`}>{fmt(val)} ₺</span>
+      </span>
+    </td>
+  )
 }
 
 export default function KarsilastirmaClient({
@@ -33,13 +85,10 @@ export default function KarsilastirmaClient({
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const province = initialProvince ?? searchParams.get('province') ?? '34'
+  const province     = initialProvince ?? searchParams.get('province') ?? '34'
   const provinceName = PROVINCES[province] ?? 'Türkiye'
 
-  const { data, isLoading } = useFuelBrands(
-    province,
-    initialData ?? undefined
-  )
+  const { data, isLoading } = useFuelBrands(province, initialData ?? undefined)
 
   function handleProvinceChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const code = parseInt(e.target.value)
@@ -64,38 +113,38 @@ export default function KarsilastirmaClient({
   const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
-  const cheapestDiesel   = brands.filter(b => b.diesel > 0).sort((a, b) => a.diesel - b.diesel)[0]
-  const expensiveDiesel  = brands.filter(b => b.diesel > 0).sort((a, b) => b.diesel - a.diesel)[0]
-  const cheapestGasoline  = brands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
+  const cheapestGasoline = brands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
+  const cheapestDiesel   = brands.filter(b => b.diesel   > 0).sort((a, b) => a.diesel   - b.diesel  )[0]
+  const cheapestLpg      = brands.filter(b => b.lpg      > 0).sort((a, b) => a.lpg      - b.lpg     )[0]
   const expensiveGasoline = brands.filter(b => b.gasoline > 0).sort((a, b) => b.gasoline - a.gasoline)[0]
+  const expensiveDiesel   = brands.filter(b => b.diesel   > 0).sort((a, b) => b.diesel   - a.diesel  )[0]
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
+
       {/* Başlık + İl seçici */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-semibold text-[#0C447C]">
+          <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1">Akaryakıt</p>
+          <h1 className="text-2xl font-bold text-[#042C53] tracking-tight">
             {provinceName} — Marka Karşılaştırması
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total, Moil güncel pompa fiyatları
+            EPDK ve marka kaynaklarından toplanan güncel pompa fiyatları
           </p>
         </div>
-
         <div className="flex flex-col gap-1">
-          <label htmlFor="province-select" className="text-xs text-gray-400 font-medium uppercase tracking-wide">
+          <label htmlFor="province-select" className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
             İl seç
           </label>
           <select
             id="province-select"
             value={province}
             onChange={handleProvinceChange}
-            className="border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30 focus:border-[#0C447C]"
+            className="border border-[#0C447C]/40 rounded-md px-3 py-1.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30 focus:border-[#0C447C]"
           >
             {Object.entries(PROVINCES).map(([code, name]) => (
-              <option key={code} value={code}>
-                {code} — {name}
-              </option>
+              <option key={code} value={code}>{code} — {name}</option>
             ))}
           </select>
         </div>
@@ -115,84 +164,83 @@ export default function KarsilastirmaClient({
         </div>
       )}
 
-      {/* En ucuz banner */}
-      {brands.length > 0 && (cheapestDiesel || cheapestGasoline) && (
-        <div className="bg-[#0C447C] text-white rounded-xl p-4 mb-6 grid grid-cols-2 gap-4">
-          {cheapestDiesel && (
-            <div>
-              <p className="text-xs text-white/60 uppercase tracking-wide">En Ucuz Motorin</p>
-              <p className="text-xl font-bold">{cheapestDiesel.brand}</p>
-              <p className="text-2xl font-bold text-[#BA7517]">{fmt(cheapestDiesel.diesel)} ₺/L</p>
-            </div>
-          )}
-          {cheapestGasoline && (
-            <div>
-              <p className="text-xs text-white/60 uppercase tracking-wide">En Ucuz Benzin 95</p>
-              <p className="text-xl font-bold">{cheapestGasoline.brand}</p>
-              <p className="text-2xl font-bold text-[#BA7517]">{fmt(cheapestGasoline.gasoline)} ₺/L</p>
-            </div>
-          )}
+      {/* En Uygun Fiyat banner */}
+      {brands.length > 0 && cheapestGasoline && (
+        <div className="bg-[#042C53] text-white rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-[11px] text-white/60 uppercase tracking-[0.05em] font-medium mb-2">
+              En Uygun Fiyat
+            </p>
+            <p className="text-lg font-bold mb-1">
+              Benzin için en uygun: {cheapestGasoline.brand} — {fmt(cheapestGasoline.gasoline)} ₺/L
+            </p>
+            <p className="text-[13px] text-white/70">
+              {cheapestDiesel && `Motorin: ${cheapestDiesel.brand} (${fmt(cheapestDiesel.diesel)} ₺/L)`}
+              {cheapestLpg    && ` · LPG: ${cheapestLpg.brand} (${fmt(cheapestLpg.lpg)} ₺/L)`}
+            </p>
+          </div>
         </div>
       )}
 
       {/* Tablo */}
       {brands.length > 0 && (
         <>
-          <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-[14px] border border-gray-200 shadow-sm">
+            <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
+              <colgroup>
+                <col style={{ width: '34%' }} />
+                <col style={{ width: '22%' }} />
+                <col style={{ width: '22%' }} />
+                <col style={{ width: '22%' }} />
+              </colgroup>
               <thead>
                 <tr className="bg-[#0C447C] text-white">
-                  <th className="py-3 px-4 text-left font-medium">Marka</th>
-                  <th className="py-3 px-4 text-right font-medium"><span className="hidden sm:inline">Benzin </span>95</th>
-                  <th className="py-3 px-4 text-right font-medium">Motorin</th>
-                  <th className="py-3 px-4 text-right font-medium hidden sm:table-cell">LPG</th>
-                  <th className="py-3 px-4 text-right font-medium hidden md:table-cell">Son Güncelleme</th>
+                  <th className="py-3 px-4 text-left text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                    Marka
+                  </th>
+                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                    Benzin 95
+                  </th>
+                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                    Motorin
+                  </th>
+                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                    LPG
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {brands.map((brand, i) => {
+                {brands.map((brand) => {
                   const isNational = NATIONAL_BRANDS.has(brand.brand)
-                  const updatedAt = brand.updatedAt
-                    ? new Date(brand.updatedAt).toLocaleString('tr-TR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : '—'
-
                   return (
                     <tr
                       key={brand.brand}
-                      className={`border-t border-gray-100 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-amber-50 transition-colors`}
+                      className="border-t border-gray-100 hover:bg-amber-50 transition-colors"
                     >
-                      <td className="py-3 px-4 font-medium text-gray-800">
-                        <div className="flex flex-wrap items-center gap-1">
-                          <span>{brand.brand}</span>
-                          {isNational && (
-                            <span className="text-[10px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
-                              ulusal fiyat
-                            </span>
-                          )}
-                          {brand.error && (
-                            <span className="text-xs text-gray-400" title={brand.error}>
-                              ⚠
-                            </span>
-                          )}
+                      {/* Marka hücresi */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-[26px] h-[26px] rounded-md bg-gray-100 text-[#0C447C] text-[11px] font-bold flex items-center justify-center flex-shrink-0">
+                            {brandInitials(brand.brand)}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-1">
+                            <span className="text-[14px] font-semibold text-[#0A1628]">{brand.brand}</span>
+                            {isNational && (
+                              <span className="text-[10px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
+                                ulusal fiyat
+                              </span>
+                            )}
+                            {brand.error && (
+                              <span className="text-xs text-gray-400" title={brand.error}>⚠</span>
+                            )}
+                          </div>
                         </div>
                       </td>
-                      <td className={`py-3 px-4 text-right tabular-nums ${colorClass(brand.gasoline, minG, maxG)}`}>
-                        {brand.gasoline > 0 ? `${fmt(brand.gasoline)} ₺` : '—'}
-                      </td>
-                      <td className={`py-3 px-4 text-right tabular-nums ${colorClass(brand.diesel, minD, maxD)}`}>
-                        {brand.diesel > 0 ? `${fmt(brand.diesel)} ₺` : '—'}
-                      </td>
-                      <td className={`py-3 px-4 text-right tabular-nums hidden sm:table-cell ${colorClass(brand.lpg, minL, maxL)}`}>
-                        {brand.lpg > 0 ? `${fmt(brand.lpg)} ₺` : '—'}
-                      </td>
-                      <td className="py-3 px-4 text-right text-gray-400 hidden md:table-cell text-xs">
-                        {updatedAt}
-                      </td>
+
+                      {/* Fiyat hücreleri */}
+                      <PriceCell val={brand.gasoline} isMin={brand.gasoline === minG} isMax={brand.gasoline === maxG} />
+                      <PriceCell val={brand.diesel}   isMin={brand.diesel   === minD} isMax={brand.diesel   === maxD} />
+                      <PriceCell val={brand.lpg}      isMin={brand.lpg      === minL} isMax={brand.lpg      === maxL} />
                     </tr>
                   )
                 })}
@@ -200,33 +248,38 @@ export default function KarsilastirmaClient({
             </table>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-gray-500">
+          {/* Legend */}
+          <div className="mt-3.5 flex flex-wrap items-center gap-4 text-[11px] text-gray-500">
             <span className="flex items-center gap-1.5">
-              <span className="inline-block w-3 h-3 rounded-sm bg-[#3B6D11]" />
-              En ucuz
+              <span className="w-[14px] h-[14px] rounded-full bg-[#10B981] text-white flex items-center justify-center">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              En ucuz fiyat
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="inline-block w-3 h-3 rounded-sm bg-[#A32D2D]" />
-              En pahalı
+              <span className="w-[14px] h-[14px] rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 4 L4 18 L20 18 Z" />
+                </svg>
+              </span>
+              En yüksek fiyat
             </span>
-            <span className="flex items-center gap-1.5 text-gray-400">
-              <span className="border border-gray-300 rounded px-1 text-[10px]">ulusal fiyat</span>
-              İl bazlı fiyat verisi olmayan markalar
-            </span>
+            <span className="text-gray-400">·</span>
+            <span className="text-gray-400">Sütun bazında karşılaştırma</span>
             {data?.cached && data.cachedAt && (
-              <span className="ml-auto">
-                Önbellekten •{' '}
-                {new Date(data.cachedAt).toLocaleString('tr-TR', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+              <span className="ml-auto text-gray-400">
+                Önbellekten ·{' '}
+                {new Date(data.cachedAt).toLocaleString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
               </span>
             )}
           </div>
+
           {/* SSS */}
           <section className="mt-8">
             <h2 className="text-lg font-semibold text-[#0C447C] mb-4">Sıkça Sorulan Sorular</h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
                 {
                   q: `Bugün ${provinceName}'da motorin kaç lira?`,
@@ -247,11 +300,21 @@ export default function KarsilastirmaClient({
               ].map(({ q, a }) => (
                 <details key={q} className="border border-gray-200 rounded-lg p-4">
                   <summary className="font-medium cursor-pointer text-gray-800">{q}</summary>
-                  <p className="mt-2 text-gray-600 text-sm">{a}</p>
+                  <p className="mt-2 text-gray-600 text-sm leading-relaxed">{a}</p>
                 </details>
               ))}
             </div>
           </section>
+
+          {/* Veri kaynağı notu */}
+          <div className="mt-8 p-5 bg-gray-50 rounded-xl">
+            <h3 className="text-[15px] font-semibold text-[#042C53] mb-1.5">Veri kaynakları ve güncellik</h3>
+            <p className="text-[13px] text-gray-500 leading-relaxed">
+              Fiyatlar markaların resmi web siteleri ve EPDK&apos;nın haftalık raporlarından derlenmektedir.
+              İl ve istasyon bazında ufak farklar olabilir; pompada gördüğünüz fiyat esastır.
+              Fiyatlar bilgi amaçlıdır — yatırım tavsiyesi değildir.
+            </p>
+          </div>
         </>
       )}
     </div>

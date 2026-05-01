@@ -5,7 +5,7 @@ import { useFuelBrands, usePrices } from "@/lib/api";
 export type TickerItem = {
   label: string;
   value: string;
-  change?: number; // positive = up, negative = down; omit to hide indicator
+  change?: number;
   unit?: string;
 };
 
@@ -28,19 +28,19 @@ function useTickerItems(): TickerItem[] {
   const brands = brandsData?.data ?? [];
 
   const gasoline = avg(brands.map((b) => b.gasoline));
-  const diesel = avg(brands.map((b) => b.diesel));
-  const lpg = avg(brands.map((b) => b.lpg));
+  const diesel   = avg(brands.map((b) => b.diesel));
+  const lpg      = avg(brands.map((b) => b.lpg));
 
   const crudItems: TickerItem[] = [];
-  const brent = pricesData?.data?.find((d: any) => d.featured === true || d.label?.includes('Brent ham'));
-  const wti = pricesData?.data?.find((d: any) => d.label?.includes('WTI'));
-  const ng = pricesData?.data?.find((d: any) => d.label?.includes('Doğalgaz') || d.label?.includes('dogalgaz'));
+  const brent = pricesData?.data?.find((d: any) => d.label?.includes("Brent ham"));
+  const wti   = pricesData?.data?.find((d: any) => d.label?.includes("WTI"));
+  const ng    = pricesData?.data?.find((d: any) => d.label?.includes("Doğalgaz"));
   if ((brent?.value ?? 0) > 0)
-    crudItems.push({ label: 'Brent', value: brent!.value.toFixed(2), change: brent!.changePercent ?? 0, unit: '$/varil' });
+    crudItems.push({ label: "Brent", value: brent!.value.toFixed(2), change: brent!.changePercent ?? 0, unit: "$" });
   if ((wti?.value ?? 0) > 0)
-    crudItems.push({ label: 'WTI', value: wti!.value.toFixed(2), change: wti!.changePercent ?? 0, unit: '$/varil' });
+    crudItems.push({ label: "WTI", value: wti!.value.toFixed(2), change: wti!.changePercent ?? 0, unit: "$" });
   if ((ng?.value ?? 0) > 0)
-    crudItems.push({ label: 'Doğalgaz', value: ng!.value.toFixed(2), change: ng!.changePercent ?? 0, unit: '$/MMBtu' });
+    crudItems.push({ label: "Doğalgaz", value: ng!.value.toFixed(2), change: ng!.changePercent ?? 0, unit: "$" });
 
   const fxItems: TickerItem[] = [];
   if ((pricesData?.usdtry ?? 0) > 0)
@@ -49,64 +49,67 @@ function useTickerItems(): TickerItem[] {
     fxItems.push({ label: "EUR/TRY", value: pricesData!.eurtry!.toFixed(4), change: pricesData?.eurtryChangePercent ?? 0 });
 
   const fuelItems: TickerItem[] = [];
-  if (diesel > 0)
-    fuelItems.push({ label: "Motorin", value: fmt(diesel), unit: "₺/L" });
-  if (gasoline > 0)
-    fuelItems.push({ label: "Benzin 95", value: fmt(gasoline), unit: "₺/L" });
-  if (lpg > 0)
-    fuelItems.push({ label: "LPG", value: fmt(lpg), unit: "₺/L" });
+  if (diesel   > 0) fuelItems.push({ label: "Motorin",   value: fmt(diesel),   unit: "₺/L" });
+  if (gasoline > 0) fuelItems.push({ label: "Benzin 95", value: fmt(gasoline), unit: "₺/L" });
+  if (lpg      > 0) fuelItems.push({ label: "LPG",       value: fmt(lpg),      unit: "₺/L" });
 
   return [...crudItems, ...fxItems, ...fuelItems];
 }
 
 function TickerEntry({ item }: { item: TickerItem }) {
   const hasChange = item.change !== undefined;
-  const isUp = hasChange && item.change! > 0;
+  const isUp   = hasChange && item.change! > 0;
   const isDown = hasChange && item.change! < 0;
-  const changeColor = isUp
-    ? "text-[#3B6D11]"
+  const arrow  = isUp ? "▲" : isDown ? "▼" : "—";
+
+  const chipClass = isUp
+    ? "text-[#84CC16] bg-[#84CC16]/10"
     : isDown
-      ? "text-[#A32D2D]"
-      : "text-white/50";
-  const arrow = isUp ? "▲" : isDown ? "▼" : "—";
+      ? "text-[#FB7185] bg-[#FB7185]/10"
+      : "text-white/50 bg-white/5";
 
   return (
-    <span className="inline-flex items-center gap-1.5 px-4 border-r border-white/10 whitespace-nowrap">
-      <span className="text-white/60 text-xs font-medium">{item.label}</span>
-      <span className="text-white font-semibold text-xs">
-        {item.value}
-        {item.unit && (
-          <span className="text-white/50 font-normal ml-0.5">{item.unit}</span>
-        )}
+    <span className="inline-flex flex-col justify-center px-4 border-r border-white/[0.07] h-full cursor-pointer hover:bg-white/[0.04] transition-colors shrink-0">
+      <span className="text-[10px] font-semibold text-white/55 uppercase tracking-[0.06em] leading-none mb-1.5">
+        {item.label}
       </span>
-      {hasChange && (
-        <span className={`text-xs font-medium ${changeColor}`}>
-          {arrow}
-          {item.change !== 0 && (
-            <span className="ml-0.5">
-              {Math.abs(item.change!).toFixed(2)}%
-            </span>
+      <span className="flex items-baseline gap-1.5">
+        <span className="text-white font-semibold text-[14px] tabular-nums leading-none whitespace-nowrap">
+          {item.value}
+          {item.unit && (
+            <span className="text-white/40 font-normal text-[11px] ml-0.5">{item.unit}</span>
           )}
         </span>
-      )}
+        {hasChange && (
+          <span className={`text-[11px] font-semibold tabular-nums px-1.5 py-[2px] rounded leading-none ${chipClass}`}>
+            {item.change !== 0 ? `${arrow} ${Math.abs(item.change!).toFixed(2)}%` : "—"}
+          </span>
+        )}
+      </span>
     </span>
   );
 }
 
 export default function Ticker({ items }: { items?: TickerItem[] }) {
-  const fuelItems = useTickerItems();
-  const resolved = items ?? fuelItems;
-  const doubled = [...resolved, ...resolved];
+  const tickerItems = useTickerItems();
+  const resolved = items ?? tickerItems;
+  const doubled  = [...resolved, ...resolved];
 
   return (
-    <div className="w-full bg-[#042C53] border-b border-white/10 overflow-hidden h-8 flex items-center">
-      <div className="flex-shrink-0 bg-[#BA7517] px-3 h-full flex items-center z-10">
-        <span className="text-white text-xs font-bold uppercase tracking-wider">
-          Canlı
+    <div className="w-full bg-[#042C53] border-b border-white/10 overflow-hidden h-14 flex items-stretch shadow-[0_4px_12px_rgba(4,44,83,0.18)]">
+      {/* CANLI indicator */}
+      <div className="flex-shrink-0 flex items-center gap-2 px-4 bg-white/[0.04] border-r border-white/[0.08]">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#84CC16] opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#84CC16]" />
+        </span>
+        <span className="text-white text-[11px] font-bold uppercase tracking-[0.08em] whitespace-nowrap">
+          CANLI
         </span>
       </div>
-      <div className="flex-1 overflow-hidden relative">
-        <div className="flex animate-ticker">
+      {/* Scrolling stream */}
+      <div className="flex-1 overflow-hidden">
+        <div className="flex animate-ticker h-full">
           {doubled.map((item, i) => (
             <TickerEntry key={i} item={item} />
           ))}
