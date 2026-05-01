@@ -1,10 +1,8 @@
 'use client'
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePrices, useNews } from '@/lib/api'
 import PriceCard from '@/components/prices/PriceCard'
-import { PROVINCES } from '@/lib/provinces'
-import KarsilastirmaClient from '@/app/akaryakit/karsilastirma/KarsilastirmaClient'
+import HomeComparisonTable from '@/components/prices/HomeComparisonTable'
 
 function formatDate(iso: string) {
   try {
@@ -15,8 +13,6 @@ function formatDate(iso: string) {
 }
 
 export default function HomePage() {
-  const [province, setProvince] = useState('34')
-
   const { prices, updatedAt, isLoading } = usePrices()
   const { news, isLoading: newsLoading } = useNews()
 
@@ -25,29 +21,16 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 1. Hero — şehir seçici */}
+      {/* 1. Hero */}
       <div className="bg-[#0C447C] text-white py-4 px-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-lg font-bold">Güncel Akaryakıt Fiyatları</h1>
-            <p className="text-white/60 text-sm">Tüm markalar, seçtiğin ilde</p>
-          </div>
-          <select
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
-            className="bg-white/10 text-white border border-white/20 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 shrink-0"
-          >
-            {Object.entries(PROVINCES).map(([code, name]) => (
-              <option key={code} value={code} className="bg-white text-gray-900">
-                {name}
-              </option>
-            ))}
-          </select>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-lg font-bold">Güncel Akaryakıt Fiyatları</h1>
+          <p className="text-white/60 text-sm">Tüm markalar, seçtiğin ilde</p>
         </div>
       </div>
 
       {/* 2. Marka karşılaştırma tablosu */}
-      <KarsilastirmaClient initialProvince={province} initialData={null} />
+      <HomeComparisonTable />
 
       {/* 3. Piyasa fiyatları */}
       <div className="max-w-5xl mx-auto px-4 pb-6">
@@ -83,7 +66,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {newsLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-[96px] bg-gray-100 rounded-xl animate-pulse" />
+                <div key={i} className="h-24 bg-gray-100 rounded-xl animate-pulse" />
               ))
             : previewNews.map((item) => (
                 <Link
