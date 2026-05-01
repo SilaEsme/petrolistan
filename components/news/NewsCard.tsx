@@ -40,12 +40,12 @@ export default function NewsCard({ item, isLast = false }: Props) {
     >
       <article
         className={`py-4 ${
-          item.featured ? 'border-l-[3px] border-[#BA7517] pl-4 -ml-4' : ''
+          item.featured ? 'border-l-[3px] border-[#0E7C7B] pl-4 -ml-4' : ''
         } ${!isLast ? 'border-b border-gray-100' : ''}`}
       >
         {/* Category + Time */}
         <div className="flex items-center gap-1.5 mb-1.5">
-          <span className="text-[#BA7517] font-semibold text-[10px] uppercase tracking-[0.04em]">
+          <span className="text-[#0E7C7B] font-semibold text-[10px] uppercase tracking-[0.04em]">
             {item.category}
           </span>
           <span className="text-gray-300 text-xs">·</span>

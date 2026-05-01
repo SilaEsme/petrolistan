@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded bg-[#BA7517] flex items-center justify-center">
+          <div className="w-8 h-8 rounded bg-[#0E7C7B] flex items-center justify-center">
             <span className="text-white font-bold text-sm leading-none">P</span>
           </div>
           <span className="text-white font-bold text-xl tracking-tight">

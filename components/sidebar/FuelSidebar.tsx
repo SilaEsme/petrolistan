@@ -84,7 +84,7 @@ export default function FuelSidebar({ province = '34' }: { province?: string }) 
                   {item.value.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
                   <span className="text-[10px] text-gray-400 ml-0.5">₺/L</span>
                   {!isFallback && (
-                    <span className="text-[10px] text-[#BA7517] ml-1">(ort.)</span>
+                    <span className="text-[10px] text-[#0E7C7B] ml-1">(ort.)</span>
                   )}
                 </span>
               </div>

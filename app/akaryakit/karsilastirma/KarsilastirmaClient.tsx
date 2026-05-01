@@ -215,7 +215,7 @@ export default function KarsilastirmaClient({
                   return (
                     <tr
                       key={brand.brand}
-                      className="border-t border-gray-100 hover:bg-amber-50 transition-colors"
+                      className="border-t border-gray-100 hover:bg-[#ECFAF7] transition-colors"
                     >
                       {/* Marka hücresi */}
                       <td className="py-3.5 px-4">

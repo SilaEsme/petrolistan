@@ -53,7 +53,7 @@ export default function HomePage() {
   const fuelCardColors: Record<string, string> = {
     'Benzin 95': 'bg-[#0C447C]',
     'Motorin':   'bg-[#042C53]',
-    'LPG':       'bg-[#BA7517]',
+    'LPG':       'bg-[#0E7C7B]',
   }
   const previewNews    = news.slice(0, 3)
   const provinceName   = PROVINCES[province.padStart(2, '0')] ?? 'İstanbul'

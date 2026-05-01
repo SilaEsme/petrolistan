@@ -27,7 +27,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded bg-[#BA7517] flex items-center justify-center">
+              <div className="w-7 h-7 rounded bg-[#0E7C7B] flex items-center justify-center">
                 <span className="text-white font-bold text-xs">P</span>
               </div>
               <span className="text-white font-bold text-lg tracking-tight">
