@@ -42,7 +42,8 @@ export default function PriceCard({
   changePercent,
   source,
   updatedAt,
-}: Omit<Props, 'updatedAt' | 'change'> & { updatedAt?: string }) {
+  compact = false,
+}: Omit<Props, 'updatedAt' | 'change'> & { updatedAt?: string; compact?: boolean }) {
   const formattedValue = value.toLocaleString("tr-TR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -57,7 +58,7 @@ export default function PriceCard({
 
   return (
     <div
-      className="bg-white rounded-xl p-4 shadow-sm border border-gray-200/80 flex flex-col gap-3"
+      className={`bg-white rounded-xl ${compact ? 'p-3' : 'p-4'} shadow-sm border border-gray-200/80 flex flex-col gap-2`}
     >
       {/* Label + Source */}
       <div className="flex items-start justify-between gap-2">

@@ -1,8 +1,11 @@
 'use client'
+import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { usePrices, usePriceHistory, useNews, useFuelBrands } from '@/lib/api'
 import PriceCard from '@/components/prices/PriceCard'
 import PriceChart from '@/components/prices/PriceChart'
+import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
 
 const FUEL_FALLBACK = [
   { name: 'Benzin 95', value: 72.40 },
@@ -25,10 +28,13 @@ function formatDate(iso: string) {
 }
 
 export default function HomePage() {
-  const { prices, updatedAt, isLoading }          = usePrices()
-  const { history, isLoading: historyLoading }    = usePriceHistory()
-  const { news, isLoading: newsLoading }          = useNews()
-  const { data: fuelData, isLoading: fuelLoading } = useFuelBrands('34')
+  const router = useRouter()
+  const [province, setProvince] = useState('34')
+
+  const { prices, updatedAt, isLoading }           = usePrices()
+  const { history, isLoading: historyLoading }     = usePriceHistory()
+  const { news, isLoading: newsLoading }           = useNews()
+  const { data: fuelData, isLoading: fuelLoading } = useFuelBrands(province)
 
   const commodityPrices = prices.filter((p) => p.label !== 'Brent (TL karsiligi)')
 
@@ -44,6 +50,7 @@ export default function HomePage() {
 
   const isFuelFallback = brands.length === 0
   const previewNews    = news.slice(0, 3)
+  const provinceName   = PROVINCES[province.padStart(2, '0')] ?? 'İstanbul'
 
   const formattedTime = (() => {
     if (!updatedAt) return undefined
@@ -55,6 +62,13 @@ export default function HomePage() {
       return undefined
     }
   })()
+
+  function handleProvinceChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const code = e.target.value
+    setProvince(code)
+    const slug = provinceCodeToSlug[parseInt(code)]
+    if (slug) router.push(`/akaryakit/karsilastirma/${slug}`)
+  }
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6 space-y-8">
@@ -70,22 +84,25 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {newsLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-[84px] bg-gray-100 rounded-xl animate-pulse" />
+                <div key={i} className="h-[96px] bg-gray-100 rounded-xl animate-pulse" />
               ))
             : previewNews.map((item) => (
                 <Link
                   key={item.id}
                   href={`/haberler/${item.slug}`}
-                  className="block group p-4 rounded-xl border border-gray-100 hover:border-[#0C447C]/20 hover:bg-gray-50/60 transition-all"
+                  className="block group p-4 rounded-xl border border-gray-100 hover:border-[#0C447C]/30 hover:bg-gray-50/60 transition-all"
                 >
                   <p className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-[#0C447C] transition-colors mb-2 line-clamp-2">
                     {item.title}
                   </p>
-                  <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
-                    <span>{item.source}</span>
+                  <div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-2">
+                    <span className="font-semibold text-gray-500">{item.source}</span>
                     <span>·</span>
                     <span>{formatDate(item.publishedAt)}</span>
                   </div>
+                  <span className="text-[11px] text-[#185FA5] group-hover:underline">
+                    Devamını oku →
+                  </span>
                 </Link>
               ))}
         </div>
@@ -105,43 +122,55 @@ export default function HomePage() {
 
         {/* Akaryakıt — büyük kartlar */}
         <div className="mb-6">
-          <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-3">
-            Akaryakıt — İstanbul Ortalaması
-          </p>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
+              Akaryakıt — {provinceName} Ortalaması
+            </p>
+            <select
+              value={province}
+              onChange={handleProvinceChange}
+              className="border border-[#0C447C]/40 rounded-md px-2 py-1 text-[12px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30 focus:border-[#0C447C]"
+            >
+              {Object.entries(PROVINCES).map(([code, name]) => (
+                <option key={code} value={String(parseInt(code))}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {fuelLoading
               ? Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="h-28 bg-gray-100 rounded-xl animate-pulse" />
+                  <div key={i} className="h-32 bg-gray-100 rounded-xl animate-pulse" />
                 ))
               : fuelItems.map((item) => (
-                  <div
+                  <Link
                     key={item.name}
-                    className="bg-white rounded-xl p-5 border border-gray-200/80 shadow-sm"
+                    href={`/akaryakit/karsilastirma?province=${province}`}
+                    className="block group bg-white rounded-xl p-5 border border-gray-200/80 shadow-sm hover:shadow-md hover:border-[#0C447C]/20 transition-all cursor-pointer"
                   >
                     <p className="text-xs text-gray-500 font-medium mb-2">{item.name}</p>
-                    <p className="text-3xl font-bold text-[#042C53] tabular-nums leading-none">
+                    <p className="text-4xl font-bold text-[#0C447C] tabular-nums leading-none">
                       {item.value.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       <span className="text-base font-medium text-gray-400 ml-1.5">₺/L</span>
                     </p>
                     <p className="text-[10px] text-gray-400 mt-2">
                       {isFuelFallback
                         ? 'Kaynak: EPDK · Haftalık güncelleme'
-                        : `${brands.length} marka ortalaması`}
+                        : `${provinceName} ortalaması · ${brands.length} marka`}
                     </p>
-                  </div>
+                    <p className="text-[11px] text-[#185FA5] mt-3 group-hover:underline">
+                      Markaları karşılaştır →
+                    </p>
+                  </Link>
                 ))}
           </div>
-          <Link
-            href="/akaryakit/karsilastirma?province=34"
-            className="mt-2 inline-block text-[11px] text-[#185FA5] hover:underline"
-          >
-            Marka karşılaştırması →
-          </Link>
         </div>
 
         {/* Ham Petrol & Doğalgaz — küçük kartlar */}
         <div>
-          <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-3">
+          <p className="text-sm font-normal text-gray-400 uppercase tracking-wider mb-3">
             Ham Petrol &amp; Doğalgaz
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -149,18 +178,18 @@ export default function HomePage() {
               ? Array.from({ length: 3 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-xl p-4 border border-gray-200/80 flex flex-col gap-3 animate-pulse"
+                    className="bg-white rounded-xl p-3 border border-gray-200/80 flex flex-col gap-2 animate-pulse"
                   >
                     <div className="flex justify-between">
                       <div className="h-4 w-24 bg-gray-200 rounded" />
                       <div className="h-3 w-10 bg-gray-100 rounded" />
                     </div>
-                    <div className="h-8 w-28 bg-gray-200 rounded" />
+                    <div className="h-7 w-28 bg-gray-200 rounded" />
                     <div className="h-4 w-20 bg-gray-100 rounded" />
                   </div>
                 ))
               : commodityPrices.map((item) => (
-                  <PriceCard key={item.label} {...item} updatedAt={updatedAt} />
+                  <PriceCard key={item.label} {...item} updatedAt={updatedAt} compact />
                 ))}
           </div>
         </div>
