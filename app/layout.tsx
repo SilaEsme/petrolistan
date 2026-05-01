@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { Topbar, Navbar, Ticker, Footer } from "@/components/layout";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
         <Ticker />
         <main className="flex-1">{children}</main>
         <Footer />
+        <GoogleAnalytics gaId="G-0R88KQWF2W" />
       </body>
     </html>
   );
