@@ -42,12 +42,7 @@ export default function PriceCard({
   changePercent,
   source,
   updatedAt,
-  featured = false,
 }: Omit<Props, 'updatedAt' | 'change'> & { updatedAt?: string }) {
-  const borderClass = featured
-    ? "border-[#378ADD] border-2"
-    : "border-gray-200/80 border";
-
   const formattedValue = value.toLocaleString("tr-TR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -62,14 +57,8 @@ export default function PriceCard({
 
   return (
     <div
-      className={`bg-white rounded-xl p-4 shadow-sm ${borderClass} flex flex-col gap-3 relative overflow-hidden`}
+      className="bg-white rounded-xl p-4 shadow-sm border border-gray-200/80 flex flex-col gap-3"
     >
-      {featured && (
-        <div className="absolute top-0 right-0 bg-[#378ADD] text-white text-[10px] font-bold px-2 py-0.5 rounded-bl-lg">
-          ÖNE ÇIKAN
-        </div>
-      )}
-
       {/* Label + Source */}
       <div className="flex items-start justify-between gap-2">
         <span className="text-[#042C53] font-semibold text-sm leading-tight">
