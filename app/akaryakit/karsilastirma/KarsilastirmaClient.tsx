@@ -100,11 +100,12 @@ export default function KarsilastirmaClient({
     }
   }
 
-  const brands = data?.data ?? []
+  const brands          = data?.data ?? []
+  const eligibleBrands  = brands.filter(b => b.brand !== 'Moil')
 
-  const gasolineVals = nonZero(brands, 'gasoline')
-  const dieselVals   = nonZero(brands, 'diesel')
-  const lpgVals      = nonZero(brands, 'lpg')
+  const gasolineVals = nonZero(eligibleBrands, 'gasoline')
+  const dieselVals   = nonZero(eligibleBrands, 'diesel')
+  const lpgVals      = nonZero(eligibleBrands, 'lpg')
 
   const minG = gasolineVals.length ? Math.min(...gasolineVals) : 0
   const maxG = gasolineVals.length ? Math.max(...gasolineVals) : 0
@@ -113,11 +114,11 @@ export default function KarsilastirmaClient({
   const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
-  const cheapestGasoline = brands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
-  const cheapestDiesel   = brands.filter(b => b.diesel   > 0).sort((a, b) => a.diesel   - b.diesel  )[0]
-  const cheapestLpg      = brands.filter(b => b.lpg      > 0).sort((a, b) => a.lpg      - b.lpg     )[0]
-  const expensiveGasoline = brands.filter(b => b.gasoline > 0).sort((a, b) => b.gasoline - a.gasoline)[0]
-  const expensiveDiesel   = brands.filter(b => b.diesel   > 0).sort((a, b) => b.diesel   - a.diesel  )[0]
+  const cheapestGasoline  = eligibleBrands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
+  const cheapestDiesel    = eligibleBrands.filter(b => b.diesel   > 0).sort((a, b) => a.diesel   - b.diesel  )[0]
+  const cheapestLpg       = eligibleBrands.filter(b => b.lpg      > 0).sort((a, b) => a.lpg      - b.lpg     )[0]
+  const expensiveGasoline = eligibleBrands.filter(b => b.gasoline > 0).sort((a, b) => b.gasoline - a.gasoline)[0]
+  const expensiveDiesel   = eligibleBrands.filter(b => b.diesel   > 0).sort((a, b) => b.diesel   - a.diesel  )[0]
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
@@ -238,9 +239,9 @@ export default function KarsilastirmaClient({
                       </td>
 
                       {/* Fiyat hücreleri */}
-                      <PriceCell val={brand.gasoline} isMin={brand.gasoline === minG} isMax={brand.gasoline === maxG} />
-                      <PriceCell val={brand.diesel}   isMin={brand.diesel   === minD} isMax={brand.diesel   === maxD} />
-                      <PriceCell val={brand.lpg}      isMin={brand.lpg      === minL} isMax={brand.lpg      === maxL} />
+                      <PriceCell val={brand.gasoline} isMin={!isNational && brand.gasoline === minG} isMax={!isNational && brand.gasoline === maxG} />
+                      <PriceCell val={brand.diesel}   isMin={!isNational && brand.diesel   === minD} isMax={!isNational && brand.diesel   === maxD} />
+                      <PriceCell val={brand.lpg}      isMin={!isNational && brand.lpg      === minL} isMax={!isNational && brand.lpg      === maxL} />
                     </tr>
                   )
                 })}
