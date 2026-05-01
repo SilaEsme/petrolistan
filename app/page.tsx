@@ -49,6 +49,12 @@ export default function HomePage() {
       : FUEL_FALLBACK
 
   const isFuelFallback = brands.length === 0
+
+  const fuelCardColors: Record<string, string> = {
+    'Benzin 95': 'bg-[#0C447C]',
+    'Motorin':   'bg-[#042C53]',
+    'LPG':       'bg-[#BA7517]',
+  }
   const previewNews    = news.slice(0, 3)
   const provinceName   = PROVINCES[province.padStart(2, '0')] ?? 'İstanbul'
 
@@ -123,9 +129,9 @@ export default function HomePage() {
         {/* Akaryakıt — büyük kartlar */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
-              Akaryakıt — {provinceName} Ortalaması
-            </p>
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Akaryakıt Fiyatları
+            </span>
             <select
               value={province}
               onChange={handleProvinceChange}
@@ -148,19 +154,19 @@ export default function HomePage() {
                   <Link
                     key={item.name}
                     href={`/akaryakit/karsilastirma?province=${province}`}
-                    className="block group bg-white rounded-xl p-5 border border-gray-200/80 shadow-sm hover:shadow-md hover:border-[#0C447C]/20 transition-all cursor-pointer"
+                    className={`block ${fuelCardColors[item.name] ?? 'bg-[#0C447C]'} text-white rounded-xl p-5 shadow-sm hover:opacity-90 transition-opacity cursor-pointer`}
                   >
-                    <p className="text-xs text-gray-500 font-medium mb-2">{item.name}</p>
-                    <p className="text-4xl font-bold text-[#0C447C] tabular-nums leading-none">
+                    <p className="text-xs font-medium text-white/80 mb-2">{item.name}</p>
+                    <p className="text-5xl font-bold tabular-nums leading-none">
                       {item.value.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      <span className="text-base font-medium text-gray-400 ml-1.5">₺/L</span>
+                      <span className="text-base font-medium text-white/60 ml-1.5">₺/L</span>
                     </p>
-                    <p className="text-[10px] text-gray-400 mt-2">
+                    <p className="text-white/60 text-xs mt-2">
                       {isFuelFallback
                         ? 'Kaynak: EPDK · Haftalık güncelleme'
                         : `${provinceName} ortalaması · ${brands.length} marka`}
                     </p>
-                    <p className="text-[11px] text-[#185FA5] mt-3 group-hover:underline">
+                    <p className="text-white/70 text-sm mt-3">
                       Markaları karşılaştır →
                     </p>
                   </Link>
