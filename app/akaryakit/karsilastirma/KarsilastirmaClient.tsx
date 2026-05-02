@@ -41,7 +41,7 @@ interface PriceCellProps {
 }
 function PriceCell({ val, isMin, isMax, hidden }: PriceCellProps) {
   const tdClass = [
-    'py-3.5 px-4 text-right tabular-nums',
+    'py-2.5 sm:py-3.5 px-2 sm:px-4 text-right tabular-nums',
     hidden ? 'hidden sm:table-cell' : '',
     isMin ? 'bg-[#ECFDF5]' : isMax ? 'bg-[#FEF2F2]' : '',
   ].join(' ')
@@ -60,16 +60,16 @@ function PriceCell({ val, isMin, isMax, hidden }: PriceCellProps) {
     <td className={tdClass}>
       <span className="inline-flex items-center gap-2 justify-end">
         {isMin && (
-          <span className="w-[18px] h-[18px] rounded-full bg-[#10B981] text-white flex items-center justify-center flex-shrink-0">
+          <span className="hidden sm:flex w-[18px] h-[18px] rounded-full bg-[#10B981] text-white items-center justify-center flex-shrink-0">
             <CheckIcon />
           </span>
         )}
         {isMax && (
-          <span className="w-[18px] h-[18px] rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center flex-shrink-0">
+          <span className="hidden sm:flex w-[18px] h-[18px] rounded-full bg-[#FEE2E2] text-[#DC2626] items-center justify-center flex-shrink-0">
             <TriangleIcon />
           </span>
         )}
-        <span className={`text-[13px] ${priceClass}`}>{fmt(val)} ₺</span>
+        <span className={`text-xs sm:text-[13px] ${priceClass}`}>{fmt(val)} ₺</span>
       </span>
     </td>
   )
