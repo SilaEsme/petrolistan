@@ -32,10 +32,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const cityName = PROVINCES[String(code).padStart(2, '0')] ?? il
 
   return {
-    title: `${cityName} Akaryakıt Fiyatları — OPET Shell Petrol Ofisi Karşılaştırma | Petrolistan`,
-    description: `${cityName} için güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz marka karşılaştırması. ${new Date().toLocaleDateString('tr-TR')} güncel fiyatlar.`,
+    title: `${cityName} Benzin ve Motorin Fiyatları — OPET Shell Karşılaştırma | Petrolistan`,
+    description: `${new Date().toLocaleDateString('tr-TR')} itibarıyla ${cityName} güncel benzin fiyatı, motorin fiyatı ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total marka karşılaştırması.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
-    robots: { index: false, follow: true },
+    robots: { index: true, follow: true },
   }
 }
 
@@ -65,6 +65,26 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
         <KarsilastirmaClient initialData={initialData} initialProvince={provinceStr} />
       </Suspense>
+      <div className="max-w-5xl mx-auto px-4 md:px-8 pb-10">
+        <section className="mt-8 prose prose-sm max-w-none text-gray-600">
+          <h2 className="text-base font-semibold text-gray-800 mb-2">
+            {cityName} Akaryakıt Fiyatları Hakkında
+          </h2>
+          <p>
+            {cityName} ili için güncel benzin 95, motorin ve LPG fiyatları
+            yukarıdaki tabloda anlık olarak güncellenmektedir.
+            OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil ve Total gibi
+            başlıca akaryakıt markalarının {cityName} pompa fiyatlarını
+            karşılaştırarak en uygun istasyonu bulabilirsiniz.
+          </p>
+          <p>
+            Akaryakıt fiyatları EPDK (Enerji Piyasası Düzenleme Kurumu)
+            düzenlemeleri çerçevesinde belirlenmekte olup günlük
+            değişkenlik gösterebilir. Petrolistan, {cityName} için
+            tüm marka fiyatlarını saatlik olarak güncellemektedir.
+          </p>
+        </section>
+      </div>
     </>
   )
 }
