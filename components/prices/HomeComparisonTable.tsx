@@ -122,7 +122,7 @@ export default function HomeComparisonTable() {
                 <div className="h-3 w-24 bg-gray-100 rounded animate-pulse" />
                 <div className="h-3 w-16 bg-gray-100 rounded animate-pulse ml-auto" />
                 <div className="h-3 w-16 bg-gray-100 rounded animate-pulse" />
-                <div className="h-3 w-12 bg-gray-100 rounded animate-pulse" />
+                <div className="hidden md:block h-3 w-12 bg-gray-100 rounded animate-pulse" />
               </div>
             ))}
           </div>
@@ -142,7 +142,7 @@ export default function HomeComparisonTable() {
                 <th className="px-3 py-1.5 text-left text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Marka</th>
                 <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Benzin 95</th>
                 <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Motorin</th>
-                <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">LPG</th>
+                <th className="hidden md:table-cell px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">LPG</th>
               </tr>
             </thead>
             <tbody>
@@ -173,7 +173,7 @@ export default function HomeComparisonTable() {
                         ? <span className={`text-sm ${priceClass(brand.diesel, minD, maxD, isNational)}`}>{fmt(brand.diesel)} ₺</span>
                         : <span className="text-gray-300 text-xs">—</span>}
                     </td>
-                    <td className="px-3 py-1.5 text-right tabular-nums">
+                    <td className="hidden md:table-cell px-3 py-1.5 text-right tabular-nums">
                       {brand.lpg > 0
                         ? <span className={`text-sm ${priceClass(brand.lpg, minL, maxL, isNational)}`}>{fmt(brand.lpg)} ₺</span>
                         : <span className="text-gray-300 text-xs">—</span>}

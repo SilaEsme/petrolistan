@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <>
       {/* 1. Hero */}
-      <div className="bg-[#0C447C] text-white py-4 px-4">
+      <div className="bg-[#0C447C] text-white py-3 sm:py-4 px-3 sm:px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-lg font-bold">Güncel Akaryakıt Fiyatları</h1>
           <p className="text-white/60 text-sm">Tüm markalar, seçtiğin ilde</p>
@@ -33,7 +33,7 @@ export default function HomePage() {
       <HomeComparisonTable />
 
       {/* 3. Piyasa fiyatları */}
-      <div className="max-w-5xl mx-auto px-4 pb-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-4 sm:pb-6">
         <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
           Ham Petrol &amp; Doğalgaz
         </p>
@@ -56,7 +56,7 @@ export default function HomePage() {
       </div>
 
       {/* 4. Son haberler */}
-      <div className="max-w-5xl mx-auto px-4 pb-10">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-6 sm:pb-10">
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Son Haberler</p>
           <Link href="/haberler" className="text-xs text-[#185FA5] hover:underline">

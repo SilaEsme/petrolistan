@@ -221,11 +221,11 @@ export default function KarsilastirmaClient({
                       {/* Marka hücresi */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-[26px] h-[26px] rounded-md bg-gray-100 text-[#0C447C] text-[11px] font-bold flex items-center justify-center flex-shrink-0">
+                          <div className="hidden sm:flex w-[26px] h-[26px] rounded-md bg-gray-100 text-[#0C447C] text-[11px] font-bold items-center justify-center flex-shrink-0">
                             {brandInitials(brand.brand)}
                           </div>
                           <div className="flex flex-wrap items-center gap-1">
-                            <span className="text-[14px] font-semibold text-[#0A1628]">{brand.brand}</span>
+                            <span className="text-xs sm:text-[14px] font-semibold text-[#0A1628]">{brand.brand}</span>
                             {isNational && (
                               <span className="text-[10px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
                                 ulusal fiyat
