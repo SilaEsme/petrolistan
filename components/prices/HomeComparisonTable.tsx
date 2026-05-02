@@ -158,6 +158,9 @@ export default function HomeComparisonTable() {
                             ulusal
                           </span>
                         )}
+                        {brand.brand === 'Total' && brand.gasoline === 0 && (
+                          <span className="text-[9px] text-gray-400">bu ilde yok</span>
+                        )}
                       </div>
                     </td>
                     <td className="px-3 py-1.5 text-right tabular-nums">

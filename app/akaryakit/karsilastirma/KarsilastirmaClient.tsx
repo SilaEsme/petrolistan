@@ -231,7 +231,10 @@ export default function KarsilastirmaClient({
                                 ulusal fiyat
                               </span>
                             )}
-                            {brand.error && (
+                            {brand.brand === 'Total' && brand.gasoline === 0 && (
+                              <span className="text-[10px] text-gray-400">bu ilde yok</span>
+                            )}
+                            {brand.error && brand.brand !== 'Total' && (
                               <span className="text-xs text-gray-400" title={brand.error}>⚠</span>
                             )}
                           </div>
