@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES } from '@/lib/provinces'
@@ -15,9 +15,61 @@ function nonZero(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
   return brands.map((b) => b[key]).filter((v) => v > 0)
 }
 
+const GEO_PROVINCES = [
+  { code: '01', lat: 37.00, lon: 35.32 },
+  { code: '02', lat: 37.76, lon: 38.28 },
+  { code: '03', lat: 38.75, lon: 30.54 },
+  { code: '06', lat: 39.93, lon: 32.85 },
+  { code: '07', lat: 36.90, lon: 30.70 },
+  { code: '16', lat: 40.19, lon: 29.06 },
+  { code: '21', lat: 37.91, lon: 40.24 },
+  { code: '27', lat: 37.06, lon: 37.38 },
+  { code: '31', lat: 36.20, lon: 36.16 },
+  { code: '33', lat: 36.81, lon: 34.64 },
+  { code: '34', lat: 41.01, lon: 28.97 },
+  { code: '35', lat: 38.42, lon: 27.14 },
+  { code: '38', lat: 38.72, lon: 35.49 },
+  { code: '41', lat: 40.77, lon: 29.96 },
+  { code: '42', lat: 37.87, lon: 32.49 },
+  { code: '45', lat: 38.61, lon: 27.43 },
+  { code: '46', lat: 37.58, lon: 36.92 },
+  { code: '48', lat: 37.21, lon: 28.36 },
+  { code: '54', lat: 40.69, lon: 30.43 },
+  { code: '55', lat: 41.29, lon: 36.33 },
+  { code: '59', lat: 40.98, lon: 27.51 },
+  { code: '61', lat: 40.99, lon: 39.73 },
+  { code: '63', lat: 37.16, lon: 38.79 },
+  { code: '65', lat: 38.49, lon: 43.41 },
+  { code: '67', lat: 41.45, lon: 31.79 },
+]
+
+function findNearestProvince(lat: number, lon: number): string {
+  let nearest = '34'
+  let minDist = Infinity
+  for (const p of GEO_PROVINCES) {
+    const dist = Math.sqrt(Math.pow(lat - p.lat, 2) + Math.pow(lon - p.lon, 2))
+    if (dist < minDist) { minDist = dist; nearest = p.code }
+  }
+  return nearest
+}
+
 export default function HomeComparisonTable() {
-  const [province, setProvince] = useState('34')
-  const { data, isLoading }     = useFuelBrands(province)
+  const [province,  setProvince]  = useState('34')
+  const [locating,  setLocating]  = useState(true)
+  const { data, isLoading }       = useFuelBrands(province)
+
+  useEffect(() => {
+    if (!navigator.geolocation) { setLocating(false); return }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const nearest = findNearestProvince(pos.coords.latitude, pos.coords.longitude)
+        setProvince(nearest)
+        setLocating(false)
+      },
+      () => setLocating(false),
+      { timeout: 5000 },
+    )
+  }, [])
 
   const brands         = data?.data ?? []
   const eligibleBrands = brands.filter((b) => b.brand !== 'Moil')
@@ -50,10 +102,12 @@ export default function HomeComparisonTable() {
             Marka Karşılaştırması
           </span>
           <select
-            value={province}
+            value={locating ? '' : province}
             onChange={(e) => setProvince(e.target.value)}
-            className="text-xs border border-gray-200 rounded px-2 py-0.5 text-gray-600 focus:outline-none focus:border-[#0C447C]"
+            disabled={locating}
+            className="text-xs border border-gray-200 rounded px-2 py-0.5 text-gray-600 focus:outline-none focus:border-[#0C447C] disabled:text-gray-400"
           >
+            {locating && <option value="">Konum alınıyor...</option>}
             {Object.entries(PROVINCES).map(([code, name]) => (
               <option key={code} value={code}>{name}</option>
             ))}
