@@ -11,58 +11,8 @@ function fmt(val: number) {
   return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
-function brandInitials(name: string): string {
-  const words = name.trim().split(/\s+/)
-  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
-  return name.slice(0, 2).toUpperCase()
-}
-
 function nonZero(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
   return brands.map((b) => b[key]).filter((v) => v > 0)
-}
-
-const CheckIcon = () => (
-  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-)
-const TriangleIcon = () => (
-  <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 4 L4 18 L20 18 Z" />
-  </svg>
-)
-
-function PriceCell({ val, isMin, isMax }: { val: number; isMin: boolean; isMax: boolean }) {
-  const tdClass = [
-    'py-2 px-3 text-right tabular-nums',
-    isMin ? 'bg-[#ECFDF5]' : isMax ? 'bg-[#FEF2F2]' : '',
-  ].join(' ')
-
-  if (val <= 0) return <td className={tdClass + ' text-gray-300'}>—</td>
-
-  const priceClass = isMin
-    ? 'text-[#047857] font-semibold'
-    : isMax
-      ? 'text-[#B91C1C] font-semibold'
-      : 'text-gray-600'
-
-  return (
-    <td className={tdClass}>
-      <span className="inline-flex items-center gap-1.5 justify-end">
-        {isMin && (
-          <span className="w-3 h-3 rounded-full bg-[#10B981] text-white flex items-center justify-center flex-shrink-0">
-            <CheckIcon />
-          </span>
-        )}
-        {isMax && (
-          <span className="w-3 h-3 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center flex-shrink-0">
-            <TriangleIcon />
-          </span>
-        )}
-        <span className={`text-xs ${priceClass}`}>{fmt(val)} ₺</span>
-      </span>
-    </td>
-  )
 }
 
 export default function HomeComparisonTable() {
@@ -83,117 +33,116 @@ export default function HomeComparisonTable() {
   const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
-  const provinceName = PROVINCES[province] ?? 'İstanbul'
+  function priceClass(val: number, min: number, max: number, isNational: boolean) {
+    if (isNational || val <= 0) return 'text-gray-500'
+    if (val === min) return 'text-green-600 font-bold'
+    if (val === max) return 'text-red-500 font-bold'
+    return 'text-gray-700'
+  }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-4">
-      {/* Başlık + il seçici */}
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-0.5">
+    <div className="max-w-5xl mx-auto px-4 py-3">
+      <div className="bg-white rounded-lg overflow-hidden">
+
+        {/* Başlık */}
+        <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
             Marka Karşılaştırması
-          </p>
-          <h2 className="text-base font-bold text-[#042C53]">{provinceName}</h2>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-            İl seç
-          </label>
+          </span>
           <select
             value={province}
             onChange={(e) => setProvince(e.target.value)}
-            className="border border-[#0C447C]/40 rounded-md px-2 py-1 text-[12px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30 focus:border-[#0C447C]"
+            className="text-xs border border-gray-200 rounded px-2 py-0.5 text-gray-600 focus:outline-none focus:border-[#0C447C]"
           >
             {Object.entries(PROVINCES).map(([code, name]) => (
               <option key={code} value={code}>{name}</option>
             ))}
           </select>
         </div>
-      </div>
 
-      {/* Yükleniyor */}
-      {isLoading && brands.length === 0 && (
-        <div className="rounded-xl border border-gray-100 overflow-hidden">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="flex gap-4 px-4 py-4 border-t border-gray-100 first:border-0">
-              <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
-              <div className="h-4 w-20 bg-gray-100 rounded animate-pulse ml-auto" />
-              <div className="h-4 w-20 bg-gray-100 rounded animate-pulse" />
-              <div className="h-4 w-16 bg-gray-100 rounded animate-pulse" />
-            </div>
-          ))}
+        {/* Yükleniyor */}
+        {isLoading && brands.length === 0 && (
+          <div>
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div key={i} className="flex gap-4 px-3 py-1.5 border-b border-gray-50">
+                <div className="h-3 w-24 bg-gray-100 rounded animate-pulse" />
+                <div className="h-3 w-16 bg-gray-100 rounded animate-pulse ml-auto" />
+                <div className="h-3 w-16 bg-gray-100 rounded animate-pulse" />
+                <div className="h-3 w-12 bg-gray-100 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tablo */}
+        {brands.length > 0 && (
+          <table className="w-full" style={{ borderCollapse: 'collapse' }}>
+            <colgroup>
+              <col style={{ width: '34%' }} />
+              <col style={{ width: '22%' }} />
+              <col style={{ width: '22%' }} />
+              <col style={{ width: '22%' }} />
+            </colgroup>
+            <thead>
+              <tr className="border-b border-gray-100">
+                <th className="px-3 py-1.5 text-left text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Marka</th>
+                <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Benzin 95</th>
+                <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Motorin</th>
+                <th className="px-3 py-1.5 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">LPG</th>
+              </tr>
+            </thead>
+            <tbody>
+              {brands.map((brand) => {
+                const isNational = NATIONAL_BRANDS.has(brand.brand)
+                return (
+                  <tr key={brand.brand} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="px-3 py-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-medium text-gray-800">{brand.brand}</span>
+                        {isNational && (
+                          <span className="text-[9px] text-gray-400 border border-gray-200 rounded px-1 py-0 leading-none">
+                            ulusal
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-3 py-1.5 text-right tabular-nums">
+                      {brand.gasoline > 0
+                        ? <span className={`text-sm ${priceClass(brand.gasoline, minG, maxG, isNational)}`}>{fmt(brand.gasoline)} ₺</span>
+                        : <span className="text-gray-300 text-xs">—</span>}
+                    </td>
+                    <td className="px-3 py-1.5 text-right tabular-nums">
+                      {brand.diesel > 0
+                        ? <span className={`text-sm ${priceClass(brand.diesel, minD, maxD, isNational)}`}>{fmt(brand.diesel)} ₺</span>
+                        : <span className="text-gray-300 text-xs">—</span>}
+                    </td>
+                    <td className="px-3 py-1.5 text-right tabular-nums">
+                      {brand.lpg > 0
+                        ? <span className={`text-sm ${priceClass(brand.lpg, minL, maxL, isNational)}`}>{fmt(brand.lpg)} ₺</span>
+                        : <span className="text-gray-300 text-xs">—</span>}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        )}
+
+        {/* Alt bilgi */}
+        <div className="px-3 py-1.5 flex items-center justify-between border-t border-gray-100">
+          <div className="flex items-center gap-3 text-[10px] text-gray-400">
+            <span className="text-green-600">● En ucuz</span>
+            <span className="text-red-400">● En yüksek</span>
+          </div>
+          <Link
+            href={`/akaryakit/karsilastirma?province=${province}`}
+            className="text-[11px] text-[#0C447C] hover:underline"
+          >
+            Tüm illeri →
+          </Link>
         </div>
-      )}
 
-      {/* Tablo */}
-      {brands.length > 0 && (
-        <>
-          <div className="overflow-x-auto rounded-[14px] border border-gray-200 shadow-sm">
-            <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
-              <colgroup>
-                <col style={{ width: '34%' }} />
-                <col style={{ width: '22%' }} />
-                <col style={{ width: '22%' }} />
-                <col style={{ width: '22%' }} />
-              </colgroup>
-              <thead>
-                <tr className="bg-[#0C447C] text-white">
-                  <th className="py-2 px-3 text-left text-xs font-semibold uppercase tracking-[0.06em] text-white/85">Marka</th>
-                  <th className="py-2 px-3 text-right text-xs font-semibold uppercase tracking-[0.06em] text-white/85">Benzin 95</th>
-                  <th className="py-2 px-3 text-right text-xs font-semibold uppercase tracking-[0.06em] text-white/85">Motorin</th>
-                  <th className="py-2 px-3 text-right text-xs font-semibold uppercase tracking-[0.06em] text-white/85">LPG</th>
-                </tr>
-              </thead>
-              <tbody>
-                {brands.map((brand) => {
-                  const isNational = NATIONAL_BRANDS.has(brand.brand)
-                  return (
-                    <tr key={brand.brand} className="border-t border-gray-100 hover:bg-[#ECFAF7] transition-colors">
-                      <td className="py-2 px-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-md bg-gray-100 text-[#0C447C] text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-                            {brandInitials(brand.brand)}
-                          </div>
-                          <div className="flex flex-wrap items-center gap-1">
-                            <span className="text-sm font-medium text-[#0A1628]">{brand.brand}</span>
-                            {isNational && (
-                              <span className="text-[9px] font-normal text-gray-400 border border-gray-200 rounded px-1 py-0.5 leading-none">
-                                ulusal fiyat
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <PriceCell val={brand.gasoline} isMin={!isNational && brand.gasoline === minG} isMax={!isNational && brand.gasoline === maxG} />
-                      <PriceCell val={brand.diesel}   isMin={!isNational && brand.diesel   === minD} isMax={!isNational && brand.diesel   === maxD} />
-                      <PriceCell val={brand.lpg}      isMin={!isNational && brand.lpg      === minL} isMax={!isNational && brand.lpg      === maxL} />
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-2 flex items-center justify-between text-[11px] text-gray-500">
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-[#10B981] inline-block" />
-                En ucuz
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-[#FEE2E2] inline-block" />
-                En yüksek
-              </span>
-            </div>
-            <Link
-              href={`/akaryakit/karsilastirma?province=${province}`}
-              className="text-xs text-[#185FA5] hover:underline"
-            >
-              Tüm illeri karşılaştır →
-            </Link>
-          </div>
-        </>
-      )}
+      </div>
     </div>
   )
 }
