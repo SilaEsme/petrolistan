@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Hakkımızda | Petrolistan',
-  description: 'Petrolistan, Türkiye\'nin petrol ve enerji sektörüne odaklanan bağımsız bir veri ve haber platformudur.',
+  title: 'Hakkımızda — Bağımsız Enerji Veri Platformu',
+  description: 'Petrolistan, Türkiye\'deki akaryakıt, ham petrol ve doğalgaz fiyatlarını EPDK, TCMB ve EIA verilerine dayalı olarak yayınlayan bağımsız bir platform.',
+  alternates: { canonical: 'https://petrolistan.com/hakkimizda' },
 }
 
 const orgSchema = {

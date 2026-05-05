@@ -10,9 +10,12 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: 'Petrolistan — Türkiye Petrol & Enerji Fiyatları',
+  title: {
+    default: 'Benzin ve Motorin Fiyatları — Güncel Karşılaştırma | Petrolistan',
+    template: '%s | Petrolistan',
+  },
   description:
-    'Güncel benzin, motorin, LPG fiyatları. Brent, WTI ham petrol fiyatları. OPET, Shell, Petrol Ofisi marka karşılaştırması. Türkiye enerji haberleri.',
+    'Türkiye\'de güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz fiyatlarını 81 ilde karşılaştırın. Brent ham petrol ve döviz kurunu anlık takip edin.',
   keywords: [
     'benzin fiyatı',
     'motorin fiyatı',
@@ -20,10 +23,13 @@ export const metadata: Metadata = {
     'petrol fiyatı',
     'LPG fiyatı',
     'brent petrol',
+    'OPET fiyatları',
+    'Shell fiyatları',
+    'Petrol Ofisi fiyatları',
   ],
   openGraph: {
-    title: 'Petrolistan — Türkiye Petrol & Enerji Fiyatları',
-    description: 'Güncel akaryakıt ve petrol fiyatları',
+    title: 'Benzin ve Motorin Fiyatları — Güncel Karşılaştırma | Petrolistan',
+    description: 'OPET, Shell, Petrol Ofisi fiyatlarını 81 ilde karşılaştırın. Güncel benzin, motorin, LPG ve ham petrol fiyatları.',
     url: 'https://petrolistan.com',
     siteName: 'Petrolistan',
     locale: 'tr_TR',
@@ -31,6 +37,25 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://petrolistan.com' },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Petrolistan',
+  url: 'https://petrolistan.com',
+  description: 'Türkiye\'de güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi karşılaştırması.',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Petrolistan',
+    url: 'https://petrolistan.com',
+    logo: { '@type': 'ImageObject', url: 'https://petrolistan.com/favicon.ico' },
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://petrolistan.com/akaryakit/karsilastirma?province={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 export default function RootLayout({
@@ -49,6 +74,10 @@ export default function RootLayout({
         strategy="afterInteractive"
       />
       <body className="min-h-full flex flex-col bg-[#F5F5F0] text-gray-900">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <Topbar />
         <Navbar />
         <Ticker />
