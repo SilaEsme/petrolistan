@@ -12,7 +12,7 @@ const articleSchema = {
   headline: 'Türkiye\'nin Enerji İthalatı: Ekonomik Etkiler ve Riskler',
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal Ekibi' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
-  datePublished: '2026-04-16',
+  datePublished: '2026-03-11',
   image: 'https://petrolistan.com/og-image.jpg',
   description: 'Yılda 50 milyar doları aşan enerji ithalatının Türkiye ekonomisine, cari açığa ve döviz rezervlerine etkileri.',
 }
@@ -24,7 +24,7 @@ export default function TurkiyeEnerjiIthalatiPage() {
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#E1F5EE', color: '#085041' }}>TÜRKİYE</span>
-          <span className="text-xs text-gray-400">16 Nisan 2026</span>
+          <span className="text-xs text-gray-400">11 Mart 2026</span>
           <span className="text-xs text-gray-400">·</span>
           <span className="text-xs text-gray-400">9 dk okuma</span>
         </div>

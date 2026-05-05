@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Doğalgaz Fiyatları | Petrolistan',
-  description: 'TTF ve Henry Hub doğalgaz fiyat endeksleri, Türkiye\'nin doğalgaz ithalatı ve BOTAŞ hakkında bilgi.',
+  title: 'Doğalgaz Fiyatları 2026 | TTF, BOTAŞ ve Türkiye | Petrolistan',
+  description: 'Güncel TTF ve Henry Hub doğalgaz fiyatları. Türkiye\'nin doğalgaz ithalatı, BOTAŞ tarifeleri, TürkAkım ve TANAP boru hatları hakkında kapsamlı bilgi.',
 }
 
 export default function DogalgazPage() {
@@ -11,7 +11,7 @@ export default function DogalgazPage() {
     <main className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-dark mb-2">Doğalgaz Fiyatları</h1>
       <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
-        Küresel doğalgaz piyasaları ve Türkiye&apos;nin doğalgaz tedarik dengesi hakkında temel bilgiler.
+        Küresel doğalgaz piyasaları, TTF endeksi ve Türkiye&apos;nin doğalgaz tedarik dengesi.
       </p>
 
       <section className="mb-10">
@@ -50,6 +50,51 @@ export default function DogalgazPage() {
           </p>
         </div>
       </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold text-brand mb-3">Doğalgaz Fiyatını Etkileyen Faktörler</h2>
+        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+          <p>
+            Doğalgaz fiyatları, ham petrole kıyasla farklı dinamikler tarafından şekillenmektedir. Başlıca faktörler şunlardır:
+          </p>
+          <ul className="list-disc list-inside space-y-2 pl-2">
+            <li>
+              <strong>Mevsimsel talep:</strong> Kış aylarında ısınma amaçlı talebin artması TTF fiyatlarını yukarı iter. Yaz aylarında talep düşer, stoklar yenilenir.
+            </li>
+            <li>
+              <strong>Avrupa depo doluluk oranları:</strong> Kış öncesinde Avrupa&apos;nın doğalgaz depolarının doluluk durumu, fiyatlar üzerinde belirleyici etkiye sahiptir.
+            </li>
+            <li>
+              <strong>Rusya-Avrupa gerilimleri:</strong> 2022 krizi ardından Avrupa&apos;nın Rus gazına bağımlılığı azalsa da jeopolitik gelişmeler fiyat volatilitesini artırmaktadır.
+            </li>
+            <li>
+              <strong>LNG arzı ve navlun maliyetleri:</strong> Küresel LNG tesislerinin kapasitesi ve tanker navlun fiyatları kısa vadeli denge üzerinde etkilidir.
+            </li>
+            <li>
+              <strong>Yenilenebilir enerji üretimi:</strong> Güneş ve rüzgar santrallerinden üretilen elektriğin miktarı, gaz kullanımını azaltabilir; soğuk veya bulutlu dönemlerde gaz talebi artar.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold text-brand mb-3">Türkiye&apos;nin Sakarya Gaz Sahası</h2>
+        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+          <p>
+            2020 yılında Karadeniz&apos;de keşfedilen Sakarya doğalgaz sahası, Türkiye tarihinin en büyük doğalgaz keşfi olarak kayıtlara geçmiştir. Rezervlerin <strong>540 milyar metreküp</strong> civarında olduğu tahmin edilmektedir. Saha, Filyos kıyılarına bağlı boru hatları aracılığıyla 2023 yılında üretime geçmiş ve aşamalı olarak kapasitesi artırılmaktadır.
+          </p>
+          <p>
+            Bu saha tam kapasiteye ulaştığında Türkiye&apos;nin yurt içi doğalgaz üretimini önemli ölçüde artırması ve ithalat bağımlılığını azaltması beklenmektedir. Ancak Sakarya&apos;nın Türkiye&apos;nin toplam tüketimini karşılama oranı uzun vadede bile sınırlı kalmaya devam edecektir.
+          </p>
+        </div>
+      </section>
+
+      <div className="mb-8 p-4 bg-blue-50/50 border border-blue-100 rounded-xl text-sm text-gray-600">
+        Türkiye&apos;nin enerji ithalatının ekonomiye etkilerini anlamak için{' '}
+        <Link href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] font-medium hover:underline">
+          Türkiye&apos;nin Enerji İthalatı: Ekonomik Etkiler →
+        </Link>
+      </div>
 
       <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>

@@ -6,15 +6,27 @@ export const metadata: Metadata = {
   description: 'Türkiye\'de benzin fiyatlarının yüksek olmasının arkasındaki nedenler: ÖTV, KDV, döviz kuru, ham petrol maliyeti ve dağıtım marjları.',
 }
 
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: "Türkiye'de Benzin Neden Bu Kadar Pahalı? | Petrolistan Analiz",
+  description: "Türkiye'de benzin fiyatlarının yüksek olmasının arkasındaki nedenler: ÖTV, KDV, döviz kuru, ham petrol maliyeti ve dağıtım marjları.",
+  datePublished: '2026-01-12',
+  url: 'https://petrolistan.com/analizler/turkiye-benzin-neden-pahali',
+  author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
+  publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
+}
 export default function TurkiyeBenzinNedenPahaliPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#FAEEDA', color: '#633806' }}>
           ANALİZ
         </span>
-        <span className="text-xs text-gray-400">16 Nisan 2026</span>
+        <span className="text-xs text-gray-400">12 Ocak 2026</span>
         <span className="text-xs text-gray-400">·</span>
         <span className="text-xs text-gray-400">7 dk okuma</span>
       </div>
@@ -136,6 +148,7 @@ export default function TurkiyeBenzinNedenPahaliPage() {
       </div>
 
       {/* Geri dön */}
+
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">
           ← Tüm analizler

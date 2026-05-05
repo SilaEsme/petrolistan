@@ -1,17 +1,12 @@
 import { MetadataRoute } from 'next'
-import { provinceSlugToCode } from '@/lib/provinces'
 
 const base = 'https://petrolistan.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
 
-  const ilPages: MetadataRoute.Sitemap = Object.keys(provinceSlugToCode).map((slug) => ({
-    url: `${base}/akaryakit/karsilastirma/${slug}`,
-    lastModified: now,
-    changeFrequency: 'weekly' as const,
-    priority: 0.3,
-  }))
+  // İl sayfaları noindex olduğu için sitemap'e dahil edilmiyor.
+  // Noindex + sitemap kombinasyonu çelişkili sinyal gönderir.
 
   const analizler = [
     'turkiye-benzin-neden-pahali',
@@ -51,6 +46,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/gizlilik`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${base}/reklam`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     ...analizPages,
-    ...ilPages,
   ]
 }

@@ -12,7 +12,7 @@ const articleSchema = {
   headline: 'LPG Otogaz: Avantajlar, Dezavantajlar ve Türkiye Verileri',
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal Ekibi' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
-  datePublished: '2026-04-16',
+  datePublished: '2026-03-25',
   image: 'https://petrolistan.com/og-image.jpg',
   description: 'LPG otogaz dönüşümünün maliyeti, geri ödeme süresi ve Türkiye otogaz piyasasının analizi.',
 }
@@ -24,7 +24,7 @@ export default function LpgOtogazPage() {
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#FAEEDA', color: '#633806' }}>ANALİZ</span>
-          <span className="text-xs text-gray-400">16 Nisan 2026</span>
+          <span className="text-xs text-gray-400">25 Mart 2026</span>
           <span className="text-xs text-gray-400">·</span>
           <span className="text-xs text-gray-400">8 dk okuma</span>
         </div>

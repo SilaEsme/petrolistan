@@ -127,6 +127,20 @@ export default function IletisimPage() {
               Petrolistan verilerini veya analizlerini haberlerinizde kullanmak için lütfen iletişime geçin. Kaynak gösterimi şartıyla içeriklerimiz kullanılabilir.
             </p>
           </div>
+
+          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-2">
+            <p className="text-xs font-medium text-gray-700">Kuruluş Bilgileri</p>
+            <div className="text-xs text-gray-500 leading-relaxed space-y-1">
+              <p><strong className="text-gray-600">Petrolistan</strong></p>
+              <p>İstanbul, Türkiye</p>
+              <p>
+                Editöryal ekip:{' '}
+                <a href="/hakkimizda" className="text-[#185FA5] hover:underline">
+                  Hakkımızda sayfasına bakın
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -14,7 +14,7 @@ const articles = [
     categoryColor: '#633806',
     title: 'Türkiye\'de Benzin Neden Bu Kadar Pahalı?',
     excerpt: 'ÖTV, KDV, döviz kuru ve dağıtım marjlarının pompa fiyatına yansıması. Vergi yükü ve yapısal nedenlerle kapsamlı analiz.',
-    date: '16 Nisan 2026',
+    date: '12 Ocak 2026',
     readingTime: 7,
   },
   {
@@ -24,7 +24,7 @@ const articles = [
     categoryColor: '#633806',
     title: 'Benzin Fiyatı Nasıl Hesaplanır? Pompa Fiyatının Anatomisi',
     excerpt: 'Ham petrolden pompaya uzanan yolda hangi maliyet kalemleri var? ÖTV, KDV, rafinaj, dağıtım ve bayi marjlarının detaylı analizi.',
-    date: '16 Nisan 2026',
+    date: '19 Ocak 2026',
     readingTime: 8,
   },
   {
@@ -34,7 +34,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?',
     excerpt: 'USD/TRY kurunun benzin ve motorin pompa fiyatlarına geçişkenliği, tarihsel örnekler ve 2025-2026 döneminin analizi.',
-    date: '16 Nisan 2026',
+    date: '27 Ocak 2026',
     readingTime: 8,
   },
   {
@@ -44,7 +44,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Türk Lirası ile Petrol Fiyatları Arasındaki İlişki',
     excerpt: 'TL/USD kurunun ham petrol fiyatlarıyla etkileşimi, kur-pompa fiyatı geçişkenliği ve Türkiye enerji maliyetine yansımaları.',
-    date: '16 Nisan 2026',
+    date: '3 Şubat 2026',
     readingTime: 8,
   },
   {
@@ -54,7 +54,7 @@ const articles = [
     categoryColor: '#0C447C',
     title: 'OPEC Kararları Türkiye\'yi Nasıl Etkiler?',
     excerpt: 'OPEC+ üretim kotalarının Türkiye\'nin akaryakıt fiyatlarına, cari açığına ve enflasyonuna yansımaları.',
-    date: '16 Nisan 2026',
+    date: '10 Şubat 2026',
     readingTime: 8,
   },
   {
@@ -64,7 +64,7 @@ const articles = [
     categoryColor: '#0C447C',
     title: 'OPEC+ Nedir, Nasıl Çalışır? Üretim Kotaları ve Küresel Etki',
     excerpt: 'OPEC+ yapısı, üye ülkeler, kota mekanizması ve küresel petrol fiyatları üzerindeki belirleyici etkinin kapsamlı analizi.',
-    date: '16 Nisan 2026',
+    date: '18 Şubat 2026',
     readingTime: 9,
   },
   {
@@ -74,7 +74,7 @@ const articles = [
     categoryColor: '#712B13',
     title: '2026 Petrol Fiyat Tahmini: Brent Nereye Gider?',
     excerpt: 'OPEC+ politikası, Çin talebi, jeopolitik riskler ve büyük bankaların 2026 Brent tahminlerinin analizi.',
-    date: '16 Nisan 2026',
+    date: '25 Şubat 2026',
     readingTime: 9,
   },
   {
@@ -84,7 +84,7 @@ const articles = [
     categoryColor: '#712B13',
     title: 'Kuzey Irak Petrolü ve Türkiye: Kerkük-Ceyhan Hattı Analizi',
     excerpt: 'Kerkük-Ceyhan boru hattı, Kürdistan Bölgesi petrol ihracatı ve Türkiye\'nin transit ülke konumunun stratejik önemi.',
-    date: '16 Nisan 2026',
+    date: '4 Mart 2026',
     readingTime: 9,
   },
   {
@@ -94,7 +94,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Türkiye\'nin Enerji İthalatı: Ekonomik Etkiler ve Riskler',
     excerpt: 'Yılda 50 milyar doları aşan enerji ithalatının cari açığa, döviz rezervlerine ve enflasyona etkileri.',
-    date: '16 Nisan 2026',
+    date: '11 Mart 2026',
     readingTime: 9,
   },
   {
@@ -104,7 +104,7 @@ const articles = [
     categoryColor: '#633806',
     title: 'Motorin mi Benzin mi? Hangisi Daha Avantajlı?',
     excerpt: 'Yakıt maliyeti, bakım giderleri, kullanım profili ve çevre etkisi açısından kapsamlı karşılaştırma.',
-    date: '16 Nisan 2026',
+    date: '18 Mart 2026',
     readingTime: 8,
   },
   {
@@ -114,7 +114,7 @@ const articles = [
     categoryColor: '#633806',
     title: 'LPG Otogaz: Avantajlar, Dezavantajlar ve Türkiye Verileri',
     excerpt: 'LPG dönüşüm maliyeti, geri ödeme süresi, yasal düzenlemeler ve Türkiye\'deki otogaz piyasasının kapsamlı analizi.',
-    date: '16 Nisan 2026',
+    date: '25 Mart 2026',
     readingTime: 8,
   },
   {
@@ -124,7 +124,7 @@ const articles = [
     categoryColor: '#633806',
     title: 'Rafine Petrol Ürünleri Nelerdir? Benzinden Bitüme Tam Rehber',
     excerpt: 'Ham petrolden elde edilen rafine ürünlerin tam listesi: benzin, motorin, jet yakıtı, LPG, bitüm ve petrokimya hammaddeleri.',
-    date: '16 Nisan 2026',
+    date: '1 Nisan 2026',
     readingTime: 8,
   },
   {
@@ -134,7 +134,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu',
     excerpt: 'Benzin ve motorin tüketiminizi yüzde 15-20 azaltabilecek sürüş teknikleri, araç bakım önerileri ve fiyat karşılaştırma stratejileri.',
-    date: '16 Nisan 2026',
+    date: '8 Nisan 2026',
     readingTime: 7,
   },
   {
@@ -144,7 +144,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Elektrikli Araç vs. Akaryakıt: Gerçek Maliyet Karşılaştırması',
     excerpt: 'Türkiye koşullarında km başına şarj maliyeti ile benzin-motorin maliyetinin gerçekçi ve rakamsal karşılaştırması.',
-    date: '16 Nisan 2026',
+    date: '15 Nisan 2026',
     readingTime: 9,
   },
   {
@@ -154,7 +154,7 @@ const articles = [
     categoryColor: '#085041',
     title: 'Sürdürülebilir Enerji ve Türkiye\'nin 2030 Hedefleri',
     excerpt: 'Yenilenebilir enerji kapasitesi, güneş-rüzgar yatırımları, Akkuyu nükleer santrali ve 2030 enerji dönüşüm hedefleri.',
-    date: '16 Nisan 2026',
+    date: '22 Nisan 2026',
     readingTime: 9,
   },
 ]
@@ -195,7 +195,7 @@ export default function AnalizlerPage() {
         ))}
       </div>
 
-      <div className="mt-12 bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="mt-8 bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-dark">Bültene kaydolun</p>
           <p className="text-xs text-gray-500 mt-0.5">Yeni analizler yayınlandığında ilk siz haberdar olun.</p>

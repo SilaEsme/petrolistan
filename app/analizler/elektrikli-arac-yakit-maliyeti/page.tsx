@@ -6,15 +6,27 @@ export const metadata: Metadata = {
   description: 'Elektrikli araçların şarj maliyeti ile benzinli ve dizel araçların yakıt masraflarının Türkiye koşullarında gerçekçi karşılaştırması.',
 }
 
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Elektrikli Araç vs. Akaryakıt: Gerçek Maliyet Karşılaştırması | Petrolistan Analiz',
+  description: 'Elektrikli araçların şarj maliyeti ile benzinli ve dizel araçların yakıt masraflarının Türkiye koşullarında gerçekçi karşılaştırması.',
+  datePublished: '2026-04-15',
+  url: 'https://petrolistan.com/analizler/elektrikli-arac-yakit-maliyeti',
+  author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
+  publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
+}
 export default function ElektrikliAracYakitMaliyetiPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#E1F5EE', color: '#085041' }}>
           TÜRKİYE
         </span>
-        <span className="text-xs text-gray-400">16 Nisan 2026</span>
+        <span className="text-xs text-gray-400">15 Nisan 2026</span>
         <span className="text-xs text-gray-400">·</span>
         <span className="text-xs text-gray-400">9 dk okuma</span>
       </div>
@@ -138,8 +150,6 @@ export default function ElektrikliAracYakitMaliyetiPage() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
-
-
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

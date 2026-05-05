@@ -6,15 +6,27 @@ export const metadata: Metadata = {
   description: '2026 yılı için küresel ham petrol fiyat tahminleri: OPEC+ politikası, talep görünümü, jeopolitik riskler ve analist beklentileri.',
 }
 
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: '2026 Petrol Fiyat Tahmini: Brent Nereye Gider? | Petrolistan Analiz',
+  description: '2026 yılı için küresel ham petrol fiyat tahminleri: OPEC+ politikası, talep görünümü, jeopolitik riskler ve analist beklentileri.',
+  datePublished: '2026-02-25',
+  url: 'https://petrolistan.com/analizler/2026-petrol-fiyat-tahmini',
+  author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
+  publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
+}
 export default function PetrolFiyatTahmini2026Page() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#FAECE7', color: '#712B13' }}>
           PAZAR
         </span>
-        <span className="text-xs text-gray-400">16 Nisan 2026</span>
+        <span className="text-xs text-gray-400">25 Şubat 2026</span>
         <span className="text-xs text-gray-400">·</span>
         <span className="text-xs text-gray-400">9 dk okuma</span>
       </div>
@@ -134,8 +146,6 @@ export default function PetrolFiyatTahmini2026Page() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
-
-
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

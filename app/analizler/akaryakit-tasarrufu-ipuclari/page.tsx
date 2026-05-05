@@ -12,7 +12,7 @@ const articleSchema = {
   headline: 'Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu',
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal Ekibi' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
-  datePublished: '2026-04-16',
+  datePublished: '2026-04-08',
   image: 'https://petrolistan.com/og-image.jpg',
   description: 'Benzin ve motorin tüketiminizi azaltacak kanıtlanmış sürüş teknikleri ve bakım önerileri.',
 }
@@ -24,7 +24,7 @@ export default function AkaryakitTasarrufulPage() {
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#E1F5EE', color: '#085041' }}>TÜRKİYE</span>
-          <span className="text-xs text-gray-400">16 Nisan 2026</span>
+          <span className="text-xs text-gray-400">8 Nisan 2026</span>
           <span className="text-xs text-gray-400">·</span>
           <span className="text-xs text-gray-400">7 dk okuma</span>
         </div>

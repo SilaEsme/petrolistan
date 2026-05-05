@@ -6,15 +6,27 @@ export const metadata: Metadata = {
   description: 'Motorin ve benzin araçların yakıt maliyeti, bakım giderleri, çevre etkisi ve kullanım profili açısından kapsamlı karşılaştırması.',
 }
 
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Motorin mi Benzin mi? Hangisi Daha Avantajlı? | Petrolistan Analiz',
+  description: 'Motorin ve benzin araçların yakıt maliyeti, bakım giderleri, çevre etkisi ve kullanım profili açısından kapsamlı karşılaştırması.',
+  datePublished: '2026-03-18',
+  url: 'https://petrolistan.com/analizler/motorin-mi-benzin-mi',
+  author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
+  publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
+}
 export default function MotorinMiBenzinMiPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#FAEEDA', color: '#633806' }}>
           ANALİZ
         </span>
-        <span className="text-xs text-gray-400">16 Nisan 2026</span>
+        <span className="text-xs text-gray-400">18 Mart 2026</span>
         <span className="text-xs text-gray-400">·</span>
         <span className="text-xs text-gray-400">8 dk okuma</span>
       </div>
@@ -138,8 +150,6 @@ export default function MotorinMiBenzinMiPage() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
-
-
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">
