@@ -38,11 +38,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-0R88KQWF2W';
+  const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID ?? 'ca-pub-5969246291079798';
   return (
     <html lang="tr" className={`${geistSans.variable} h-full antialiased`}>
       <Script
         async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5969246291079798"
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
         crossOrigin="anonymous"
         strategy="afterInteractive"
       />
@@ -53,7 +55,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-0R88KQWF2W"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -61,7 +63,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-0R88KQWF2W');
+            gtag('config', '${gaId}');
           `}
         </Script>
       </body>

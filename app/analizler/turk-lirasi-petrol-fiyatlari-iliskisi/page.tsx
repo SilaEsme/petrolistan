@@ -13,6 +13,7 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal Ekibi' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
   datePublished: '2026-04-16',
+  image: 'https://petrolistan.com/og-image.jpg',
   description: 'TL/USD kurunun ham petrol fiyatlarıyla etkileşimi ve Türkiye enerji maliyetine yansımaları.',
 }
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { memo, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
@@ -39,7 +40,7 @@ interface PriceCellProps {
   isMax: boolean
   hidden?: boolean
 }
-function PriceCell({ val, isMin, isMax, hidden }: PriceCellProps) {
+function PriceCellInner({ val, isMin, isMax, hidden }: PriceCellProps) {
   const tdClass = [
     'py-2.5 sm:py-3.5 px-2 sm:px-4 text-right tabular-nums',
     hidden ? 'hidden sm:table-cell' : '',
@@ -74,8 +75,9 @@ function PriceCell({ val, isMin, isMax, hidden }: PriceCellProps) {
     </td>
   )
 }
+const PriceCell = memo(PriceCellInner)
 
-export default function KarsilastirmaClient({
+export default function ComparisonClient({
   initialData,
   initialProvince,
 }: {
@@ -101,24 +103,30 @@ export default function KarsilastirmaClient({
   }
 
   const brands          = data?.data ?? []
-  const eligibleBrands  = brands.filter(b => b.brand !== 'Moil')
 
-  const gasolineVals = nonZero(eligibleBrands, 'gasoline')
-  const dieselVals   = nonZero(eligibleBrands, 'diesel')
-  const lpgVals      = nonZero(eligibleBrands, 'lpg')
+  const stats = useMemo(() => {
+    const eligibleBrands = brands.filter((b: BrandPrice) => b.brand !== 'Moil')
 
-  const minG = gasolineVals.length ? Math.min(...gasolineVals) : 0
-  const maxG = gasolineVals.length ? Math.max(...gasolineVals) : 0
-  const minD = dieselVals.length   ? Math.min(...dieselVals)   : 0
-  const maxD = dieselVals.length   ? Math.max(...dieselVals)   : 0
-  const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
-  const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
+    const gasolineVals = nonZero(eligibleBrands, 'gasoline')
+    const dieselVals   = nonZero(eligibleBrands, 'diesel')
+    const lpgVals      = nonZero(eligibleBrands, 'lpg')
 
-  const cheapestGasoline  = eligibleBrands.filter(b => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0]
-  const cheapestDiesel    = eligibleBrands.filter(b => b.diesel   > 0).sort((a, b) => a.diesel   - b.diesel  )[0]
-  const cheapestLpg       = eligibleBrands.filter(b => b.lpg      > 0).sort((a, b) => a.lpg      - b.lpg     )[0]
-  const expensiveGasoline = eligibleBrands.filter(b => b.gasoline > 0).sort((a, b) => b.gasoline - a.gasoline)[0]
-  const expensiveDiesel   = eligibleBrands.filter(b => b.diesel   > 0).sort((a, b) => b.diesel   - a.diesel  )[0]
+    return {
+      minG: gasolineVals.length ? Math.min(...gasolineVals) : 0,
+      maxG: gasolineVals.length ? Math.max(...gasolineVals) : 0,
+      minD: dieselVals.length   ? Math.min(...dieselVals)   : 0,
+      maxD: dieselVals.length   ? Math.max(...dieselVals)   : 0,
+      minL: lpgVals.length      ? Math.min(...lpgVals)      : 0,
+      maxL: lpgVals.length      ? Math.max(...lpgVals)      : 0,
+      cheapestGasoline:  eligibleBrands.filter((b: BrandPrice) => b.gasoline > 0).sort((a: BrandPrice, b: BrandPrice) => a.gasoline - b.gasoline)[0],
+      cheapestDiesel:    eligibleBrands.filter((b: BrandPrice) => b.diesel   > 0).sort((a: BrandPrice, b: BrandPrice) => a.diesel   - b.diesel  )[0],
+      cheapestLpg:       eligibleBrands.filter((b: BrandPrice) => b.lpg      > 0).sort((a: BrandPrice, b: BrandPrice) => a.lpg      - b.lpg     )[0],
+      expensiveGasoline: eligibleBrands.filter((b: BrandPrice) => b.gasoline > 0).sort((a: BrandPrice, b: BrandPrice) => b.gasoline - a.gasoline)[0],
+      expensiveDiesel:   eligibleBrands.filter((b: BrandPrice) => b.diesel   > 0).sort((a: BrandPrice, b: BrandPrice) => b.diesel   - a.diesel  )[0],
+    }
+  }, [brands])
+
+  const { minG, maxG, minD, maxD, minL, maxL, cheapestGasoline, cheapestDiesel, cheapestLpg, expensiveGasoline, expensiveDiesel } = stats
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">

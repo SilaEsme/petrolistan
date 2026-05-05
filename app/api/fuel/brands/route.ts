@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -7,17 +8,18 @@ export async function GET(request: Request) {
 
   try {
     const goUrl = process.env.GO_BACKEND_URL ?? 'http://localhost:8080'
-    const res = await fetch(
+    const res = await fetchWithTimeout(
       `${goUrl}/fuel/brands?province=${province}`,
-      { signal: AbortSignal.timeout(10000) }
+      { timeoutMs: 10000 }
     )
     if (!res.ok) throw new Error(`Go backend: ${res.status}`)
     const json = await res.json()
     return NextResponse.json(json, {
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     })
-  } catch (err: any) {
-    console.error('[/api/fuel/brands]', err.message)
-    return NextResponse.json({ error: err.message }, { status: 500 })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[/api/fuel/brands]', message)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

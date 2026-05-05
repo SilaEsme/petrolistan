@@ -30,7 +30,7 @@ export function usePrices() {
     {
       revalidateOnFocus: false,
       revalidateOnMount: true,
-      dedupingInterval: 0,
+      dedupingInterval: 10000,
       refreshInterval: 300_000,
     }
   );
@@ -79,7 +79,15 @@ export function useFuelBrands(province = '34', fallbackData?: BrandsResponse) {
   const { data, isLoading, error } = useSWR<BrandsResponse>(
     `/api/fuel/brands?province=${province}`,
     fetcher,
-    { refreshInterval: 3_600_000, fallbackData }
+    {
+      refreshInterval: 3_600_000,
+      fallbackData,
+      // When server-fetched fallbackData is present, skip the immediate
+      // client revalidation to avoid a duplicate roundtrip on first render.
+      revalidateOnMount: !fallbackData,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+    }
   )
   return {
     data,

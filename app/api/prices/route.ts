@@ -1,6 +1,7 @@
 // @ts-check
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout'
 
 const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8' }
 
@@ -10,9 +11,9 @@ interface PriceResult {
 }
 
 async function fetchBrent(): Promise<PriceResult> {
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     'https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?interval=1d&range=2d',
-    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+    { next: { revalidate: 300 }, timeoutMs: 8000 }
   )
   const data = await res.json()
   const meta = data.chart.result[0].meta
@@ -23,9 +24,9 @@ async function fetchBrent(): Promise<PriceResult> {
 }
 
 async function fetchNaturalGas(): Promise<PriceResult> {
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     'https://query1.finance.yahoo.com/v8/finance/chart/NG=F?interval=1d&range=2d',
-    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+    { next: { revalidate: 300 }, timeoutMs: 8000 }
   )
   const data = await res.json()
   const meta = data.chart.result[0].meta
@@ -36,9 +37,9 @@ async function fetchNaturalGas(): Promise<PriceResult> {
 }
 
 async function fetchWTI(): Promise<PriceResult> {
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     'https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=1d&range=2d',
-    { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) }
+    { next: { revalidate: 300 }, timeoutMs: 8000 }
   )
   const data = await res.json()
   const meta = data.chart.result[0].meta
@@ -67,9 +68,9 @@ async function fetchRates(): Promise<{
   usdChange: number; usdChangePercent: number
   eurChange: number; eurChangePercent: number
 }> {
-  const todayXml = await fetch(
+  const todayXml = await fetchWithTimeout(
     'https://www.tcmb.gov.tr/kurlar/today.xml',
-    { next: { revalidate: 300 }, signal: AbortSignal.timeout(5000) }
+    { next: { revalidate: 300 }, timeoutMs: 5000 }
   )
   const todayText = await todayXml.text()
   const usdToday = parseRate(todayText, 'USD')
@@ -80,9 +81,9 @@ async function fetchRates(): Promise<{
   const mm = String(yesterday.getMonth() + 1).padStart(2, '0')
   const yyyy = yesterday.getFullYear()
 
-  const yestXml = await fetch(
+  const yestXml = await fetchWithTimeout(
     `https://www.tcmb.gov.tr/kurlar/${yyyy}${mm}/${dd}${mm}${yyyy}.xml`,
-    { next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) }
+    { next: { revalidate: 3600 }, timeoutMs: 5000 }
   ).catch(() => null)
 
   let usdChange = 0, usdChangePercent = 0
@@ -165,10 +166,11 @@ export async function GET() {
       },
       { headers: JSON_HEADERS }
     )
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
     console.error('[/api/prices] hata:', err)
     return NextResponse.json(
-      { error: err.message },
+      { error: message },
       { status: 500, headers: JSON_HEADERS }
     )
   }

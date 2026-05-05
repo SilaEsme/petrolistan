@@ -45,14 +45,6 @@ export default function FuelSidebar({ province = '34' }: { province?: string }) 
   const dieselAvg   = avg(brands.map((b) => b.diesel))
   const lpgAvg      = avg(brands.map((b) => b.lpg))
 
-  if (brands.length > 0) {
-    console.log('[FuelSidebar] brands:', brands.length, '| avg →', {
-      gasoline: gasolineAvg.toFixed(2),
-      diesel:   dieselAvg.toFixed(2),
-      lpg:      lpgAvg.toFixed(2),
-    })
-  }
-
   const items =
     brands.length > 0
       ? [

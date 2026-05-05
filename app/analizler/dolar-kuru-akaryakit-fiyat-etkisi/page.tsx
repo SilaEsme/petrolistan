@@ -13,6 +13,7 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal Ekibi' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
   datePublished: '2026-04-16',
+  image: 'https://petrolistan.com/og-image.jpg',
   description: 'USD/TRY kurunun akaryakıt fiyatlarına etkisi ve geçişkenlik mekanizmasının analizi.',
 }
 

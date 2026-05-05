@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
-import KarsilastirmaClient from '../KarsilastirmaClient'
+import ComparisonClient from '../ComparisonClient'
 
 type Params = Promise<{ il: string }>
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: `${cityName} Benzin ve Motorin Fiyatları — OPET Shell Karşılaştırma | Petrolistan`,
     description: `${new Date().toLocaleDateString('tr-TR')} itibarıyla ${cityName} güncel benzin fiyatı, motorin fiyatı ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total marka karşılaştırması.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: true },
   }
 }
 
@@ -63,7 +63,7 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
-        <KarsilastirmaClient initialData={initialData} initialProvince={provinceStr} />
+        <ComparisonClient initialData={initialData} initialProvince={provinceStr} />
       </Suspense>
       <div className="max-w-5xl mx-auto px-4 md:px-8 pb-10">
         <section className="mt-8 prose prose-sm max-w-none text-gray-600">

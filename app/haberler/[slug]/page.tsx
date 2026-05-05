@@ -1,6 +1,10 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import type { NewsItem } from '@/types'
 
-async function getNews(): Promise<any[]> {
+const ASCII_SLUG = /^[a-zA-Z0-9_\-]+$/
+
+async function getNews(): Promise<NewsItem[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}/api/news/rss`,
@@ -19,8 +23,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+  if (!ASCII_SLUG.test(slug)) {
+    notFound()
+  }
   const news = await getNews()
-  const item = news.find((n: any) => n.slug === slug)
+  const item = news.find((n: NewsItem) => n.slug === slug)
   if (!item) return { robots: { index: false, follow: true } }
   return {
     title: `${item.title} — Petrolistan`,
@@ -35,8 +42,11 @@ export default async function HaberDetayPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+  if (!ASCII_SLUG.test(slug)) {
+    notFound()
+  }
   const news = await getNews()
-  const item = news.find((n: any) => n.slug === slug)
+  const item = news.find((n: NewsItem) => n.slug === slug)
   if (!item) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
@@ -66,7 +76,7 @@ export default async function HaberDetayPage({
   })
 
   const related = news
-    .filter((n: any) => n.category === item.category && n.slug !== item.slug)
+    .filter((n: NewsItem) => n.category === item.category && n.slug !== item.slug)
     .slice(0, 3)
 
   return (
@@ -135,7 +145,7 @@ export default async function HaberDetayPage({
             İlgili haberler
           </h2>
           <div className="space-y-3">
-            {related.map((r: any) => (
+            {related.map((r: NewsItem) => (
               <a key={r.slug} href={`/haberler/${r.slug}`}
                 className="block hover:bg-gray-50 p-3 rounded-lg transition-colors">
                 <p className="text-sm font-medium text-gray-900">{r.title}</p>

@@ -9,8 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const ilPages: MetadataRoute.Sitemap = Object.keys(provinceSlugToCode).map((slug) => ({
     url: `${base}/akaryakit/karsilastirma/${slug}`,
     lastModified: now,
-    changeFrequency: 'hourly' as const,
-    priority: 0.8,
+    changeFrequency: 'weekly' as const,
+    priority: 0.3,
   }))
 
   const analizler = [

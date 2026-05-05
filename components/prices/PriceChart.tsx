@@ -1,5 +1,6 @@
 'use client'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import type { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent'
 
 type DataPoint = { date: string; value: number }
 type PriceChartProps = { data: DataPoint[]; isLoading?: boolean }
@@ -54,8 +55,11 @@ export default function PriceChart({ data, isLoading }: PriceChartProps) {
               padding: '8px 12px',
               fontSize: 12,
             }}
-            formatter={(value: any) => [`${Number(value).toFixed(2)} $/varil`, 'Brent']}
-            labelFormatter={(label: any) => formatDate(String(label))}
+            formatter={(value: ValueType | undefined): [string, NameType] => [
+              `${Number(value ?? 0).toFixed(2)} $/varil`,
+              'Brent',
+            ]}
+            labelFormatter={(label: React.ReactNode) => formatDate(String(label))}
             cursor={{ stroke: '#0C447C', strokeWidth: 1, strokeDasharray: '4 4' }}
           />
           <Area

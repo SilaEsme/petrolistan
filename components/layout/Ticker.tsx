@@ -1,6 +1,7 @@
 "use client";
 
 import { useFuelBrands, usePrices } from "@/lib/api";
+import type { PriceData } from "@/types";
 
 export type TickerItem = {
   label: string;
@@ -32,9 +33,9 @@ function useTickerItems(): TickerItem[] {
   const lpg      = avg(brands.map((b) => b.lpg));
 
   const crudItems: TickerItem[] = [];
-  const brent = pricesData?.data?.find((d: any) => d.label?.includes("Brent ham"));
-  const wti   = pricesData?.data?.find((d: any) => d.label?.includes("WTI"));
-  const ng    = pricesData?.data?.find((d: any) => d.label?.includes("Doğalgaz"));
+  const brent = pricesData?.data?.find((d: PriceData) => d.label?.includes("Brent ham"));
+  const wti   = pricesData?.data?.find((d: PriceData) => d.label?.includes("WTI"));
+  const ng    = pricesData?.data?.find((d: PriceData) => d.label?.includes("Doğalgaz"));
   if ((brent?.value ?? 0) > 0)
     crudItems.push({ label: "Brent", value: brent!.value.toFixed(2), change: brent!.changePercent ?? 0, unit: "$" });
   if ((wti?.value ?? 0) > 0)
@@ -68,8 +69,21 @@ function TickerEntry({ item }: { item: TickerItem }) {
       ? "text-[#FB7185] bg-[#FB7185]/10"
       : "text-white/50 bg-white/5";
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      (e.currentTarget as HTMLSpanElement).click();
+    }
+  };
+
   return (
-    <span className="inline-flex flex-col justify-center px-4 border-r border-white/[0.07] h-full cursor-pointer hover:bg-white/[0.04] transition-colors shrink-0">
+    <span
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label={`${item.label} ${item.value}${item.unit ? ` ${item.unit}` : ""}`}
+      className="inline-flex flex-col justify-center px-4 border-r border-white/[0.07] h-full cursor-pointer hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-colors shrink-0"
+    >
       <span className="text-[10px] font-semibold text-white/55 uppercase tracking-[0.06em] leading-none mb-1.5">
         {item.label}
       </span>

@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
-import KarsilastirmaClient from './KarsilastirmaClient'
+import ComparisonClient from './ComparisonClient'
 
 type SearchParams = Promise<{ province?: string }>
 
@@ -51,7 +51,7 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
-        <KarsilastirmaClient initialData={initialData} />
+        <ComparisonClient initialData={initialData} />
       </Suspense>
     </>
   )
