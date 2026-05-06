@@ -32,10 +32,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const cityName = PROVINCES[String(code).padStart(2, '0')] ?? il
 
   return {
-    title: `${cityName} Benzin ve Motorin Fiyatları — OPET Shell Karşılaştırma | Petrolistan`,
-    description: `${new Date().toLocaleDateString('tr-TR')} itibarıyla ${cityName} güncel benzin fiyatı, motorin fiyatı ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total marka karşılaştırması.`,
+    title: `${cityName} Benzin Motorin Fiyatları — OPET Shell Petrol Ofisi | Petrolistan`,
+    description: `${cityName} güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil, Total karşılaştırması. ${new Date().toLocaleDateString('tr-TR')} itibarıyla güncellendi.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
-    robots: { index: false, follow: true },
+    robots: { index: true, follow: true },
   }
 }
 
