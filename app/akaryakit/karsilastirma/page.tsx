@@ -26,7 +26,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 
   return {
     title: `${name} Benzin Motorin Fiyatları — Marka Karşılaştırması | Petrolistan`,
-    description: `${name} için OPET, Shell, Petrol Ofisi, Aytemiz, Lukoil ve Moil güncel benzin 95 ve motorin fiyat karşılaştırması.`,
+    description: `${name} için OPET, Shell, Petrol Ofisi, Alpet, Türkiye Petrolleri ve daha fazlası — güncel benzin ve motorin fiyat karşılaştırması.`,
     keywords: `${name} akaryakıt fiyatları, ${name} benzin fiyatı, ${name} motorin fiyatı, OPET Shell Petrol Ofisi fiyat karşılaştırması`,
   }
 }
