@@ -2,24 +2,66 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '2026 Petrol Fiyat Tahmini: Brent Nereye Gider? | Petrolistan Analiz',
-  description: '2026 yılı için küresel ham petrol fiyat tahminleri: OPEC+ politikası, talep görünümü, jeopolitik riskler ve analist beklentileri.',
+  title: 'Brent Petrol Fiyat Tahmini 2026: Goldman Sachs $75-85 Bandını Görüyor',
+  description: 'Goldman Sachs $75-85, JPMorgan $70-80 bandını öngörüyor. OPEC+ üretim artışı, Çin talebi ve jeopolitik riskler ışığında 2026 Brent petrol fiyat analizi.',
+  alternates: { canonical: 'https://petrolistan.com/analizler/2026-petrol-fiyat-tahmini' },
 }
 
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: '2026 Petrol Fiyat Tahmini: Brent Nereye Gider? | Petrolistan Analiz',
-  description: '2026 yılı için küresel ham petrol fiyat tahminleri: OPEC+ politikası, talep görünümü, jeopolitik riskler ve analist beklentileri.',
+  headline: 'Brent Petrol Fiyat Tahmini 2026: Goldman Sachs $75-85 Bandını Görüyor',
+  description: 'Goldman Sachs $75-85, JPMorgan $70-80 bandını öngörüyor. OPEC+ üretim artışı, Çin talebi ve jeopolitik riskler ışığında 2026 Brent petrol fiyat analizi.',
   datePublished: '2026-02-25',
   url: 'https://petrolistan.com/analizler/2026-petrol-fiyat-tahmini',
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
+  keywords: 'brent petrol fiyat tahmini 2026, petrol fiyatı tahmini 2026, ham petrol fiyat tahmini, OPEC 2026',
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '2026 yılında Brent petrol fiyatı ne kadar olacak?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Goldman Sachs 2026 için Brent fiyat tahminini $75-85 bandında tutarken JPMorgan $70-80 aralığını temel senaryo olarak öngörmektedir. Temel senaryo, OPEC+ yönetiminde görece istikrarlı bir bant hareketi olmaya devam ediyor.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '2026 petrol fiyatlarını ne belirleyecek?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '2026 petrol fiyatlarını belirleyen başlıca faktörler: OPEC+ üretim kararları, Çin ve Hindistan\'ın talep görünümü, ABD şeyl üretim temposu ve Ortadoğu ile Rusya kaynaklı jeopolitik risklerdir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Petrol fiyatları 2026\'da yükselir mi?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Büyük banka tahminleri Brent\'in $70-85 aralığında kalacağını öngörüyor. Brent\'in $90 üzerine çıkması için OPEC+ sürprizi veya Ortadoğu\'da ciddi bir arz kesintisi gerekmektedir. Küresel talep büyümesinin ılımlı kalması sert yükselişi sınırlayacak.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '2026 petrol fiyatları Türkiye\'yi nasıl etkiler?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Brent\'in $70-85 aralığında kalması Türkiye için görece yönetilebilir bir tablo çizer. Ancak TL değer kaybı devam ederse dolar bazlı sabit fiyat bile lira cinsinden ağırlaşır. Brent $90 üzerine çıkarsa Türkiye\'nin cari açığı belirgin genişler ve enflasyon üzerinde baskı artar.',
+      },
+    },
+  ],
 }
 export default function PetrolFiyatTahmini2026Page() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -32,7 +74,7 @@ export default function PetrolFiyatTahmini2026Page() {
       </div>
 
       <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-4">
-        2026 Petrol Fiyat Tahmini: Brent Nereye Gider?
+        Brent Petrol Fiyat Tahmini 2026: Büyük Bankalar Ne Görüyor?
       </h1>
 
       <p className="text-base text-gray-600 leading-relaxed border-l-2 border-[#378ADD] pl-4 mb-8">
@@ -115,6 +157,37 @@ export default function PetrolFiyatTahmini2026Page() {
           </p>
         </section>
       </article>
+
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: '2026 yılında Brent petrol fiyatı ne kadar olacak?',
+            a: 'Goldman Sachs $75-85, JPMorgan $70-80 bandını temel senaryo olarak öngörmektedir. Büyük sürpriz olmadığı sürece fiyatların bu aralıkta kalması bekleniyor.',
+          },
+          {
+            q: '2026 petrol fiyatlarını ne belirleyecek?',
+            a: 'OPEC+ üretim kararları, Çin ve Hindistan\'ın talep büyümesi, ABD şeyl üretim hızı ve Ortadoğu kaynaklı jeopolitik riskler belirleyici faktörler olacak.',
+          },
+          {
+            q: 'Petrol fiyatları 2026\'da yükselir mi?',
+            a: 'Temel senaryo sert yükseliş öngörmüyor. Brent\'in $90 üzerine çıkması için OPEC+ sürprizi veya ciddi bir arz kesintisi gerekiyor.',
+          },
+          {
+            q: '2026 petrol fiyatları Türkiye\'yi nasıl etkiler?',
+            a: '$70-85 bandı Türkiye için görece yönetilebilir. Brent $90\'ı geçerse cari açık genişler ve enflasyon baskısı artar.',
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
 
       {/* Güncel Veri Kutusu */}
       <div className="my-8 bg-[#042C53]/5 border border-[#0C447C]/20 rounded-xl p-4">
