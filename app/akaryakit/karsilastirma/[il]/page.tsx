@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
   return {
     title: `${cityName} Benzin Motorin Fiyatları — OPET Shell Petrol Ofisi | Petrolistan`,
-    description: `${cityName} güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Alpet, Türkiye Petrolleri, Aytemiz karşılaştırması. ${new Date().toLocaleDateString('tr-TR')} itibarıyla güncellendi.`,
+    description: `${cityName} güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Alpet, Aytemiz, Lukoil karşılaştırması. ${new Date().toLocaleDateString('tr-TR')} itibarıyla güncellendi.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
     robots: { index: true, follow: true },
   }
@@ -73,7 +73,7 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
           <p>
             {cityName} ili için güncel benzin 95, motorin ve LPG fiyatları
             yukarıdaki tabloda anlık olarak güncellenmektedir.
-            OPET, Shell, Petrol Ofisi, Alpet, Türkiye Petrolleri ve daha fazlası gibi
+            OPET, Shell, Petrol Ofisi, Alpet, Aytemiz ve daha fazlası gibi
             başlıca akaryakıt markalarının {cityName} pompa fiyatlarını
             karşılaştırarak en uygun istasyonu bulabilirsiniz.
           </p>
