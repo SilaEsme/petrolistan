@@ -53,7 +53,7 @@ export async function fetchRSSNews(): Promise<NewsItem[]> {
           : new Date().toISOString(),
         source: item.source_name ?? 'Haber',
         readingTime: 2,
-        externalUrl: item.link,
+        externalUrl: item.link?.startsWith('http') ? item.link : undefined,
       }))
 
     return mapped.filter(isValidNewsItem)

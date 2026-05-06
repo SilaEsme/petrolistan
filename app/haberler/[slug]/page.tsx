@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { NewsItem } from '@/types'
 
 const ASCII_SLUG = /^[a-zA-Z0-9_\-]+$/
@@ -47,21 +47,7 @@ export default async function HaberDetayPage({
   }
   const news = await getNews()
   const item = news.find((n: NewsItem) => n.slug === slug)
-  if (!item) {
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          Bu haber artık mevcut değil
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Haberler düzenli olarak güncellenmektedir.
-        </p>
-        <Link href="/haberler" className="text-[#0C447C] underline">
-          Güncel haberlere dön →
-        </Link>
-      </div>
-    )
-  }
+  if (!item) redirect('/haberler')
 
   const categoryColors: Record<string, { bg: string; text: string }> = {
     'OPEC+':    { bg: '#E6F1FB', text: '#0C447C' },
