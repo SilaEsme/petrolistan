@@ -1,8 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES } from '@/lib/provinces'
+import { BrandLogo } from '@/components/prices/BrandLogo'
 import type { BrandPrice } from '@/types'
 
 const NATIONAL_BRANDS = new Set(['Moil'])
@@ -85,6 +86,15 @@ export default function HomeComparisonTable() {
   const minL = lpgVals.length      ? Math.min(...lpgVals)      : 0
   const maxL = lpgVals.length      ? Math.max(...lpgVals)      : 0
 
+  const cheapestG = useMemo(
+    () => eligibleBrands.filter((b) => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)[0],
+    [eligibleBrands]
+  )
+  const cheapestD = useMemo(
+    () => eligibleBrands.filter((b) => b.diesel > 0).sort((a, b) => a.diesel - b.diesel)[0],
+    [eligibleBrands]
+  )
+
   function priceClass(val: number, min: number, max: number, isNational: boolean) {
     if (isNational || val <= 0) return 'text-gray-500'
     if (val === min) return 'text-green-600 font-bold'
@@ -96,22 +106,43 @@ export default function HomeComparisonTable() {
     <div className="max-w-5xl mx-auto px-4 py-3">
       <div className="bg-white rounded-lg overflow-hidden">
 
-        {/* Başlık */}
-        <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Marka Karşılaştırması
-          </span>
-          <select
-            value={locating ? '' : province}
-            onChange={(e) => setProvince(e.target.value)}
-            disabled={locating}
-            className="text-xs border border-gray-200 rounded px-2 py-0.5 text-gray-600 focus:outline-none focus:border-[#0C447C] disabled:text-gray-400"
-          >
-            {locating && <option value="">Konum alınıyor...</option>}
-            {Object.entries(PROVINCES).map(([code, name]) => (
-              <option key={code} value={code}>{name}</option>
-            ))}
-          </select>
+        {/* Hero başlık */}
+        <div className="bg-[#0C447C] px-4 pt-3 pb-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-white font-bold text-base leading-tight">
+                Güncel Akaryakıt Fiyatları
+              </h1>
+              {/* En ucuz özet */}
+              {!isLoading && cheapestG ? (
+                <p className="text-white/70 text-[12px] mt-0.5 leading-snug">
+                  {PROVINCES[province]} · En ucuz benzin:{' '}
+                  <span className="text-[#BA7517] font-semibold">{cheapestG.brand}</span>{' '}
+                  <span className="text-white/80">{cheapestG.gasoline.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                  {cheapestD && (
+                    <>
+                      {' '}· Motorin:{' '}
+                      <span className="text-[#BA7517] font-semibold">{cheapestD.brand}</span>{' '}
+                      <span className="text-white/80">{cheapestD.diesel.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                    </>
+                  )}
+                </p>
+              ) : (
+                <div className="h-3 w-48 bg-white/20 rounded animate-pulse mt-1" />
+              )}
+            </div>
+            <select
+              value={locating ? '' : province}
+              onChange={(e) => setProvince(e.target.value)}
+              disabled={locating}
+              className="text-xs border border-white/30 rounded px-2 py-1 text-white bg-white/10 focus:outline-none focus:ring-1 focus:ring-white/50 disabled:text-white/40 flex-shrink-0"
+            >
+              {locating && <option value="">Konum alınıyor...</option>}
+              {Object.entries(PROVINCES).map(([code, name]) => (
+                <option key={code} value={code} className="text-gray-900 bg-white">{name}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Yükleniyor */}
@@ -151,7 +182,8 @@ export default function HomeComparisonTable() {
                 return (
                   <tr key={brand.brand} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
                     <td className="px-3 py-1.5">
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-2">
+                        <BrandLogo name={brand.brand} size={22} />
                         <span className="text-sm font-medium text-gray-800">{brand.brand}</span>
                         {isNational && (
                           <span className="text-[9px] text-gray-400 border border-gray-200 rounded px-1 py-0 leading-none">

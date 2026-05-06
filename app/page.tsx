@@ -22,15 +22,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 1. Hero */}
-      <div className="bg-[#0C447C] text-white py-3 sm:py-4 px-3 sm:px-4">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-lg font-bold">Güncel Akaryakıt Fiyatları</h1>
-          <p className="text-white/60 text-sm">Tüm markalar, seçtiğin ilde</p>
-        </div>
-      </div>
-
-      {/* 2. Marka karşılaştırma tablosu */}
+      {/* 1+2. Hero + Marka karşılaştırma tablosu */}
       <HomeComparisonTable />
 
       {/* 3. Piyasa fiyatları */}

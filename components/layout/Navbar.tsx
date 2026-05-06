@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Ana Sayfa", href: "/" },
   { label: "Ham Petrol", href: "/ham-petrol" },
   { label: "Akaryakıt", href: "/akaryakit" },
+  { label: "Karşılaştır", href: "/akaryakit/karsilastirma" },
   { label: "Doğalgaz", href: "/dogalgaz" },
   { label: "Haberler", href: "/haberler" },
   { label: "Analizler", href: "/analizler" },

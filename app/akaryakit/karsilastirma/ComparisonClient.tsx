@@ -4,6 +4,7 @@ import { memo, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
+import { BrandLogo } from '@/components/prices/BrandLogo'
 import type { BrandPrice, BrandsResponse } from '@/types'
 
 const NATIONAL_BRANDS = new Set(['Moil'])
@@ -12,27 +13,10 @@ function fmt(val: number) {
   return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
-function brandInitials(name: string): string {
-  const words = name.trim().split(/\s+/)
-  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
-  return name.slice(0, 2).toUpperCase()
-}
-
 function nonZero(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
   return brands.map((b) => b[key]).filter((v) => v > 0)
 }
 
-// Inline SVGs
-const CheckIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-)
-const TriangleIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 4 L4 18 L20 18 Z" />
-  </svg>
-)
 
 interface PriceCellProps {
   val: number
@@ -44,7 +28,6 @@ function PriceCellInner({ val, isMin, isMax, hidden }: PriceCellProps) {
   const tdClass = [
     'py-2.5 sm:py-3.5 px-2 sm:px-4 text-right tabular-nums',
     hidden ? 'hidden sm:table-cell' : '',
-    isMin ? 'bg-[#ECFDF5]' : isMax ? 'bg-[#FEF2F2]' : '',
   ].join(' ')
 
   if (val <= 0) {
@@ -52,26 +35,14 @@ function PriceCellInner({ val, isMin, isMax, hidden }: PriceCellProps) {
   }
 
   const priceClass = isMin
-    ? 'text-[#047857] font-semibold'
+    ? 'text-[#047857] font-bold'
     : isMax
-      ? 'text-[#B91C1C] font-semibold'
+      ? 'text-[#B91C1C]'
       : 'text-gray-600'
 
   return (
     <td className={tdClass}>
-      <span className="inline-flex items-center gap-2 justify-end">
-        {isMin && (
-          <span className="hidden sm:flex w-[18px] h-[18px] rounded-full bg-[#10B981] text-white items-center justify-center flex-shrink-0">
-            <CheckIcon />
-          </span>
-        )}
-        {isMax && (
-          <span className="hidden sm:flex w-[18px] h-[18px] rounded-full bg-[#FEE2E2] text-[#DC2626] items-center justify-center flex-shrink-0">
-            <TriangleIcon />
-          </span>
-        )}
-        <span className={`text-xs sm:text-[13px] ${priceClass}`}>{fmt(val)} ₺</span>
-      </span>
+      <span className={`text-xs sm:text-[13px] ${priceClass}`}>{fmt(val)} ₺</span>
     </td>
   )
 }
@@ -173,21 +144,41 @@ export default function ComparisonClient({
         </div>
       )}
 
-      {/* En Uygun Fiyat banner */}
+      {/* En Uygun Fiyat — 3 kart */}
       {brands.length > 0 && cheapestGasoline && (
-        <div className="bg-[#042C53] text-white rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-[11px] text-white/60 uppercase tracking-[0.05em] font-medium mb-2">
-              En Uygun Fiyat
-            </p>
-            <p className="text-lg font-bold mb-1">
-              Benzin için en uygun: {cheapestGasoline.brand} — {fmt(cheapestGasoline.gasoline)} ₺/L
-            </p>
-            <p className="text-[13px] text-white/70">
-              {cheapestDiesel && `Motorin: ${cheapestDiesel.brand} (${fmt(cheapestDiesel.diesel)} ₺/L)`}
-              {cheapestLpg    && ` · LPG: ${cheapestLpg.brand} (${fmt(cheapestLpg.lpg)} ₺/L)`}
-            </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          {/* Benzin */}
+          <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#BA7517]">
+            <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Benzin 95</p>
+            <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestGasoline.brand}</p>
+            <p className="text-xl font-bold mt-0.5">{fmt(cheapestGasoline.gasoline)} ₺/L</p>
+            {expensiveGasoline && expensiveGasoline.brand !== cheapestGasoline.brand && (
+              <p className="text-[11px] text-white/50 mt-1">
+                {fmt(expensiveGasoline.gasoline - cheapestGasoline.gasoline)} ₺ daha ucuz
+              </p>
+            )}
           </div>
+          {/* Motorin */}
+          {cheapestDiesel && (
+            <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#185FA5]">
+              <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Motorin</p>
+              <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestDiesel.brand}</p>
+              <p className="text-xl font-bold mt-0.5">{fmt(cheapestDiesel.diesel)} ₺/L</p>
+              {expensiveDiesel && expensiveDiesel.brand !== cheapestDiesel.brand && (
+                <p className="text-[11px] text-white/50 mt-1">
+                  {fmt(expensiveDiesel.diesel - cheapestDiesel.diesel)} ₺ daha ucuz
+                </p>
+              )}
+            </div>
+          )}
+          {/* LPG */}
+          {cheapestLpg && (
+            <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#0E7C7B]">
+              <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">LPG Otogaz</p>
+              <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestLpg.brand}</p>
+              <p className="text-xl font-bold mt-0.5">{fmt(cheapestLpg.lpg)} ₺/L</p>
+            </div>
+          )}
         </div>
       )}
 
@@ -229,8 +220,8 @@ export default function ComparisonClient({
                       {/* Marka hücresi */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-2.5">
-                          <div className="hidden sm:flex w-[26px] h-[26px] rounded-md bg-gray-100 text-[#0C447C] text-[11px] font-bold items-center justify-center flex-shrink-0">
-                            {brandInitials(brand.brand)}
+                          <div className="hidden sm:flex flex-shrink-0">
+                            <BrandLogo name={brand.brand} />
                           </div>
                           <div className="flex flex-wrap items-center gap-1">
                             <span className="text-xs sm:text-[14px] font-semibold text-[#0A1628]">{brand.brand}</span>
@@ -263,20 +254,12 @@ export default function ComparisonClient({
           {/* Legend */}
           <div className="mt-3.5 flex flex-wrap items-center gap-4 text-[11px] text-gray-500">
             <span className="flex items-center gap-1.5">
-              <span className="w-[14px] h-[14px] rounded-full bg-[#10B981] text-white flex items-center justify-center">
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              En ucuz fiyat
+              <span className="w-2 h-2 rounded-full bg-[#047857]" />
+              <span className="text-[#047857]">En ucuz</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-[14px] h-[14px] rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center">
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 4 L4 18 L20 18 Z" />
-                </svg>
-              </span>
-              En yüksek fiyat
+              <span className="w-2 h-2 rounded-full bg-[#B91C1C]" />
+              <span className="text-[#B91C1C]">En yüksek</span>
             </span>
             <span className="text-gray-400">·</span>
             <span className="text-gray-400">Sütun bazında karşılaştırma</span>
