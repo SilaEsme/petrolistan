@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PetrolistanLogo from "./PetrolistanLogo";
 
 const footerLinks = {
   "Fiyatlar": [
@@ -27,12 +28,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded bg-[#0E7C7B] flex items-center justify-center">
-                <span className="text-white font-bold text-xs">P</span>
-              </div>
-              <span className="text-white font-bold text-lg tracking-tight">
-                petrolistan
-              </span>
+              <PetrolistanLogo size={32} variant="full" />
             </div>
             <p className="text-white/50 text-sm leading-relaxed">
               Türkiye&apos;nin petrol ve enerji fiyatları için güvenilir kaynak.

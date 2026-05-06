@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     siteName: 'Petrolistan',
     locale: 'tr_TR',
     type: 'website',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Petrolistan' }],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://petrolistan.com' },
