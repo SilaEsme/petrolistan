@@ -10,6 +10,10 @@ export const BRAND_LOGOS: Record<string, string> = {
   'Lukoil':       '/brands/lukoil.svg',
   'Total':        '/brands/total.png',
   'Moil':         '/brands/moil.png',
+  'Alpet':        '/brands/alpet.png',
+  'Bpet':         '/brands/bpet.png',
+  'Sunpet':       '/brands/sunpet.png',
+  'Kadoil':       '/brands/kadoil.png',
 }
 
 function brandInitials(name: string): string {
