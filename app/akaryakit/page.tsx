@@ -66,7 +66,7 @@ export default function AkaryakitPage() {
             <li><strong>Tüketim hacmi:</strong> Yüksek cirolu istasyonlar daha düşük marjla çalışabilir.</li>
           </ul>
           <p>
-            Petrolistan&apos;ın karşılaştırma aracı sayesinde OPET, Shell, Petrol Ofisi, Aytemiz, Alpet ve daha fazlası gibi tüm büyük markaların güncel fiyatlarını seçtiğiniz ilde yan yana görebilirsiniz.
+            Petrolistan&apos;ın karşılaştırma aracı sayesinde OPET, Shell, Petrol Ofisi, Aytemiz, Alpet, Lukoil, Total, Bpet, Sunpet, Kadoil ve Moil gibi 11 büyük markanın güncel fiyatlarını seçtiğiniz ilde yan yana görebilirsiniz.
           </p>
         </div>
       </section>
