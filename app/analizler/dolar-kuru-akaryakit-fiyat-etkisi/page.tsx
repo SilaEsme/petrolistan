@@ -117,6 +117,16 @@ export default function DolarKuruAkaryakitPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/turk-lirasi-petrol-fiyatlari-iliskisi"><a href="/analizler/turk-lirasi-petrol-fiyatlari-iliskisi" className="text-[#185FA5] text-sm hover:underline leading-snug">Türk Lirası ile Petrol Fiyatları Arasındaki İlişki</a></li>
+            <li key="/analizler/turkiye-benzin-neden-pahali"><a href="/analizler/turkiye-benzin-neden-pahali" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'de Benzin Neden Pahalı?</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

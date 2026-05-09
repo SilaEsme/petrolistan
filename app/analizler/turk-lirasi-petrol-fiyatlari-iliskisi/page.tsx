@@ -111,6 +111,16 @@ export default function TurkLirasıPetrolPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/dolar-kuru-akaryakit-fiyat-etkisi"><a href="/analizler/dolar-kuru-akaryakit-fiyat-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+            <li key="/analizler/2026-petrol-fiyat-tahmini"><a href="/analizler/2026-petrol-fiyat-tahmini" className="text-[#185FA5] text-sm hover:underline leading-snug">2026 Petrol Fiyat Tahmini</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Sürdürülebilir Enerji ve Türkiye\'nin 2030 Hedefleri | Petrolistan Analiz',
-  description: 'Türkiye\'nin yenilenebilir enerji kapasitesi, güneş-rüzgar yatırımları, 2030 hedefleri ve fosil yakıt bağımlılığının azaltılması stratejileri.',
+  title: 'Türkiye 2030 Enerji Hedefleri: Güneş, Rüzgar ve Yenilenebilir Yatırımlar',
+  description: "Türkiye 2030'a kadar yenilenebilir enerjinin payını yüzde 30'a çıkarmayı hedefliyor. Akkuyu nükleer santrali, güneş ve rüzgar kapasitesi ile fosil yakıt bağımlılığının azaltılması planları.",
+  alternates: { canonical: 'https://petrolistan.com/analizler/surdurulebilir-enerji-turkiye-2030' },
 }
 
 const articleSchema = {
@@ -17,10 +18,50 @@ const articleSchema = {
   description: 'Türkiye\'nin yenilenebilir enerji kapasitesi ve 2030 enerji dönüşüm hedefleri.',
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Türkiye\'nin 2030 yenilenebilir enerji hedefi nedir?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Türkiye, 2030 yılına kadar elektrik üretiminde yenilenebilir enerjinin payını yüzde altmışın üzerine çıkarmayı hedeflemektedir. Bu kapsamda 10 GW ek güneş, 20 GW rüzgar kapasitesi kurulması planlanmaktadır.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Türkiye\'nin toplam güneş enerjisi kapasitesi ne kadar?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '2025 sonu itibarıyla Türkiye\'nin kurulu güneş enerjisi kapasitesi 25 GW\'ı aşmıştır. Hedef; 2030\'a kadar bu rakamı 35 GW\'ın üzerine taşımaktır.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Akkuyu nükleer santrali ne zaman devreye girecek?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Rusya\'nın Rosatom şirketinin inşa ettiği Akkuyu NGS\'nin ilk reaktörünün 2026-2027 döneminde devreye alınması planlanmaktadır. Dört reaktörün tamamı yaklaşık 4.800 MW kurulu güç sağlayacak.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Türkiye enerji ithalatını azaltabilecek mi?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Karadeniz\'deki Sakarya gaz sahası ve hızlanan yenilenebilir enerji yatırımlarıyla Türkiye\'nin enerji ithalat bağımlılığı kısmen azalabilir. Ancak büyük ölçekli fosil yakıt ithalatının önümüzdeki on yılda da sürmesi beklenmektedir.',
+      },
+    },
+  ],
+}
+
 export default function SurdurulebilirEnerjiPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#E1F5EE', color: '#085041' }}>TÜRKİYE</span>
@@ -117,6 +158,47 @@ export default function SurdurulebilirEnerjiPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: "Türkiye'nin 2030 yenilenebilir enerji hedefi nedir?",
+            a: 'Türkiye, 2030 yılına kadar elektrik üretiminde yenilenebilir enerjinin payını yüzde altmışın üzerine çıkarmayı hedeflemektedir. Bu kapsamda 10 GW ek güneş, 20 GW rüzgar kapasitesi kurulması planlanmaktadır.',
+          },
+          {
+            q: "Türkiye'nin toplam güneş enerjisi kapasitesi ne kadar?",
+            a: "2025 sonu itibarıyla Türkiye'nin kurulu güneş enerjisi kapasitesi 25 GW'ı aşmıştır. Hedef; 2030'a kadar bu rakamı 35 GW'ın üzerine taşımaktır.",
+          },
+          {
+            q: 'Akkuyu nükleer santrali ne zaman devreye girecek?',
+            a: "Rusya'nın Rosatom şirketinin inşa ettiği Akkuyu NGS'nin ilk reaktörünün 2026-2027 döneminde devreye alınması planlanmaktadır. Dört reaktörün tamamı yaklaşık 4.800 MW kurulu güç sağlayacak.",
+          },
+          {
+            q: 'Türkiye enerji ithalatını azaltabilecek mi?',
+            a: "Karadeniz'deki Sakarya gaz sahası ve hızlanan yenilenebilir enerji yatırımlarıyla Türkiye'nin enerji ithalat bağımlılığı kısmen azalabilir. Ancak büyük ölçekli fosil yakıt ithalatının önümüzdeki on yılda da sürmesi beklenmektedir.",
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/elektrikli-arac-yakit-maliyeti"><a href="/analizler/elektrikli-arac-yakit-maliyeti" className="text-[#185FA5] text-sm hover:underline leading-snug">Elektrikli Araç vs. Akaryakıt Maliyet Karşılaştırması</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+            <li key="/analizler/kuzey-irak-petrol-turkiye"><a href="/analizler/kuzey-irak-petrol-turkiye" className="text-[#185FA5] text-sm hover:underline leading-snug">Kuzey Irak Petrolü ve Türkiye</a></li>
+        </ul>
+      </div>
+
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

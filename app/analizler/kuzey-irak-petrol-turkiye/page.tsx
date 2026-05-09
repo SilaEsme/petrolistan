@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Kuzey Irak Petrolü ve Türkiye: Kerkük-Ceyhan Hattı Analizi | Petrolistan Analiz',
-  description: 'Kerkük-Ceyhan boru hattı, Kürdistan Bölgesi petrol ihracatı ve Türkiye\'nin stratejik konumunun enerji güvenliğine yansımaları.',
+  title: "Kerkük-Ceyhan Boru Hattı: Türkiye'nin Kuzey Irak Petrolündeki Stratejik Rolü",
+  description: "Kerkük-Ceyhan hattı günde 300-400 bin varil kapasitesiyle Irak Kürdistanı petrolünü Türkiye üzerinden ihraç ediyor. Hat anlaşmazlığının Türkiye'ye etkisi ve stratejik önemi.",
+  alternates: { canonical: 'https://petrolistan.com/analizler/kuzey-irak-petrol-turkiye' },
 }
 
 const articleSchema = {
@@ -17,10 +18,50 @@ const articleSchema = {
   description: 'Kerkük-Ceyhan boru hattı ve Türkiye\'nin Kuzey Irak enerji ilişkilerinin analizi.',
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Kerkük-Ceyhan boru hattı nedir?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Kerkük-Ceyhan boru hattı, Irak Kürdistan Bölgesi\'ndeki petrol sahalarından Türkiye\'nin Akdeniz kıyısındaki Ceyhan ihracat terminaline uzanan yaklaşık 970 km uzunluğundaki boru hattıdır. Teorik kapasitesi günde 300-400 bin varildir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Kerkük-Ceyhan hattı neden durdu?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Irak merkezi hükümeti ile Kürdistan Bölgesel Yönetimi arasındaki petrol geliri paylaşımı anlaşmazlığı nedeniyle hat 2023 yılından bu yana büyük ölçüde kapalıdır. Taraflar arasındaki müzakereler sürmektedir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Bakü-Tiflis-Ceyhan hattı ne kadar petrol taşıyor?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'BTC hattı, Azerbaycan\'ın Hazar Denizi petrolünü Gürcistan üzerinden Türkiye\'ye taşımakta ve günde yaklaşık 600-700 bin varil kapasiteyle işletilmektedir. Türkiye için kritik bir transit gelir kaynağıdır.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Kuzey Irak petrolü Türkiye\'yi nasıl etkiler?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Türkiye hem transit ülke geliri elde etmekte hem de güvenilir komşu tedarik açısından stratejik kazanım sağlamaktadır. Hattın durması transit ücret gelirlerini azaltmakta, bölgesel enerji jeopolitiğini olumsuz etkilemektedir.',
+      },
+    },
+  ],
+}
+
 export default function KuzeyIrakPetrolPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <span className="text-[11px] font-medium px-2 py-0.5 rounded" style={{ background: '#FAECE7', color: '#712B13' }}>PAZAR</span>
@@ -114,6 +155,47 @@ export default function KuzeyIrakPetrolPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: 'Kerkük-Ceyhan boru hattı nedir?',
+            a: "Kerkük-Ceyhan boru hattı, Irak Kürdistan Bölgesi'ndeki petrol sahalarından Türkiye'nin Akdeniz kıyısındaki Ceyhan ihracat terminaline uzanan yaklaşık 970 km uzunluğundaki boru hattıdır. Teorik kapasitesi günde 300-400 bin varildir.",
+          },
+          {
+            q: 'Kerkük-Ceyhan hattı neden durdu?',
+            a: 'Irak merkezi hükümeti ile Kürdistan Bölgesel Yönetimi arasındaki petrol geliri paylaşımı anlaşmazlığı nedeniyle hat 2023 yılından bu yana büyük ölçüde kapalıdır. Taraflar arasındaki müzakereler sürmektedir.',
+          },
+          {
+            q: 'Bakü-Tiflis-Ceyhan hattı ne kadar petrol taşıyor?',
+            a: "BTC hattı, Azerbaycan'ın Hazar Denizi petrolünü Gürcistan üzerinden Türkiye'ye taşımakta ve günde yaklaşık 600-700 bin varil kapasiteyle işletilmektedir. Türkiye için kritik bir transit gelir kaynağıdır.",
+          },
+          {
+            q: "Kuzey Irak petrolü Türkiye'yi nasıl etkiler?",
+            a: 'Türkiye hem transit ülke geliri elde etmekte hem de güvenilir komşu tedarik açısından stratejik kazanım sağlamaktadır. Hattın durması transit ücret gelirlerini azaltmakta, bölgesel enerji jeopolitiğini olumsuz etkilemektedir.',
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/2026-petrol-fiyat-tahmini"><a href="/analizler/2026-petrol-fiyat-tahmini" className="text-[#185FA5] text-sm hover:underline leading-snug">2026 Petrol Fiyat Tahmini</a></li>
+            <li key="/analizler/opec-plus-nedir-nasil-calisir"><a href="/analizler/opec-plus-nedir-nasil-calisir" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC+ Nedir, Nasıl Çalışır?</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+        </ul>
+      </div>
+
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

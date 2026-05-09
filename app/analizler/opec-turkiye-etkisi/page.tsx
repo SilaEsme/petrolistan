@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'OPEC Kararları Türkiye\'yi Nasıl Etkiler? | Petrolistan Analiz',
-  description: 'OPEC+ üretim kararlarının Türkiye\'nin akaryakıt fiyatlarına, enflasyona ve dış ticaret dengesine yansımaları.',
+  title: "OPEC+ Üretim Kararları Türkiye'yi Nasıl Etkiler? Akaryakıt ve Enflasyon",
+  description: "OPEC+ günde 2 milyon varil kıstığında Brent 85 dolara çıkıyor, Türkiye'nin aylık enerji faturası milyarlarca dolar artıyor. Cari açık ve enflasyona doğrudan etkisi.",
+  alternates: { canonical: 'https://petrolistan.com/analizler/opec-turkiye-etkisi' },
 }
 
 const articleSchema = {
@@ -16,10 +17,50 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
 }
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'OPEC kararları benzin fiyatlarını nasıl etkiler?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'OPEC+ üretim kısıntısı küresel petrol arzını daraltır, Brent fiyatını yukarı iter. Türkiye petrolünü dolar üzerinden aldığından Brent artışı, TL/USD kuruyla katlanarak pompaya yansır.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "OPEC+ üretim kısıntısı Türkiye'ye ne kadar maliyet çıkarır?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Varil başına her 10 dolarlık artış, Türkiye'nin yıllık enerji ithalat faturasına yaklaşık 3-4 milyar dolar ek yük bindirmektedir. Bu durum cari açığı doğrudan genişletir.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "Türkiye OPEC'e üye mi?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Hayır. Türkiye OPEC veya OPEC+ üyesi değildir. Net petrol ithalatçısı konumunda olduğundan örgütün üretim kararlarından doğrudan olumsuz etkilenmektedir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "OPEC+ 2026'da üretimi artıracak mı?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "OPEC+, 2025 sonundan itibaren kademeli üretim artışı sinyalleri vermiştir. Brent fiyatının 2026'da büyük ölçüde 75-85 dolar bandında kalması beklenmektedir.",
+      },
+    },
+  ],
+}
 export default function OpecTurkiyeEtkisiPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -144,6 +185,47 @@ export default function OpecTurkiyeEtkisiPage() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: 'OPEC kararları benzin fiyatlarını nasıl etkiler?',
+            a: 'OPEC+ üretim kısıntısı küresel petrol arzını daraltır, Brent fiyatını yukarı iter. Türkiye petrolünü dolar üzerinden aldığından Brent artışı, TL/USD kuruyla katlanarak pompaya yansır.',
+          },
+          {
+            q: "OPEC+ üretim kısıntısı Türkiye'ye ne kadar maliyet çıkarır?",
+            a: "Varil başına her 10 dolarlık artış, Türkiye'nin yıllık enerji ithalat faturasına yaklaşık 3-4 milyar dolar ek yük bindirmektedir. Bu durum cari açığı doğrudan genişletir.",
+          },
+          {
+            q: "Türkiye OPEC'e üye mi?",
+            a: 'Hayır. Türkiye OPEC veya OPEC+ üyesi değildir. Net petrol ithalatçısı konumunda olduğundan örgütün üretim kararlarından doğrudan olumsuz etkilenmektedir.',
+          },
+          {
+            q: "OPEC+ 2026'da üretimi artıracak mı?",
+            a: "OPEC+, 2025 sonundan itibaren kademeli üretim artışı sinyalleri vermiştir. Brent fiyatının 2026'da büyük ölçüde 75-85 dolar bandında kalması beklenmektedir.",
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/opec-plus-nedir-nasil-calisir"><a href="/analizler/opec-plus-nedir-nasil-calisir" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC+ Nedir, Nasıl Çalışır?</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+            <li key="/analizler/2026-petrol-fiyat-tahmini"><a href="/analizler/2026-petrol-fiyat-tahmini" className="text-[#185FA5] text-sm hover:underline leading-snug">2026 Petrol Fiyat Tahmini</a></li>
+        </ul>
+      </div>
+
+
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

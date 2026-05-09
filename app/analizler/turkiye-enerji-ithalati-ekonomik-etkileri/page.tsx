@@ -123,6 +123,16 @@ export default function TurkiyeEnerjiIthalatiPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/dolar-kuru-akaryakit-fiyat-etkisi"><a href="/analizler/dolar-kuru-akaryakit-fiyat-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?</a></li>
+            <li key="/analizler/opec-turkiye-etkisi"><a href="/analizler/opec-turkiye-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC Kararları Türkiye'yi Nasıl Etkiler?</a></li>
+            <li key="/analizler/surdurulebilir-enerji-turkiye-2030"><a href="/analizler/surdurulebilir-enerji-turkiye-2030" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye 2030 Enerji Hedefleri</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

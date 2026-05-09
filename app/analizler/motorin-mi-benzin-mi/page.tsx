@@ -150,6 +150,16 @@ export default function MotorinMiBenzinMiPage() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/lpg-otogaz-avantajlari-dezavantajlari"><a href="/analizler/lpg-otogaz-avantajlari-dezavantajlari" className="text-[#185FA5] text-sm hover:underline leading-snug">LPG Otogaz: Avantajlar ve Dezavantajlar</a></li>
+            <li key="/analizler/elektrikli-arac-yakit-maliyeti"><a href="/analizler/elektrikli-arac-yakit-maliyeti" className="text-[#185FA5] text-sm hover:underline leading-snug">Elektrikli Araç vs. Akaryakıt Maliyet Karşılaştırması</a></li>
+            <li key="/analizler/akaryakit-tasarrufu-ipuclari"><a href="/analizler/akaryakit-tasarrufu-ipuclari" className="text-[#185FA5] text-sm hover:underline leading-snug">Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu</a></li>
+        </ul>
+      </div>
+
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

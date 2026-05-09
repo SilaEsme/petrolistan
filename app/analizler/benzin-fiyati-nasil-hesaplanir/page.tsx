@@ -124,6 +124,16 @@ export default function BenzinFiyatiNasilHesaplanirPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/turkiye-benzin-neden-pahali"><a href="/analizler/turkiye-benzin-neden-pahali" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'de Benzin Neden Pahalı?</a></li>
+            <li key="/analizler/akaryakit-tasarrufu-ipuclari"><a href="/analizler/akaryakit-tasarrufu-ipuclari" className="text-[#185FA5] text-sm hover:underline leading-snug">Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu</a></li>
+            <li key="/analizler/dolar-kuru-akaryakit-fiyat-etkisi"><a href="/analizler/dolar-kuru-akaryakit-fiyat-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

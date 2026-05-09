@@ -219,6 +219,16 @@ export default function PetrolFiyatTahmini2026Page() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/opec-plus-nedir-nasil-calisir"><a href="/analizler/opec-plus-nedir-nasil-calisir" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC+ Nedir, Nasıl Çalışır?</a></li>
+            <li key="/analizler/opec-turkiye-etkisi"><a href="/analizler/opec-turkiye-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC Kararları Türkiye'yi Nasıl Etkiler?</a></li>
+            <li key="/analizler/dolar-kuru-akaryakit-fiyat-etkisi"><a href="/analizler/dolar-kuru-akaryakit-fiyat-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?</a></li>
+        </ul>
+      </div>
+
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

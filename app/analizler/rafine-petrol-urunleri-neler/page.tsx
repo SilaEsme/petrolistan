@@ -123,6 +123,16 @@ export default function RafinePetrolUrunleriPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/benzin-fiyati-nasil-hesaplanir"><a href="/analizler/benzin-fiyati-nasil-hesaplanir" className="text-[#185FA5] text-sm hover:underline leading-snug">Benzin Fiyatı Nasıl Hesaplanır?</a></li>
+            <li key="/analizler/turkiye-benzin-neden-pahali"><a href="/analizler/turkiye-benzin-neden-pahali" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'de Benzin Neden Pahalı?</a></li>
+            <li key="/analizler/opec-plus-nedir-nasil-calisir"><a href="/analizler/opec-plus-nedir-nasil-calisir" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC+ Nedir, Nasıl Çalışır?</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

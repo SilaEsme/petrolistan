@@ -114,6 +114,16 @@ export default function OpecPlusNedirPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/opec-turkiye-etkisi"><a href="/analizler/opec-turkiye-etkisi" className="text-[#185FA5] text-sm hover:underline leading-snug">OPEC Kararları Türkiye'yi Nasıl Etkiler?</a></li>
+            <li key="/analizler/2026-petrol-fiyat-tahmini"><a href="/analizler/2026-petrol-fiyat-tahmini" className="text-[#185FA5] text-sm hover:underline leading-snug">2026 Petrol Fiyat Tahmini: Brent Nereye Gider?</a></li>
+            <li key="/analizler/kuzey-irak-petrol-turkiye"><a href="/analizler/kuzey-irak-petrol-turkiye" className="text-[#185FA5] text-sm hover:underline leading-snug">Kuzey Irak Petrolü ve Türkiye</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

@@ -122,6 +122,16 @@ export default function AkaryakitTasarrufulPage() {
             akaryakıt karşılaştırma sayfamıza bakın →
           </Link>
         </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/motorin-mi-benzin-mi"><a href="/analizler/motorin-mi-benzin-mi" className="text-[#185FA5] text-sm hover:underline leading-snug">Motorin mi Benzin mi? Hangisi Daha Avantajlı?</a></li>
+            <li key="/analizler/elektrikli-arac-yakit-maliyeti"><a href="/analizler/elektrikli-arac-yakit-maliyeti" className="text-[#185FA5] text-sm hover:underline leading-snug">Elektrikli Araç vs. Akaryakıt Maliyet Karşılaştırması</a></li>
+            <li key="/analizler/benzin-fiyati-nasil-hesaplanir"><a href="/analizler/benzin-fiyati-nasil-hesaplanir" className="text-[#185FA5] text-sm hover:underline leading-snug">Benzin Fiyatı Nasıl Hesaplanır?</a></li>
+        </ul>
+      </div>
+
 
         <div className="pt-6 border-t border-gray-200">
           <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">← Tüm analizler</Link>

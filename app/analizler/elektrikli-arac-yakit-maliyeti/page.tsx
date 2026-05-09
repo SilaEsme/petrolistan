@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Elektrikli Araç vs. Akaryakıt: Gerçek Maliyet Karşılaştırması | Petrolistan Analiz',
-  description: 'Elektrikli araçların şarj maliyeti ile benzinli ve dizel araçların yakıt masraflarının Türkiye koşullarında gerçekçi karşılaştırması.',
+  title: 'Elektrikli Araç mı Benzinli mi? km Başına Maliyet Karşılaştırması 2026',
+  description: "Türkiye'de 100 km için benzinli araç ~150 TL, elektrikli araç ~35 TL harcıyor. Şarj maliyeti, bakım tasarrufu ve geri ödeme süresinin gerçekçi hesabı.",
+  alternates: { canonical: 'https://petrolistan.com/analizler/elektrikli-arac-yakit-maliyeti' },
 }
 
 const articleSchema = {
@@ -16,10 +17,50 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
 }
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Elektrikli araç mı benzinli mi daha ucuz?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Km başına yakıt/şarj maliyeti açısından elektrikli araç yaklaşık üç ila dört kat daha ucuzdur. Ancak araç alım fiyatı ve kurulum maliyeti dikkate alındığında toplam sahip olma maliyeti daha uzun vadede dengelenmektedir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "Türkiye'de elektrikli araç şarj maliyeti ne kadar?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Evde gece tarifesiyle 100 km şarj maliyeti yaklaşık 30-40 TL'dir. Halka açık hızlı şarj istasyonlarında bu rakam 60-80 TL'ye çıkabilmektedir. Benzinli araçta 100 km için 130-160 TL harcamak gerekmektedir.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Elektrikli araçta geri ödeme süresi kaç yıl?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Benzinli araca kıyasla ek maliyet; günlük 50 km kullanımda yakıt tasarrufu ile Türkiye koşullarında genellikle 5-8 yılda kendini amorti etmektedir. Yıllık km arttıkça geri ödeme süresi kısalmaktadır.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Elektrikli araç bakım maliyeti benzinliden düşük mü?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Evet. Elektrikli araçlarda motor yağı, egzoz sistemi, debriyaj ve yakıt filtresi gibi kalemler yoktur. Yıllık bakım maliyetinin benzinli araca göre yüzde kırk ila yüzde elli daha düşük olduğu tahmin edilmektedir.',
+      },
+    },
+  ],
+}
 export default function ElektrikliAracYakitMaliyetiPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -150,6 +191,47 @@ export default function ElektrikliAracYakitMaliyetiPage() {
           akaryakıt karşılaştırma sayfamıza bakın →
         </Link>
       </div>
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: 'Elektrikli araç mı benzinli mi daha ucuz?',
+            a: 'Km başına yakıt/şarj maliyeti açısından elektrikli araç yaklaşık üç ila dört kat daha ucuzdur. Ancak araç alım fiyatı ve kurulum maliyeti dikkate alındığında toplam sahip olma maliyeti daha uzun vadede dengelenmektedir.',
+          },
+          {
+            q: "Türkiye'de elektrikli araç şarj maliyeti ne kadar?",
+            a: "Evde gece tarifesiyle 100 km şarj maliyeti yaklaşık 30-40 TL'dir. Halka açık hızlı şarj istasyonlarında bu rakam 60-80 TL'ye çıkabilmektedir. Benzinli araçta 100 km için 130-160 TL harcamak gerekmektedir.",
+          },
+          {
+            q: 'Elektrikli araçta geri ödeme süresi kaç yıl?',
+            a: 'Benzinli araca kıyasla ek maliyet; günlük 50 km kullanımda yakıt tasarrufu ile Türkiye koşullarında genellikle 5-8 yılda kendini amorti etmektedir. Yıllık km arttıkça geri ödeme süresi kısalmaktadır.',
+          },
+          {
+            q: 'Elektrikli araç bakım maliyeti benzinliden düşük mü?',
+            a: 'Evet. Elektrikli araçlarda motor yağı, egzoz sistemi, debriyaj ve yakıt filtresi gibi kalemler yoktur. Yıllık bakım maliyetinin benzinli araca göre yüzde kırk ila yüzde elli daha düşük olduğu tahmin edilmektedir.',
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/surdurulebilir-enerji-turkiye-2030"><a href="/analizler/surdurulebilir-enerji-turkiye-2030" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye 2030 Enerji Hedefleri</a></li>
+            <li key="/analizler/motorin-mi-benzin-mi"><a href="/analizler/motorin-mi-benzin-mi" className="text-[#185FA5] text-sm hover:underline leading-snug">Motorin mi Benzin mi? Hangisi Daha Avantajlı?</a></li>
+            <li key="/analizler/akaryakit-tasarrufu-ipuclari"><a href="/analizler/akaryakit-tasarrufu-ipuclari" className="text-[#185FA5] text-sm hover:underline leading-snug">Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu</a></li>
+        </ul>
+      </div>
+
+
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">

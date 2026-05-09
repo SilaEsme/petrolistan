@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Türkiye\'de Benzin Neden Bu Kadar Pahalı? | Petrolistan Analiz',
-  description: 'Türkiye\'de benzin fiyatlarının yüksek olmasının arkasındaki nedenler: ÖTV, KDV, döviz kuru, ham petrol maliyeti ve dağıtım marjları.',
+  title: "Türkiye'de Benzin Neden Pahalı? Fiyatın Yüzde 55-60'ı Vergi",
+  description: "Türkiye'de benzin fiyatının yüzde 55-60'ı ÖTV ve KDV'den oluşuyor. Döviz kuru, ham petrol ve dağıtım marjlarının pompa fiyatına etkisinin tam analizi.",
+  alternates: { canonical: 'https://petrolistan.com/analizler/turkiye-benzin-neden-pahali' },
 }
 
 const articleSchema = {
@@ -16,10 +17,50 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Petrolistan Editöryal', url: 'https://petrolistan.com/hakkimizda' },
   publisher: { '@type': 'Organization', name: 'Petrolistan', url: 'https://petrolistan.com' },
 }
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: "Türkiye'de benzin fiyatının kaçta kaçı vergi?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Türkiye'de bir litre benzinin yaklaşık yüzde elli beş ile altmışı ÖTV (Özel Tüketim Vergisi) ve KDV'den oluşmaktadır. Bu oran, ham petrol fiyatı düşse bile tüketicinin hissettiği indirimi sınırlı tutar.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "Türkiye benzin fiyatı neden Avrupa'dan pahalı?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Hem yüksek vergi yükü hem de TL'nin dolar karşısındaki değer kaybı birleşmektedir. Kişi başı satın alma gücüne göre düzeltildiğinde Türkiye, dünyanın en pahalı benzin ülkeleri arasında yer almaktadır.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'ÖTV indirimi benzin fiyatını düşürür mü?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Evet. 1 TL ÖTV indirimi, KDV'nin de düşmesiyle pompaya yaklaşık 1.18 TL olarak yansır. 2022'de hükümet geçici ÖTV indirimiyle fiyatları kısmen dizginlemişti.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Benzin fiyatları ne zaman düşer?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Kalıcı düşüş için hem Brent ham petrolünün 60 dolar altına gerilemesi hem de TL'nin değer kazanması gerekir. Yakın vadede bu kombinasyonun gerçekleşmesi zordur.",
+      },
+    },
+  ],
+}
 export default function TurkiyeBenzinNedenPahaliPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -148,6 +189,47 @@ export default function TurkiyeBenzinNedenPahaliPage() {
       </div>
 
       {/* Geri dön */}
+      {/* SSS */}
+      <div className="my-10 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        {[
+          {
+            q: "Türkiye'de benzin fiyatının kaçta kaçı vergi?",
+            a: "Türkiye'de bir litre benzinin yaklaşık yüzde elli beş ile altmışı ÖTV (Özel Tüketim Vergisi) ve KDV'den oluşmaktadır. Bu oran, ham petrol fiyatı düşse bile tüketicinin hissettiği indirimi sınırlı tutar.",
+          },
+          {
+            q: "Türkiye benzin fiyatı neden Avrupa'dan pahalı?",
+            a: "Hem yüksek vergi yükü hem de TL'nin dolar karşısındaki değer kaybı birleşmektedir. Kişi başı satın alma gücüne göre düzeltildiğinde Türkiye, dünyanın en pahalı benzin ülkeleri arasında yer almaktadır.",
+          },
+          {
+            q: 'ÖTV indirimi benzin fiyatını düşürür mü?',
+            a: "Evet. 1 TL ÖTV indirimi, KDV'nin de düşmesiyle pompaya yaklaşık 1.18 TL olarak yansır. 2022'de hükümet geçici ÖTV indirimiyle fiyatları kısmen dizginlemişti.",
+          },
+          {
+            q: 'Benzin fiyatları ne zaman düşer?',
+            a: "Kalıcı düşüş için hem Brent ham petrolünün 60 dolar altına gerilemesi hem de TL'nin değer kazanması gerekir. Yakın vadede bu kombinasyonun gerçekleşmesi zordur.",
+          },
+        ].map(({ q, a }) => (
+          <details key={q} className="border border-gray-200 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {q}
+              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+      {/* İlgili Analizler */}
+      <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">İlgili Analizler</p>
+        <ul className="space-y-2 list-none">
+            <li key="/analizler/benzin-fiyati-nasil-hesaplanir"><a href="/analizler/benzin-fiyati-nasil-hesaplanir" className="text-[#185FA5] text-sm hover:underline leading-snug">Benzin Fiyatı Nasıl Hesaplanır?</a></li>
+            <li key="/analizler/akaryakit-tasarrufu-ipuclari"><a href="/analizler/akaryakit-tasarrufu-ipuclari" className="text-[#185FA5] text-sm hover:underline leading-snug">Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu</a></li>
+            <li key="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri"><a href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] text-sm hover:underline leading-snug">Türkiye'nin Enerji İthalatı: Ekonomik Etkiler</a></li>
+        </ul>
+      </div>
+
+
 
       <div className="pt-6 border-t border-gray-200">
         <Link href="/analizler" className="text-sm text-[#185FA5] hover:underline">
