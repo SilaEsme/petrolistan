@@ -3,6 +3,40 @@ import { provinceSlugToCode } from '@/lib/provinces'
 
 const base = 'https://petrolistan.com'
 
+const fallbackSlugs = [
+  'epdk-akaryakit-fiyatlari',
+  'turkiye-benzin-neden-pahali',
+  'benzin-fiyati-nasil-hesaplanir',
+  'dolar-kuru-akaryakit-fiyat-etkisi',
+  'turk-lirasi-petrol-fiyatlari-iliskisi',
+  'opec-turkiye-etkisi',
+  'opec-plus-nedir-nasil-calisir',
+  '2026-petrol-fiyat-tahmini',
+  'kuzey-irak-petrol-turkiye',
+  'turkiye-enerji-ithalati-ekonomik-etkileri',
+  'motorin-mi-benzin-mi',
+  'lpg-otogaz-avantajlari-dezavantajlari',
+  'rafine-petrol-urunleri-neler',
+  'akaryakit-tasarrufu-ipuclari',
+  'elektrikli-arac-yakit-maliyeti',
+  'surdurulebilir-enerji-turkiye-2030',
+]
+
+async function fetchPublishedSlugs(): Promise<string[]> {
+  try {
+    const backendUrl = process.env.GO_BACKEND_URL ?? 'http://localhost:8080'
+    const res = await fetch(`${backendUrl}/articles`, {
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!res.ok) return fallbackSlugs
+    const articles: { slug: string }[] = await res.json()
+    return articles.length > 0 ? articles.map((a) => a.slug) : fallbackSlugs
+  } catch {
+    return fallbackSlugs
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
 
@@ -14,26 +48,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  const analizler = [
-    'epdk-akaryakit-fiyatlari',
-    'turkiye-benzin-neden-pahali',
-    'benzin-fiyati-nasil-hesaplanir',
-    'dolar-kuru-akaryakit-fiyat-etkisi',
-    'turk-lirasi-petrol-fiyatlari-iliskisi',
-    'opec-turkiye-etkisi',
-    'opec-plus-nedir-nasil-calisir',
-    '2026-petrol-fiyat-tahmini',
-    'kuzey-irak-petrol-turkiye',
-    'turkiye-enerji-ithalati-ekonomik-etkileri',
-    'motorin-mi-benzin-mi',
-    'lpg-otogaz-avantajlari-dezavantajlari',
-    'rafine-petrol-urunleri-neler',
-    'akaryakit-tasarrufu-ipuclari',
-    'elektrikli-arac-yakit-maliyeti',
-    'surdurulebilir-enerji-turkiye-2030',
-  ]
+  const slugs = await fetchPublishedSlugs()
 
-  const analizPages: MetadataRoute.Sitemap = analizler.map((slug) => ({
+  const analizPages: MetadataRoute.Sitemap = slugs.map((slug) => ({
     url: `${base}/analizler/${slug}`,
     lastModified: now,
     changeFrequency: 'monthly' as const,
