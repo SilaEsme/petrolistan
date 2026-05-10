@@ -9,6 +9,16 @@ export const metadata: Metadata = {
 
 const articles = [
   {
+    slug: 'epdk-akaryakit-fiyatlari',
+    category: 'TÜRKİYE',
+    categoryBg: '#E1F5EE',
+    categoryColor: '#085041',
+    title: 'EPDK Akaryakıt Fiyatları Nasıl Belirlenir?',
+    excerpt: 'EPDK her hafta Salı-Çarşamba akaryakıt tavan fiyatlarını açıklıyor. Ham petrol, kur, ÖTV ve KDV\'nin fiyata adım adım nasıl yansıdığının tam açıklaması.',
+    date: '10 Mayıs 2026',
+    readingTime: 7,
+  },
+  {
     slug: 'turkiye-benzin-neden-pahali',
     category: 'ANALİZ',
     categoryBg: '#FAEEDA',

@@ -15,6 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const analizler = [
+    'epdk-akaryakit-fiyatlari',
     'turkiye-benzin-neden-pahali',
     'benzin-fiyati-nasil-hesaplanir',
     'dolar-kuru-akaryakit-fiyat-etkisi',
