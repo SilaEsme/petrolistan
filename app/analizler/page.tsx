@@ -80,18 +80,6 @@ export default async function AnalizlerPage() {
         ))}
       </div>
 
-      <div className="mt-8 bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium text-dark">Bültene kaydolun</p>
-          <p className="text-xs text-gray-500 mt-0.5">Yeni analizler yayınlandığında ilk siz haberdar olun.</p>
-        </div>
-        <Link
-          href="/bulten"
-          className="shrink-0 bg-brand text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-dark transition-colors"
-        >
-          Kaydol →
-        </Link>
-      </div>
     </main>
   )
 }

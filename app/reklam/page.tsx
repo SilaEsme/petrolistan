@@ -40,10 +40,6 @@ export default function ReklamPage() {
             <p className="font-semibold text-dark">Native Sponsorluk</p>
             <p className="text-sm text-gray-600 mt-1">İçerik içi marka tanıtımı, okuyucu dostu format.</p>
           </div>
-          <div className="border border-gray-100 rounded-lg p-4">
-            <p className="font-semibold text-dark">Bülten Sponsorluğu</p>
-            <p className="text-sm text-gray-600 mt-1">E-posta listesi reklamı, doğrudan okuyucu erişimi.</p>
-          </div>
         </div>
       </section>
 
