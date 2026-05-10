@@ -1,176 +1,50 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
 
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Benzin, Petrol ve Enerji Analizleri 2026',
   description: 'Türkiye\'de benzin neden pahalı? Brent petrol tahmini, dolar kuru etkisi, OPEC+ kararları, LPG avantajları ve enerji tasarrufu. Uzman analizleri.',
   alternates: { canonical: 'https://petrolistan.com/analizler' },
 }
 
-const articles = [
-  {
-    slug: 'epdk-akaryakit-fiyatlari',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'EPDK Akaryakıt Fiyatları Nasıl Belirlenir?',
-    excerpt: 'EPDK her hafta Salı-Çarşamba akaryakıt tavan fiyatlarını açıklıyor. Ham petrol, kur, ÖTV ve KDV\'nin fiyata adım adım nasıl yansıdığının tam açıklaması.',
-    date: '10 Mayıs 2026',
-    readingTime: 7,
-  },
-  {
-    slug: 'turkiye-benzin-neden-pahali',
-    category: 'ANALİZ',
-    categoryBg: '#FAEEDA',
-    categoryColor: '#633806',
-    title: 'Türkiye\'de Benzin Neden Bu Kadar Pahalı?',
-    excerpt: 'ÖTV, KDV, döviz kuru ve dağıtım marjlarının pompa fiyatına yansıması. Vergi yükü ve yapısal nedenlerle kapsamlı analiz.',
-    date: '12 Ocak 2026',
-    readingTime: 7,
-  },
-  {
-    slug: 'benzin-fiyati-nasil-hesaplanir',
-    category: 'ANALİZ',
-    categoryBg: '#FAEEDA',
-    categoryColor: '#633806',
-    title: 'Benzin Fiyatı Nasıl Hesaplanır? Pompa Fiyatının Anatomisi',
-    excerpt: 'Ham petrolden pompaya uzanan yolda hangi maliyet kalemleri var? ÖTV, KDV, rafinaj, dağıtım ve bayi marjlarının detaylı analizi.',
-    date: '19 Ocak 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'dolar-kuru-akaryakit-fiyat-etkisi',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Dolar Kuru Akaryakıt Fiyatını Nasıl Etkiler?',
-    excerpt: 'USD/TRY kurunun benzin ve motorin pompa fiyatlarına geçişkenliği, tarihsel örnekler ve 2025-2026 döneminin analizi.',
-    date: '27 Ocak 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'turk-lirasi-petrol-fiyatlari-iliskisi',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Türk Lirası ile Petrol Fiyatları Arasındaki İlişki',
-    excerpt: 'TL/USD kurunun ham petrol fiyatlarıyla etkileşimi, kur-pompa fiyatı geçişkenliği ve Türkiye enerji maliyetine yansımaları.',
-    date: '3 Şubat 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'opec-turkiye-etkisi',
-    category: 'OPEC+',
-    categoryBg: '#E6F1FB',
-    categoryColor: '#0C447C',
-    title: 'OPEC Kararları Türkiye\'yi Nasıl Etkiler?',
-    excerpt: 'OPEC+ üretim kotalarının Türkiye\'nin akaryakıt fiyatlarına, cari açığına ve enflasyonuna yansımaları.',
-    date: '10 Şubat 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'opec-plus-nedir-nasil-calisir',
-    category: 'OPEC+',
-    categoryBg: '#E6F1FB',
-    categoryColor: '#0C447C',
-    title: 'OPEC+ Nedir, Nasıl Çalışır? Üretim Kotaları ve Küresel Etki',
-    excerpt: 'OPEC+ yapısı, üye ülkeler, kota mekanizması ve küresel petrol fiyatları üzerindeki belirleyici etkinin kapsamlı analizi.',
-    date: '18 Şubat 2026',
-    readingTime: 9,
-  },
-  {
-    slug: '2026-petrol-fiyat-tahmini',
-    category: 'PAZAR',
-    categoryBg: '#FAECE7',
-    categoryColor: '#712B13',
-    title: '2026 Petrol Fiyat Tahmini: Brent Nereye Gider?',
-    excerpt: 'OPEC+ politikası, Çin talebi, jeopolitik riskler ve büyük bankaların 2026 Brent tahminlerinin analizi.',
-    date: '25 Şubat 2026',
-    readingTime: 9,
-  },
-  {
-    slug: 'kuzey-irak-petrol-turkiye',
-    category: 'PAZAR',
-    categoryBg: '#FAECE7',
-    categoryColor: '#712B13',
-    title: 'Kuzey Irak Petrolü ve Türkiye: Kerkük-Ceyhan Hattı Analizi',
-    excerpt: 'Kerkük-Ceyhan boru hattı, Kürdistan Bölgesi petrol ihracatı ve Türkiye\'nin transit ülke konumunun stratejik önemi.',
-    date: '4 Mart 2026',
-    readingTime: 9,
-  },
-  {
-    slug: 'turkiye-enerji-ithalati-ekonomik-etkileri',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Türkiye\'nin Enerji İthalatı: Ekonomik Etkiler ve Riskler',
-    excerpt: 'Yılda 50 milyar doları aşan enerji ithalatının cari açığa, döviz rezervlerine ve enflasyona etkileri.',
-    date: '11 Mart 2026',
-    readingTime: 9,
-  },
-  {
-    slug: 'motorin-mi-benzin-mi',
-    category: 'ANALİZ',
-    categoryBg: '#FAEEDA',
-    categoryColor: '#633806',
-    title: 'Motorin mi Benzin mi? Hangisi Daha Avantajlı?',
-    excerpt: 'Yakıt maliyeti, bakım giderleri, kullanım profili ve çevre etkisi açısından kapsamlı karşılaştırma.',
-    date: '18 Mart 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'lpg-otogaz-avantajlari-dezavantajlari',
-    category: 'ANALİZ',
-    categoryBg: '#FAEEDA',
-    categoryColor: '#633806',
-    title: 'LPG Otogaz: Avantajlar, Dezavantajlar ve Türkiye Verileri',
-    excerpt: 'LPG dönüşüm maliyeti, geri ödeme süresi, yasal düzenlemeler ve Türkiye\'deki otogaz piyasasının kapsamlı analizi.',
-    date: '25 Mart 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'rafine-petrol-urunleri-neler',
-    category: 'ANALİZ',
-    categoryBg: '#FAEEDA',
-    categoryColor: '#633806',
-    title: 'Rafine Petrol Ürünleri Nelerdir? Benzinden Bitüme Tam Rehber',
-    excerpt: 'Ham petrolden elde edilen rafine ürünlerin tam listesi: benzin, motorin, jet yakıtı, LPG, bitüm ve petrokimya hammaddeleri.',
-    date: '1 Nisan 2026',
-    readingTime: 8,
-  },
-  {
-    slug: 'akaryakit-tasarrufu-ipuclari',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Akaryakıt Tasarrufu: Kanıtlanmış 12 İpucu',
-    excerpt: 'Benzin ve motorin tüketiminizi yüzde 15-20 azaltabilecek sürüş teknikleri, araç bakım önerileri ve fiyat karşılaştırma stratejileri.',
-    date: '8 Nisan 2026',
-    readingTime: 7,
-  },
-  {
-    slug: 'elektrikli-arac-yakit-maliyeti',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Elektrikli Araç vs. Akaryakıt: Gerçek Maliyet Karşılaştırması',
-    excerpt: 'Türkiye koşullarında km başına şarj maliyeti ile benzin-motorin maliyetinin gerçekçi ve rakamsal karşılaştırması.',
-    date: '15 Nisan 2026',
-    readingTime: 9,
-  },
-  {
-    slug: 'surdurulebilir-enerji-turkiye-2030',
-    category: 'TÜRKİYE',
-    categoryBg: '#E1F5EE',
-    categoryColor: '#085041',
-    title: 'Sürdürülebilir Enerji ve Türkiye\'nin 2030 Hedefleri',
-    excerpt: 'Yenilenebilir enerji kapasitesi, güneş-rüzgar yatırımları, Akkuyu nükleer santrali ve 2030 enerji dönüşüm hedefleri.',
-    date: '22 Nisan 2026',
-    readingTime: 9,
-  },
-]
+interface ArticleSummary {
+  slug: string
+  title: string
+  excerpt: string
+  category: string
+  categoryBg: string
+  categoryColor: string
+  publishedAt: string
+  readingTime: number
+}
 
-export default function AnalizlerPage() {
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+async function fetchArticles(): Promise<ArticleSummary[]> {
+  try {
+    const backendUrl = process.env.GO_BACKEND_URL ?? 'http://localhost:8080'
+    const res = await fetch(`${backendUrl}/articles`, {
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!res.ok) return []
+    return res.json()
+  } catch {
+    return []
+  }
+}
+
+export default async function AnalizlerPage() {
+  const articles = await fetchArticles()
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-dark mb-2">Enerji Analizleri</h1>
@@ -192,7 +66,7 @@ export default function AnalizlerPage() {
               >
                 {article.category}
               </span>
-              <span className="text-xs text-gray-400">{article.date}</span>
+              <span className="text-xs text-gray-400">{formatDate(article.publishedAt)}</span>
               <span className="text-xs text-gray-400">·</span>
               <span className="text-xs text-gray-400">{article.readingTime} dk okuma</span>
             </div>
