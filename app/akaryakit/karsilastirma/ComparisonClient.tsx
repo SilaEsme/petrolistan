@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
 import { BrandLogo } from '@/components/prices/BrandLogo'
+import FuelHistoryChart from '@/components/prices/FuelHistoryChart'
 import type { BrandPrice, BrandsResponse } from '@/types'
 
 const NATIONAL_BRANDS = new Set(['Moil'])
@@ -270,6 +271,12 @@ export default function ComparisonClient({
               </span>
             )}
           </div>
+
+          {/* 30 Günlük Fiyat Geçmişi */}
+          <FuelHistoryChart
+            province={province}
+            brands={brands.map((b: BrandPrice) => b.brand)}
+          />
 
           {/* SSS */}
           <section className="mt-8">
