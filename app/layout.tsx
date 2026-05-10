@@ -10,6 +10,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://petrolistan.com'),
   title: {
     default: 'Benzin ve Motorin Fiyatları — Güncel Karşılaştırma | Petrolistan',
     template: '%s | Petrolistan',
