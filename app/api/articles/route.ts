@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export const revalidate = 3600
 
@@ -14,6 +14,28 @@ export async function GET() {
     }
     const data = await res.json()
     return NextResponse.json(data)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'unknown error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
+}
+
+export async function POST(req: NextRequest) {
+  const apiKey = req.headers.get('x-api-key')
+  if (!apiKey || apiKey !== process.env.ARTICLE_API_KEY) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  }
+  try {
+    const backendUrl = process.env.GO_BACKEND_URL ?? 'http://localhost:8080'
+    const body = await req.text()
+    const res = await fetch(`${backendUrl}/articles`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': apiKey },
+      body,
+      signal: AbortSignal.timeout(8000),
+    })
+    const data = await res.json()
+    return NextResponse.json(data, { status: res.status })
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'unknown error'
     return NextResponse.json({ error: message }, { status: 500 })
