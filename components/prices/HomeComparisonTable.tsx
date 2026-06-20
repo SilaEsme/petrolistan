@@ -94,6 +94,10 @@ export default function HomeComparisonTable() {
     () => eligibleBrands.filter((b) => b.diesel > 0).sort((a, b) => a.diesel - b.diesel)[0],
     [eligibleBrands]
   )
+  const cheapestL = useMemo(
+    () => eligibleBrands.filter((b) => b.lpg > 0).sort((a, b) => a.lpg - b.lpg)[0],
+    [eligibleBrands]
+  )
 
   function priceClass(val: number, min: number, max: number, isNational: boolean) {
     if (isNational || val <= 0) return 'text-gray-500'
@@ -153,6 +157,50 @@ export default function HomeComparisonTable() {
             </select>
           </div>
         </div>
+
+        {/* En ucuz fiyat kartları */}
+        {isLoading && brands.length === 0 ? (
+          <div className="grid grid-cols-3 gap-2 px-3 pt-3 pb-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="rounded-xl border border-gray-100 p-3 flex flex-col gap-1.5 animate-pulse">
+                <div className="h-2.5 w-14 bg-gray-100 rounded" />
+                <div className="h-6 w-20 bg-gray-200 rounded" />
+                <div className="h-2.5 w-12 bg-gray-100 rounded" />
+              </div>
+            ))}
+          </div>
+        ) : cheapestG ? (
+          <div className="grid grid-cols-3 gap-2 px-3 pt-3 pb-2">
+            {/* Benzin 95 */}
+            <div className="rounded-xl border border-gray-100 bg-gray-50/60 p-3">
+              <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Benzin 95</p>
+              <p className="text-xl font-bold text-[#042C53] tabular-nums mt-1 leading-none">
+                {fmt(minG)} ₺
+              </p>
+              <p className="text-[11px] text-[#BA7517] font-semibold mt-1 truncate">{cheapestG.brand}</p>
+            </div>
+            {/* Motorin */}
+            {cheapestD && (
+              <div className="rounded-xl border border-gray-100 bg-gray-50/60 p-3">
+                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Motorin</p>
+                <p className="text-xl font-bold text-[#042C53] tabular-nums mt-1 leading-none">
+                  {fmt(minD)} ₺
+                </p>
+                <p className="text-[11px] text-[#BA7517] font-semibold mt-1 truncate">{cheapestD.brand}</p>
+              </div>
+            )}
+            {/* LPG */}
+            {cheapestL && (
+              <div className="rounded-xl border border-gray-100 bg-gray-50/60 p-3">
+                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">LPG</p>
+                <p className="text-xl font-bold text-[#042C53] tabular-nums mt-1 leading-none">
+                  {fmt(minL)} ₺
+                </p>
+                <p className="text-[11px] text-[#BA7517] font-semibold mt-1 truncate">{cheapestL.brand}</p>
+              </div>
+            )}
+          </div>
+        ) : null}
 
         {/* Yükleniyor */}
         {isLoading && brands.length === 0 && (
