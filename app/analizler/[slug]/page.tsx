@@ -58,6 +58,7 @@ export async function generateMetadata({
     title: article.title,
     description: article.excerpt,
     alternates: { canonical: `https://petrolistan.com/analizler/${article.slug}` },
+    robots: { index: false, follow: true },
     openGraph: {
       title: article.title,
       description: article.excerpt,

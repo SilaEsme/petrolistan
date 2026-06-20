@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Benzin, Petrol ve Enerji Analizleri 2026',
   description: 'Türkiye\'de benzin neden pahalı? Brent petrol tahmini, dolar kuru etkisi, OPEC+ kararları, LPG avantajları ve enerji tasarrufu. Uzman analizleri.',
   alternates: { canonical: 'https://petrolistan.com/analizler' },
+  robots: { index: false, follow: true },
 }
 
 interface ArticleSummary {
