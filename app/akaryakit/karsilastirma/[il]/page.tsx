@@ -39,6 +39,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
+function calcSavings(initialData: BrandsResponse | null) {
+  if (!initialData?.data) return null
+  const eligible = initialData.data.filter((b) => b.brand !== 'Moil')
+  const withGas = eligible.filter((b) => b.gasoline > 0).sort((a, b) => a.gasoline - b.gasoline)
+  if (withGas.length < 2) return null
+  const cheapest = withGas[0]
+  const priciest = withGas[withGas.length - 1]
+  const saving = (priciest.gasoline - cheapest.gasoline) * 50
+  if (saving <= 0) return null
+  return {
+    brand: cheapest.brand,
+    price: cheapest.gasoline.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    saving: saving.toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+  }
+}
+
 export default async function IlKarsilastirmaPage({ params }: { params: Params }) {
   const { il } = await params
   const code = provinceSlugToCode[il]
@@ -47,6 +63,7 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
   const provinceStr = String(code).padStart(2, '0')
   const initialData = await fetchInitialData(provinceStr)
   const cityName = PROVINCES[provinceStr] ?? il
+  const savings = calcSavings(initialData)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -62,6 +79,20 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {savings && (
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pt-6">
+          <div className="bg-[#042C53] text-white rounded-xl px-5 py-4 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-white/50 text-[10px] uppercase tracking-wider font-medium mb-0.5">Bu ilde en ucuz benzin</p>
+              <p className="font-bold text-sm">{savings.brand} — {savings.price} ₺/L</p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="text-white/50 text-[10px] uppercase tracking-wider font-medium mb-0.5">50L&apos;de tasarruf</p>
+              <p className="text-[#BA7517] font-bold text-xl">{savings.saving} ₺</p>
+            </div>
+          </div>
+        </div>
+      )}
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
         <ComparisonClient initialData={initialData} initialProvince={provinceStr} />
       </Suspense>

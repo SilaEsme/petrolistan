@@ -58,7 +58,7 @@ export default function PriceCard({
 
   return (
     <div
-      className={`bg-white rounded-xl ${compact ? 'p-2.5 sm:p-3' : 'p-3 sm:p-4'} shadow-sm border border-gray-200/80 flex flex-col gap-2`}
+      className={`bg-white rounded-xl ${compact ? 'p-3 sm:p-4' : 'p-4 sm:p-5'} shadow-sm border border-gray-200/80 flex flex-col gap-2`}
     >
       {/* Label + Source */}
       <div className="flex items-start justify-between gap-2">
@@ -72,7 +72,7 @@ export default function PriceCard({
 
       {/* Value */}
       <div className="flex items-baseline gap-1.5">
-        <span className="text-2xl font-bold text-[#042C53] tabular-nums">
+        <span className="text-2xl sm:text-3xl font-bold text-[#042C53] tabular-nums">
           {formattedValue}
         </span>
         <span className="text-gray-500 text-sm font-medium">

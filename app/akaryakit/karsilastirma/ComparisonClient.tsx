@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES, provinceCodeToSlug } from '@/lib/provinces'
@@ -23,12 +23,12 @@ interface PriceCellProps {
   val: number
   isMin: boolean
   isMax: boolean
-  hidden?: boolean
+  mobileHidden?: boolean
 }
-function PriceCellInner({ val, isMin, isMax, hidden }: PriceCellProps) {
+function PriceCellInner({ val, isMin, isMax, mobileHidden }: PriceCellProps) {
   const tdClass = [
     'py-2.5 sm:py-3.5 px-2 sm:px-4 text-right tabular-nums',
-    hidden ? 'hidden sm:table-cell' : '',
+    mobileHidden ? 'hidden sm:table-cell' : '',
   ].join(' ')
 
   if (val <= 0) {
@@ -61,6 +61,8 @@ export default function ComparisonClient({
 
   const province     = initialProvince ?? searchParams.get('province') ?? '34'
   const provinceName = PROVINCES[province] ?? 'Türkiye'
+
+  const [fuelTab, setFuelTab] = useState<'gasoline' | 'diesel' | 'lpg'>('gasoline')
 
   const { data, isLoading } = useFuelBrands(province, initialData ?? undefined)
 
@@ -145,11 +147,28 @@ export default function ComparisonClient({
         </div>
       )}
 
+      {/* Yakıt türü sekmesi — mobil */}
+      {brands.length > 0 && (
+        <div className="flex sm:hidden gap-1 mb-4 bg-gray-100 rounded-lg p-1">
+          {(['gasoline', 'diesel', 'lpg'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setFuelTab(tab)}
+              className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                fuelTab === tab ? 'bg-white text-[#0C447C] shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              {tab === 'gasoline' ? 'Benzin 95' : tab === 'diesel' ? 'Motorin' : 'LPG'}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* En Uygun Fiyat — 3 kart */}
       {brands.length > 0 && cheapestGasoline && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
           {/* Benzin */}
-          <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#BA7517]">
+          <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#BA7517] ${fuelTab !== 'gasoline' ? 'hidden sm:block' : ''}`}>
             <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Benzin 95</p>
             <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestGasoline.brand}</p>
             <p className="text-xl font-bold mt-0.5">{fmt(cheapestGasoline.gasoline)} ₺/L</p>
@@ -161,7 +180,7 @@ export default function ComparisonClient({
           </div>
           {/* Motorin */}
           {cheapestDiesel && (
-            <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#185FA5]">
+            <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#185FA5] ${fuelTab !== 'diesel' ? 'hidden sm:block' : ''}`}>
               <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Motorin</p>
               <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestDiesel.brand}</p>
               <p className="text-xl font-bold mt-0.5">{fmt(cheapestDiesel.diesel)} ₺/L</p>
@@ -174,7 +193,7 @@ export default function ComparisonClient({
           )}
           {/* LPG */}
           {cheapestLpg && (
-            <div className="bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#0E7C7B]">
+            <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#0E7C7B] ${fuelTab !== 'lpg' ? 'hidden sm:block' : ''}`}>
               <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">LPG Otogaz</p>
               <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestLpg.brand}</p>
               <p className="text-xl font-bold mt-0.5">{fmt(cheapestLpg.lpg)} ₺/L</p>
@@ -199,13 +218,13 @@ export default function ComparisonClient({
                   <th className="py-3 px-4 text-left text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
                     Marka
                   </th>
-                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                  <th className={`py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85 ${fuelTab !== 'gasoline' ? 'hidden sm:table-cell' : ''}`}>
                     Benzin 95
                   </th>
-                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                  <th className={`py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85 ${fuelTab !== 'diesel' ? 'hidden sm:table-cell' : ''}`}>
                     Motorin
                   </th>
-                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85">
+                  <th className={`py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85 ${fuelTab !== 'lpg' ? 'hidden sm:table-cell' : ''}`}>
                     LPG
                   </th>
                 </tr>
@@ -242,9 +261,9 @@ export default function ComparisonClient({
                       </td>
 
                       {/* Fiyat hücreleri */}
-                      <PriceCell val={brand.gasoline} isMin={!isNational && brand.gasoline === minG} isMax={!isNational && brand.gasoline === maxG} />
-                      <PriceCell val={brand.diesel}   isMin={!isNational && brand.diesel   === minD} isMax={!isNational && brand.diesel   === maxD} />
-                      <PriceCell val={brand.lpg}      isMin={!isNational && brand.lpg      === minL} isMax={!isNational && brand.lpg      === maxL} />
+                      <PriceCell val={brand.gasoline} isMin={!isNational && brand.gasoline === minG} isMax={!isNational && brand.gasoline === maxG} mobileHidden={fuelTab !== 'gasoline'} />
+                      <PriceCell val={brand.diesel}   isMin={!isNational && brand.diesel   === minD} isMax={!isNational && brand.diesel   === maxD} mobileHidden={fuelTab !== 'diesel'} />
+                      <PriceCell val={brand.lpg}      isMin={!isNational && brand.lpg      === minL} isMax={!isNational && brand.lpg      === maxL} mobileHidden={fuelTab !== 'lpg'} />
                     </tr>
                   )
                 })}
