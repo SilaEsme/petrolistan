@@ -56,13 +56,13 @@ function findNearestProvince(lat: number, lon: number): string {
 
 function HeroPriceSkeleton() {
   return (
-    <div className="grid grid-cols-3 gap-px bg-gray-100">
+    <div className="grid grid-cols-3">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="bg-white px-3 py-4 sm:px-4">
-          <div className="h-2.5 w-16 bg-gray-100 rounded animate-pulse mb-3" />
-          <div className="h-8 w-24 bg-gray-200 rounded animate-pulse mb-3" />
-          <div className="h-4 w-20 bg-gray-100 rounded animate-pulse mb-2" />
-          <div className="h-5 w-12 bg-gray-100 rounded-full animate-pulse" />
+        <div key={i} className={`bg-white dark:bg-[#0F1829] px-5 py-6 ${i < 2 ? 'border-r border-gray-100 dark:border-gray-800' : ''}`}>
+          <div className="h-2.5 w-16 bg-gray-100 dark:bg-gray-800 rounded animate-pulse mb-4" />
+          <div className="h-10 w-28 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3" />
+          <div className="h-4 w-20 bg-gray-100 dark:bg-gray-800 rounded animate-pulse mb-3" />
+          <div className="h-5 w-14 bg-gray-100 dark:bg-gray-800 rounded-full animate-pulse" />
         </div>
       ))}
     </div>
@@ -73,12 +73,12 @@ function TableSkeleton() {
   return (
     <div>
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="flex gap-4 px-4 py-2.5 border-b border-gray-50">
-          <div className="h-3 w-24 bg-gray-100 rounded animate-pulse" />
-          <div className="h-3 w-16 bg-gray-100 rounded animate-pulse ml-auto" />
-          <div className="h-3 w-16 bg-gray-100 rounded animate-pulse" />
-          <div className="hidden sm:block h-3 w-12 bg-gray-100 rounded animate-pulse" />
-          <div className="hidden sm:block h-3 w-8 bg-gray-100 rounded animate-pulse" />
+        <div key={i} className="flex gap-4 px-5 py-3 border-b border-gray-50 dark:border-gray-800/50">
+          <div className="h-3 w-24 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+          <div className="h-3 w-16 bg-gray-100 dark:bg-gray-800 rounded animate-pulse ml-auto" />
+          <div className="h-3 w-16 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+          <div className="hidden sm:block h-3 w-12 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+          <div className="hidden sm:block h-3 w-8 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
         </div>
       ))}
     </div>
@@ -136,18 +136,11 @@ export default function HomeComparisonTable() {
 
   const savingsG50 = maxG > minG ? Math.round((maxG - minG) * 50) : 0
 
-  function rowClass(val: number, min: number, max: number, isNational: boolean) {
-    if (isNational || val <= 0) return ''
-    if (val === min) return 'bg-green-50/60'
-    if (val === max) return 'bg-red-50/40'
-    return ''
-  }
-
   function priceClass(val: number, min: number, max: number, isNational: boolean) {
-    if (isNational || val <= 0) return 'text-gray-400'
-    if (val === min) return 'text-green-600 font-semibold'
-    if (val === max) return 'text-red-500 font-semibold'
-    return 'text-gray-700'
+    if (isNational || val <= 0) return 'text-gray-400 dark:text-gray-600'
+    if (val === min) return 'text-green-600 dark:text-green-400 font-semibold'
+    if (val === max) return 'text-red-500 dark:text-red-400 font-semibold'
+    return 'text-gray-700 dark:text-gray-300'
   }
 
   function diffLabel(val: number, min: number) {
@@ -160,16 +153,16 @@ export default function HomeComparisonTable() {
 
   return (
     <div className="max-w-5xl mx-auto px-3 sm:px-4 py-3">
-      <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+      <div className="bg-white dark:bg-[#0F1829] rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800/60 shadow-sm">
 
         {/* Header bar — province selector */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800/60">
           <div>
-            <h1 className="text-[15px] font-semibold text-[#042C53] leading-tight">Güncel Akaryakıt Fiyatları</h1>
-            <p className="text-[11px] text-gray-400 mt-0.5">Marka bazlı, saatlik güncelleme</p>
+            <h1 className="text-base font-semibold text-[#042C53] dark:text-white leading-tight">Güncel Akaryakıt Fiyatları</h1>
+            <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">Marka bazlı, saatlik güncelleme</p>
           </div>
           <label className="flex items-center gap-1.5 cursor-pointer">
-            <svg className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
@@ -177,11 +170,11 @@ export default function HomeComparisonTable() {
               value={locating ? '' : province}
               onChange={(e) => setProvince(e.target.value)}
               disabled={locating}
-              className="text-[13px] font-medium text-[#0C447C] bg-transparent border-none focus:outline-none cursor-pointer disabled:text-gray-400 pr-1"
+              className="text-[13px] font-medium text-[#0C447C] dark:text-[#5B9BD5] bg-transparent border-none focus:outline-none cursor-pointer disabled:text-gray-400 pr-1"
             >
               {locating && <option value="">Konum alınıyor…</option>}
               {Object.entries(PROVINCES).map(([code, name]) => (
-                <option key={code} value={code} className="text-gray-900">{name}</option>
+                <option key={code} value={code} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-[#0F1829]">{name}</option>
               ))}
             </select>
           </label>
@@ -191,57 +184,57 @@ export default function HomeComparisonTable() {
         {isLoading && !showData ? (
           <HeroPriceSkeleton />
         ) : cheapestG ? (
-          <div className="grid grid-cols-3 gap-px bg-gray-100">
+          <div className="grid grid-cols-3">
             {/* Benzin 95 */}
-            <div className="bg-white px-3 py-4 sm:px-4">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Benzin 95</p>
+            <div className="bg-white dark:bg-[#0F1829] px-5 py-6 border-r border-gray-100 dark:border-gray-800">
+              <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Benzin 95</p>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-[26px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-[#042C53] dark:text-white tabular-nums leading-none">
                   {fmt(minG)}
                 </span>
-                <span className="text-sm text-gray-400">₺/L</span>
+                <span className="text-sm text-gray-400 dark:text-gray-500">₺/L</span>
               </div>
-              <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestG.brand}</p>
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+              <p className="text-sm font-semibold text-[#0C447C] dark:text-[#5B9BD5] mb-3 truncate">{cheapestG.brand}</p>
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/60 px-2 py-0.5 rounded-full">
                 <span>●</span> En ucuz
               </span>
             </div>
 
             {/* Motorin */}
-            <div className="bg-white px-3 py-4 sm:px-4">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Motorin</p>
+            <div className="bg-white dark:bg-[#0F1829] px-5 py-6 border-r border-gray-100 dark:border-gray-800">
+              <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Motorin</p>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-[26px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-[#042C53] dark:text-white tabular-nums leading-none">
                   {cheapestD ? fmt(minD) : '—'}
                 </span>
-                {cheapestD && <span className="text-sm text-gray-400">₺/L</span>}
+                {cheapestD && <span className="text-sm text-gray-400 dark:text-gray-500">₺/L</span>}
               </div>
               {cheapestD && (
-                <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestD.brand}</p>
+                <p className="text-sm font-semibold text-[#0C447C] dark:text-[#5B9BD5] mb-3 truncate">{cheapestD.brand}</p>
               )}
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/60 px-2 py-0.5 rounded-full">
                 <span>●</span> En ucuz
               </span>
             </div>
 
             {/* LPG */}
-            <div className="bg-white px-3 py-4 sm:px-4">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">LPG</p>
+            <div className="bg-white dark:bg-[#0F1829] px-5 py-6">
+              <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">LPG</p>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-[26px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-[#042C53] dark:text-white tabular-nums leading-none">
                   {cheapestL ? fmt(minL) : '—'}
                 </span>
-                {cheapestL && <span className="text-sm text-gray-400">₺/L</span>}
+                {cheapestL && <span className="text-sm text-gray-400 dark:text-gray-500">₺/L</span>}
               </div>
               {cheapestL && (
-                <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestL.brand}</p>
+                <p className="text-sm font-semibold text-[#0C447C] dark:text-[#5B9BD5] mb-3 truncate">{cheapestL.brand}</p>
               )}
               {cheapestL ? (
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/60 px-2 py-0.5 rounded-full">
                   <span>●</span> En ucuz
                 </span>
               ) : (
-                <span className="text-[11px] text-gray-300">Bu ilde yok</span>
+                <span className="text-[11px] text-gray-300 dark:text-gray-700">Bu ilde yok</span>
               )}
             </div>
           </div>
@@ -249,15 +242,15 @@ export default function HomeComparisonTable() {
 
         {/* Savings banner */}
         {savingsG50 > 0 && priceyG && cheapestG && (
-          <div className="bg-[#FAEEDA] px-4 py-2.5 flex items-center gap-2.5">
-            <svg className="w-4 h-4 text-[#633806] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-[#1A1200] dark:to-[#1A0E00] border-t border-amber-100 dark:border-amber-900/30 px-5 py-2.5 flex items-center gap-2.5">
+            <svg className="w-4 h-4 text-[#633806] dark:text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-[12px] text-[#412402] leading-snug">
+            <p className="text-[12px] text-[#412402] dark:text-amber-200/80 leading-snug">
               <span className="font-semibold">{cheapestG.brand}</span> yerine{' '}
               <span className="font-semibold">{priceyG.brand}</span>&apos;nden alsan 50 litrene{' '}
-              <span className="font-bold text-[#633806]">{savingsG50} ₺ fazla</span> öderdin
-              <span className="text-[#854F0B] ml-1">— en ucuz markayı seç</span>
+              <span className="font-bold text-[#633806] dark:text-amber-400">{savingsG50} ₺ fazla</span> öderdin
+              <span className="text-[#854F0B] dark:text-amber-500/70 ml-1">— en ucuz markayı seç</span>
             </p>
           </div>
         )}
@@ -275,57 +268,60 @@ export default function HomeComparisonTable() {
               <col style={{ width: '11%' }} />
             </colgroup>
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="px-4 py-2 text-left text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Marka</th>
-                <th className="px-3 py-2 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Benzin 95</th>
-                <th className="px-3 py-2 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Motorin</th>
-                <th className="hidden sm:table-cell px-3 py-2 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">LPG</th>
-                <th className="hidden sm:table-cell px-4 py-2 text-right text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Fark</th>
+              <tr className="border-b border-gray-100 dark:border-gray-800/60">
+                <th className="px-5 py-2.5 text-left text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Marka</th>
+                <th className="px-3 py-2.5 text-right text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Benzin 95</th>
+                <th className="px-3 py-2.5 text-right text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Motorin</th>
+                <th className="hidden sm:table-cell px-3 py-2.5 text-right text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">LPG</th>
+                <th className="hidden sm:table-cell px-5 py-2.5 text-right text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Fark</th>
               </tr>
             </thead>
             <tbody>
               {brands.map((brand) => {
                 const isNational = NATIONAL_BRANDS.has(brand.brand)
                 const diff = diffLabel(brand.gasoline, minG)
+                const isCheapestG = !isNational && brand.gasoline > 0 && brand.gasoline === minG
                 return (
                   <tr
                     key={brand.brand}
-                    className={`border-b border-gray-50 transition-colors hover:brightness-[0.97] ${rowClass(brand.gasoline, minG, maxG, isNational)}`}
+                    className={`border-b border-gray-50 dark:border-gray-800/40 transition-colors hover:bg-gray-50/60 dark:hover:bg-white/[0.03] ${
+                      isCheapestG ? 'border-l-2 border-l-green-400 dark:border-l-green-600' : ''
+                    }`}
                   >
-                    <td className="px-4 py-2.5">
+                    <td className="px-5 py-3">
                       <div className="flex items-center gap-2">
                         <BrandLogo name={brand.brand} size={20} />
-                        <span className="text-[13px] font-medium text-gray-800">{brand.brand}</span>
+                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{brand.brand}</span>
                         {isNational && (
-                          <span className="text-[9px] text-gray-400 border border-gray-200 rounded px-1 leading-none">ulusal</span>
+                          <span className="text-[9px] text-gray-400 dark:text-gray-600 border border-gray-200 dark:border-gray-700 rounded px-1 leading-none">ulusal</span>
                         )}
                         {brand.brand === 'Total' && brand.gasoline === 0 && (
-                          <span className="text-[9px] text-gray-400">bu ilde yok</span>
+                          <span className="text-[9px] text-gray-400 dark:text-gray-600">bu ilde yok</span>
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-2.5 text-right tabular-nums">
+                    <td className="px-3 py-3 text-right tabular-nums">
                       {brand.gasoline > 0
                         ? <span className={`text-[13px] ${priceClass(brand.gasoline, minG, maxG, isNational)}`}>{fmt(brand.gasoline)} ₺</span>
-                        : <span className="text-gray-200 text-xs">—</span>}
+                        : <span className="text-gray-200 dark:text-gray-700 text-xs">—</span>}
                     </td>
-                    <td className="px-3 py-2.5 text-right tabular-nums">
+                    <td className="px-3 py-3 text-right tabular-nums">
                       {brand.diesel > 0
                         ? <span className={`text-[13px] ${priceClass(brand.diesel, minD, maxD, isNational)}`}>{fmt(brand.diesel)} ₺</span>
-                        : <span className="text-gray-200 text-xs">—</span>}
+                        : <span className="text-gray-200 dark:text-gray-700 text-xs">—</span>}
                     </td>
-                    <td className="hidden sm:table-cell px-3 py-2.5 text-right tabular-nums">
+                    <td className="hidden sm:table-cell px-3 py-3 text-right tabular-nums">
                       {brand.lpg > 0
                         ? <span className={`text-[13px] ${priceClass(brand.lpg, minL, maxL, isNational)}`}>{fmt(brand.lpg)} ₺</span>
-                        : <span className="text-gray-200 text-xs">—</span>}
+                        : <span className="text-gray-200 dark:text-gray-700 text-xs">—</span>}
                     </td>
-                    <td className="hidden sm:table-cell px-4 py-2.5 text-right">
+                    <td className="hidden sm:table-cell px-5 py-3 text-right">
                       {!isNational && diff ? (
-                        <span className="text-[11px] text-red-400 tabular-nums">{diff}</span>
+                        <span className="text-[11px] text-red-400 dark:text-red-500 tabular-nums">{diff}</span>
                       ) : !isNational && brand.gasoline === minG && minG > 0 ? (
-                        <span className="text-[11px] text-green-600 font-semibold">—</span>
+                        <span className="text-[11px] text-green-600 dark:text-green-400 font-semibold">—</span>
                       ) : (
-                        <span className="text-gray-200 text-[11px]">—</span>
+                        <span className="text-gray-200 dark:text-gray-700 text-[11px]">—</span>
                       )}
                     </td>
                   </tr>
@@ -336,15 +332,15 @@ export default function HomeComparisonTable() {
         ) : null}
 
         {/* Footer */}
-        <div className="px-4 py-2 flex items-center justify-between border-t border-gray-100">
-          <div className="flex items-center gap-4 text-[10px] text-gray-400">
-            <span className="text-green-600">● En ucuz</span>
-            <span className="text-red-400">● En pahalı</span>
-            <span className="hidden sm:inline text-gray-300">Fark: benzin 95 için en ucuzdan ₺ fark</span>
+        <div className="px-5 py-2.5 flex items-center justify-between border-t border-gray-100 dark:border-gray-800/60">
+          <div className="flex items-center gap-4 text-[10px] text-gray-400 dark:text-gray-600">
+            <span className="text-green-600 dark:text-green-500">● En ucuz</span>
+            <span className="text-red-400 dark:text-red-500">● En pahalı</span>
+            <span className="hidden sm:inline text-gray-300 dark:text-gray-700">Fark: benzin 95 için en ucuzdan ₺ fark</span>
           </div>
           <Link
             href={`/akaryakit/karsilastirma?province=${province}`}
-            className="text-[11px] text-[#0C447C] hover:underline whitespace-nowrap"
+            className="text-[11px] text-[#0C447C] dark:text-[#5B9BD5] hover:underline whitespace-nowrap"
           >
             Tüm iller →
           </Link>

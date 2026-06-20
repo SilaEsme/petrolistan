@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Topbar, Navbar, Ticker, Footer, BottomNav } from "@/components/layout";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -68,24 +69,26 @@ export default function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-0R88KQWF2W';
   const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID ?? 'ca-pub-5969246291079798';
   return (
-    <html lang="tr" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="tr" className={`${geistSans.variable} h-full antialiased`} suppressHydrationWarning>
       <Script
         async
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
         crossOrigin="anonymous"
         strategy="afterInteractive"
       />
-      <body className="min-h-full flex flex-col bg-[#F5F5F0] text-gray-900">
+      <body className="min-h-full flex flex-col bg-[#F5F5F0] dark:bg-[#09121E] text-gray-900 dark:text-[#E2E8F0]">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <Topbar />
-        <Navbar />
-        <Ticker />
-        <main className="flex-1 pb-16 md:pb-0">{children}</main>
-        <Footer />
-        <BottomNav />
+        <ThemeProvider>
+          <Topbar />
+          <Navbar />
+          <Ticker />
+          <main className="flex-1 pb-16 md:pb-0">{children}</main>
+          <Footer />
+          <BottomNav />
+        </ThemeProvider>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           strategy="afterInteractive"

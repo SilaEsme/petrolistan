@@ -84,7 +84,7 @@ function TickerEntry({ item }: { item: TickerItem }) {
       aria-label={`${item.label} ${item.value}${item.unit ? ` ${item.unit}` : ""}`}
       className="inline-flex flex-col justify-center px-4 border-r border-white/[0.07] h-full cursor-pointer hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-colors shrink-0"
     >
-      <span className="text-[10px] font-semibold text-white/55 uppercase tracking-[0.06em] leading-none mb-1.5">
+      <span className="text-[10px] font-semibold text-white/55 uppercase tracking-[0.08em] leading-none mb-1.5">
         {item.label}
       </span>
       <span className="flex items-baseline gap-1.5">
@@ -110,7 +110,7 @@ export default function Ticker({ items }: { items?: TickerItem[] }) {
   const doubled  = [...resolved, ...resolved];
 
   return (
-    <div className="w-full bg-[#042C53] border-b border-white/10 overflow-hidden h-14 flex items-stretch shadow-[0_4px_12px_rgba(4,44,83,0.18)]">
+    <div className="w-full bg-[#042C53] dark:bg-[#040D1A] border-b border-white/10 overflow-hidden h-12 flex items-stretch shadow-[0_4px_12px_rgba(4,44,83,0.18)]">
       {/* CANLI indicator */}
       <div className="flex-shrink-0 flex items-center gap-2 px-4 bg-white/[0.04] border-r border-white/[0.08]">
         <span className="relative flex h-2 w-2">
