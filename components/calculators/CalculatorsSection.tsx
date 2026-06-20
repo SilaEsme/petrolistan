@@ -82,7 +82,7 @@ export default function CalculatorsSection() {
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab
-                  ? 'text-[#0C447C] border-b-2 border-[#0C447C] bg-white'
+                  ? 'text-[#EA580C] border-b-2 border-[#EA580C] bg-white'
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
@@ -98,7 +98,7 @@ export default function CalculatorsSection() {
             <select
               value={province}
               onChange={(e) => setProvince(e.target.value)}
-              className="text-sm border border-gray-200 rounded-lg px-2 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30"
+              className="text-sm border border-gray-200 rounded-lg px-2 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#EA580C]/30"
             >
               {Object.entries(PROVINCES).map(([code, name]) => (
                 <option key={code} value={code}>{name}</option>
@@ -117,7 +117,7 @@ export default function CalculatorsSection() {
                     onClick={() => setSavingsFuel(f)}
                     className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
                       savingsFuel === f
-                        ? 'bg-[#0C447C] text-white border-[#0C447C]'
+                        ? 'bg-[#EA580C] text-white border-[#EA580C]'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}
                   >
@@ -139,7 +139,7 @@ export default function CalculatorsSection() {
                   step={5}
                   value={litres}
                   onChange={(e) => setLitres(Number(e.target.value))}
-                  className="w-full accent-[#0C447C] cursor-pointer"
+                  className="w-full accent-[#EA580C] cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-gray-300 mt-0.5">
                   <span>10 L</span>
@@ -202,7 +202,7 @@ export default function CalculatorsSection() {
                     max={9999}
                     value={km}
                     onChange={(e) => setKm(Math.max(1, Number(e.target.value)))}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EA580C]/30"
                   />
                 </div>
                 <div>
@@ -214,7 +214,7 @@ export default function CalculatorsSection() {
                     step={0.5}
                     value={consumption}
                     onChange={(e) => setConsumption(Math.max(1, Number(e.target.value)))}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0C447C]/30"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EA580C]/30"
                   />
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function CalculatorsSection() {
                     onClick={() => setRouteFuel(f)}
                     className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
                       routeFuel === f
-                        ? 'bg-[#0C447C] text-white border-[#0C447C]'
+                        ? 'bg-[#EA580C] text-white border-[#EA580C]'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}
                   >
@@ -244,7 +244,7 @@ export default function CalculatorsSection() {
                     onClick={() => setRoundTrip(rt)}
                     className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
                       roundTrip === rt
-                        ? 'bg-[#042C53] text-white border-[#042C53]'
+                        ? 'bg-[#EA580C] text-white border-[#EA580C]'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}
                   >

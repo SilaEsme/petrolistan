@@ -155,7 +155,7 @@ export default function ComparisonClient({
               key={tab}
               onClick={() => setFuelTab(tab)}
               className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                fuelTab === tab ? 'bg-white text-[#0C447C] shadow-sm' : 'text-gray-500'
+                fuelTab === tab ? 'bg-white text-[#EA580C] shadow-sm' : 'text-gray-500'
               }`}
             >
               {tab === 'gasoline' ? 'Benzin 95' : tab === 'diesel' ? 'Motorin' : 'LPG'}
