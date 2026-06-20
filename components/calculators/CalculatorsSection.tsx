@@ -180,7 +180,7 @@ export default function CalculatorsSection() {
                         <p className="text-white/60 text-sm">
                           En ucuzu seçerek tasarrufun
                         </p>
-                        <p className="text-[#BA7517] font-bold text-2xl tabular-nums">{fmt(saving)} ₺</p>
+                        <p className="text-white font-bold text-2xl tabular-nums">{fmt(saving)} ₺</p>
                       </div>
                     </>
                   )}
@@ -272,7 +272,7 @@ export default function CalculatorsSection() {
                   </div>
                   <div className="p-3 bg-[#042C53] rounded-lg text-center">
                     <p className="text-[10px] text-white/50 uppercase tracking-wider font-medium">Tahmini maliyet</p>
-                    <p className="text-lg font-bold text-[#BA7517] mt-1 tabular-nums leading-tight">
+                    <p className="text-lg font-bold text-white mt-1 tabular-nums leading-tight">
                       {fmt(routeCost)} ₺
                     </p>
                     <p className="text-[10px] text-white/40">{rCheap?.brand ?? '—'}</p>

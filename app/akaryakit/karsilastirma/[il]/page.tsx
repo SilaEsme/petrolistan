@@ -105,7 +105,7 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
             </div>
             <div className="text-right shrink-0">
               <p className="text-white/50 text-[10px] uppercase tracking-wider font-medium mb-0.5">50L&apos;de tasarruf</p>
-              <p className="text-[#BA7517] font-bold text-xl">{savings.saving} ₺</p>
+              <p className="text-white font-bold text-xl">{savings.saving} ₺</p>
             </div>
           </div>
         </div>
