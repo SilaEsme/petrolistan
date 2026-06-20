@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from '../ComparisonClient'
+import { buildFaqSchema } from '../faqSchema'
 
 type Params = Promise<{ il: string }>
 
@@ -39,6 +40,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
+function fmt(val: number) {
+  return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
 function calcSavings(initialData: BrandsResponse | null) {
   if (!initialData?.data) return null
   const eligible = initialData.data.filter((b) => b.brand !== 'Moil')
@@ -50,8 +55,12 @@ function calcSavings(initialData: BrandsResponse | null) {
   if (saving <= 0) return null
   return {
     brand: cheapest.brand,
-    price: cheapest.gasoline.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-    saving: saving.toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+    price: fmt(cheapest.gasoline),
+    saving: Math.round(saving).toLocaleString('tr-TR'),
+    priciest: priciest.brand,
+    diff: fmt(priciest.gasoline - cheapest.gasoline),
+    minG: fmt(cheapest.gasoline),
+    maxG: fmt(priciest.gasoline),
   }
 }
 
@@ -65,7 +74,7 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
   const cityName = PROVINCES[provinceStr] ?? il
   const savings = calcSavings(initialData)
 
-  const jsonLd = {
+  const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${cityName} Akaryakıt Fiyatları Karşılaştırması`,
@@ -73,12 +82,20 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
     url: `https://petrolistan.com/akaryakit/karsilastirma/${il}`,
   }
 
+  const faqSchema = buildFaqSchema(cityName, initialData)
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {savings && (
         <div className="max-w-5xl mx-auto px-4 md:px-8 pt-6">
           <div className="bg-[#042C53] text-white rounded-xl px-5 py-4 flex items-center justify-between gap-4">

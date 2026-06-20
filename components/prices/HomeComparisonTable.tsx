@@ -201,10 +201,7 @@ export default function HomeComparisonTable() {
                 </span>
                 <span className="text-sm text-gray-400">₺/L</span>
               </div>
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <BrandLogo name={cheapestG.brand} size={18} />
-                <span className="text-[13px] font-medium text-[#0C447C] truncate">{cheapestG.brand}</span>
-              </div>
+              <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestG.brand}</p>
               <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
                 <span>●</span> En ucuz
               </span>
@@ -220,10 +217,7 @@ export default function HomeComparisonTable() {
                 {cheapestD && <span className="text-sm text-gray-400">₺/L</span>}
               </div>
               {cheapestD && (
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <BrandLogo name={cheapestD.brand} size={18} />
-                  <span className="text-[13px] font-medium text-[#0C447C] truncate">{cheapestD.brand}</span>
-                </div>
+                <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestD.brand}</p>
               )}
               <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
                 <span>●</span> En ucuz
@@ -240,10 +234,7 @@ export default function HomeComparisonTable() {
                 {cheapestL && <span className="text-sm text-gray-400">₺/L</span>}
               </div>
               {cheapestL && (
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <BrandLogo name={cheapestL.brand} size={18} />
-                  <span className="text-[13px] font-medium text-[#0C447C] truncate">{cheapestL.brand}</span>
-                </div>
+                <p className="text-[13px] font-semibold text-[#0C447C] mb-2.5 truncate">{cheapestL.brand}</p>
               )}
               {cheapestL ? (
                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">

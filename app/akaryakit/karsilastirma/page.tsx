@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from './ComparisonClient'
+import { buildFaqSchema } from './faqSchema'
 
 type SearchParams = Promise<{ province?: string }>
 
@@ -36,7 +37,7 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
   const initialData = await fetchInitialData(province)
   const cityName = PROVINCES[province] ?? 'Türkiye'
 
-  const jsonLd = {
+  const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${cityName} Akaryakıt Fiyatları Karşılaştırması`,
@@ -44,12 +45,20 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
     url: `https://petrolistan.com/akaryakit/karsilastirma?province=${province}`,
   }
 
+  const faqSchema = buildFaqSchema(cityName, initialData)
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
         <ComparisonClient initialData={initialData} />
       </Suspense>

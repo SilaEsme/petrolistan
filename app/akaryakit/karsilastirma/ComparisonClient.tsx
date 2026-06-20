@@ -166,40 +166,74 @@ export default function ComparisonClient({
 
       {/* En Uygun Fiyat — 3 kart */}
       {brands.length > 0 && cheapestGasoline && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-          {/* Benzin */}
-          <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#BA7517] ${fuelTab !== 'gasoline' ? 'hidden sm:block' : ''}`}>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Benzin 95</p>
-            <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestGasoline.brand}</p>
-            <p className="text-xl font-bold mt-0.5">{fmt(cheapestGasoline.gasoline)} ₺/L</p>
-            {expensiveGasoline && expensiveGasoline.brand !== cheapestGasoline.brand && (
-              <p className="text-[11px] text-white/50 mt-1">
-                {fmt(expensiveGasoline.gasoline - cheapestGasoline.gasoline)} ₺ daha ucuz
-              </p>
-            )}
+        <>
+          <div className="grid grid-cols-3 gap-px bg-gray-100 rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-3">
+            {/* Benzin */}
+            <div className={`bg-white px-3 py-4 sm:px-4 ${fuelTab !== 'gasoline' ? 'hidden sm:block' : ''}`}>
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Benzin 95</p>
+              <div className="flex items-baseline gap-1 mb-3">
+                <span className="text-[24px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                  {fmt(cheapestGasoline.gasoline)}
+                </span>
+                <span className="text-sm text-gray-400">₺/L</span>
+              </div>
+              <p className="text-[13px] font-semibold text-[#0C447C] mb-2">{cheapestGasoline.brand}</p>
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                ● En ucuz
+              </span>
+            </div>
+            {/* Motorin */}
+            {cheapestDiesel ? (
+              <div className={`bg-white px-3 py-4 sm:px-4 ${fuelTab !== 'diesel' ? 'hidden sm:block' : ''}`}>
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Motorin</p>
+                <div className="flex items-baseline gap-1 mb-3">
+                  <span className="text-[24px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                    {fmt(cheapestDiesel.diesel)}
+                  </span>
+                  <span className="text-sm text-gray-400">₺/L</span>
+                </div>
+                <p className="text-[13px] font-semibold text-[#0C447C] mb-2">{cheapestDiesel.brand}</p>
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                  ● En ucuz
+                </span>
+              </div>
+            ) : <div className="bg-white px-3 py-4 sm:px-4" />}
+            {/* LPG */}
+            {cheapestLpg ? (
+              <div className={`bg-white px-3 py-4 sm:px-4 ${fuelTab !== 'lpg' ? 'hidden sm:block' : ''}`}>
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">LPG</p>
+                <div className="flex items-baseline gap-1 mb-3">
+                  <span className="text-[24px] sm:text-[28px] font-semibold text-[#042C53] tabular-nums leading-none">
+                    {fmt(cheapestLpg.lpg)}
+                  </span>
+                  <span className="text-sm text-gray-400">₺/L</span>
+                </div>
+                <p className="text-[13px] font-semibold text-[#0C447C] mb-2">{cheapestLpg.brand}</p>
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                  ● En ucuz
+                </span>
+              </div>
+            ) : <div className="bg-white px-3 py-4 sm:px-4" />}
           </div>
-          {/* Motorin */}
-          {cheapestDiesel && (
-            <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#185FA5] ${fuelTab !== 'diesel' ? 'hidden sm:block' : ''}`}>
-              <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">Motorin</p>
-              <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestDiesel.brand}</p>
-              <p className="text-xl font-bold mt-0.5">{fmt(cheapestDiesel.diesel)} ₺/L</p>
-              {expensiveDiesel && expensiveDiesel.brand !== cheapestDiesel.brand && (
-                <p className="text-[11px] text-white/50 mt-1">
-                  {fmt(expensiveDiesel.diesel - cheapestDiesel.diesel)} ₺ daha ucuz
-                </p>
-              )}
+
+          {/* Savings banner */}
+          {expensiveGasoline && expensiveGasoline.brand !== cheapestGasoline.brand && (
+            <div className="bg-[#FAEEDA] rounded-xl px-4 py-2.5 mb-6 flex items-center gap-2.5">
+              <svg className="w-4 h-4 text-[#633806] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-[12px] text-[#412402]">
+                <span className="font-semibold">{cheapestGasoline.brand}</span> yerine{' '}
+                <span className="font-semibold">{expensiveGasoline.brand}</span>&apos;dan benzin alsan
+                50 litrene{' '}
+                <span className="font-bold text-[#633806]">
+                  {Math.round((expensiveGasoline.gasoline - cheapestGasoline.gasoline) * 50)} ₺ fazla
+                </span>{' '}
+                öderdin
+              </p>
             </div>
           )}
-          {/* LPG */}
-          {cheapestLpg && (
-            <div className={`bg-[#042C53] text-white rounded-xl p-4 border-l-4 border-[#0E7C7B] ${fuelTab !== 'lpg' ? 'hidden sm:block' : ''}`}>
-              <p className="text-[10px] text-white/50 uppercase tracking-widest font-medium mb-2">LPG Otogaz</p>
-              <p className="text-base font-bold text-[#BA7517] leading-tight">{cheapestLpg.brand}</p>
-              <p className="text-xl font-bold mt-0.5">{fmt(cheapestLpg.lpg)} ₺/L</p>
-            </div>
-          )}
-        </div>
+        </>
       )}
 
       {/* Tablo */}
@@ -303,20 +337,30 @@ export default function ComparisonClient({
             <div className="space-y-3">
               {[
                 {
-                  q: `Bugün ${provinceName}'da motorin kaç lira?`,
-                  a: `${new Date().toLocaleDateString('tr-TR')} itibarıyla ${provinceName}'da motorin fiyatları ${cheapestDiesel ? fmt(cheapestDiesel.diesel) : '—'} ile ${expensiveDiesel ? fmt(expensiveDiesel.diesel) : '—'} ₺/L arasında değişmektedir. En ucuz motorin ${cheapestDiesel?.brand ?? '—'} istasyonlarında bulunmaktadır.`,
+                  q: `${provinceName}'da benzin 95 kaç lira?`,
+                  a: cheapestGasoline && expensiveGasoline
+                    ? `${provinceName}'da güncel benzin 95 fiyatları ${fmt(minG)} ile ${fmt(maxG)} ₺/L arasındadır. En ucuz benzin ${cheapestGasoline.brand} istasyonlarında ${fmt(cheapestGasoline.gasoline)} ₺/L olarak uygulanmaktadır.`
+                    : `${provinceName} için güncel benzin 95 fiyatları yukarıdaki tabloda görüntülenebilir.`,
                 },
                 {
-                  q: `Bugün ${provinceName}'da benzin 95 kaç lira?`,
-                  a: `${provinceName}'da kurşunsuz 95 oktan benzin fiyatları ${cheapestGasoline ? fmt(cheapestGasoline.gasoline) : '—'} ile ${expensiveGasoline ? fmt(expensiveGasoline.gasoline) : '—'} ₺/L arasında değişmektedir.`,
+                  q: `${provinceName}'da motorin fiyatı ne kadar?`,
+                  a: cheapestDiesel && expensiveDiesel
+                    ? `${provinceName}'da motorin fiyatları ${fmt(minD)} ile ${fmt(maxD)} ₺/L arasında değişmektedir. En uygun motorin ${cheapestDiesel.brand} istasyonlarında ${fmt(cheapestDiesel.diesel)} ₺/L olarak bulunmaktadır.`
+                    : `${provinceName} motorin fiyatları tabloda güncel olarak listelenmektedir.`,
                 },
                 {
-                  q: 'OPET mi Shell mi daha ucuz?',
-                  a: 'Akaryakıt fiyatları şehre ve güne göre değişmektedir. Yukarıdaki tabloda bulunduğunuz şehir için güncel OPET ve Shell fiyatlarını karşılaştırabilirsiniz.',
+                  q: `${provinceName}'da en ucuz akaryakıt hangi markada?`,
+                  a: cheapestGasoline && cheapestDiesel
+                    ? `${provinceName}'da en ucuz benzin 95 ${cheapestGasoline.brand} (${fmt(cheapestGasoline.gasoline)} ₺/L), en ucuz motorin ise ${cheapestDiesel.brand} (${fmt(cheapestDiesel.diesel)} ₺/L) istasyonlarında uygulanmaktadır. Fiyatlar saatlik güncellenmektedir.`
+                    : `Güncel en ucuz marka bilgisi yukarıdaki tabloda listelenmiştir.`,
                 },
+                ...(expensiveGasoline && cheapestGasoline && expensiveGasoline.brand !== cheapestGasoline.brand ? [{
+                  q: `${provinceName}'da doğru markayı seçersem ne kadar tasarruf ederim?`,
+                  a: `${provinceName}'da benzin 95 için en ucuz marka (${cheapestGasoline.brand}, ${fmt(cheapestGasoline.gasoline)} ₺/L) ile en pahalı marka arasında ${fmt(maxG - minG)} ₺/L fark bulunmaktadır. 50 litrelik bir dolum için bu fark ${Math.round((maxG - minG) * 50)} ₺'ye ulaşmaktadır.`,
+                }] : []),
                 {
-                  q: 'LPG otogaz fiyatı ne kadar?',
-                  a: `${provinceName}'da Shell, Petrol Ofisi ve Total istasyonlarında LPG otogaz fiyatları tabloda gösterilmektedir.`,
+                  q: 'Akaryakıt fiyatları ne zaman güncellenir?',
+                  a: 'EPDK akaryakıt tavan fiyatlarını her hafta Salı veya Çarşamba günü açıklar; yeni fiyatlar gece yarısından itibaren geçerli olur. Markalar bu tavan fiyatın altında kalmak koşuluyla kendi pompa fiyatlarını belirleyebilir. Petrolistan fiyatları saatlik olarak günceller.',
                 },
               ].map(({ q, a }) => (
                 <details key={q} className="border border-gray-200 rounded-lg p-4">
