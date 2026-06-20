@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePrices, useNews } from '@/lib/api'
-import PriceCard from '@/components/prices/PriceCard'
+import { useNews } from '@/lib/api'
 import HomeComparisonTable from '@/components/prices/HomeComparisonTable'
 import EditorialSection from '@/components/layout/EditorialSection'
 import CalculatorsSection from '@/components/calculators/CalculatorsSection'
@@ -15,47 +14,22 @@ function formatDate(iso: string) {
 }
 
 export default function HomePage() {
-  const { prices, updatedAt, isLoading } = usePrices()
   const { news, isLoading: newsLoading } = useNews()
 
-  const commodityPrices = prices.filter((p) => p.label !== 'Brent (TL karsiligi)')
-  const previewNews     = news.slice(0, 3)
+  const previewNews = news.slice(0, 3)
 
   return (
     <>
-      {/* 1+2. Hero + Marka karşılaştırma tablosu */}
+      {/* 1. Hero + Marka karşılaştırma tablosu */}
       <HomeComparisonTable />
 
-      {/* 3. Hesaplayıcılar */}
+      {/* 2. Hesaplayıcılar */}
       <CalculatorsSection />
 
-      {/* 4. Piyasa fiyatları */}
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-4 sm:pb-6">
-        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
-          Ham Petrol &amp; Doğalgaz
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-xl p-3 border border-gray-200/80 flex flex-col gap-2 animate-pulse">
-                  <div className="flex justify-between">
-                    <div className="h-4 w-24 bg-gray-200 rounded" />
-                    <div className="h-3 w-10 bg-gray-100 rounded" />
-                  </div>
-                  <div className="h-7 w-28 bg-gray-200 rounded" />
-                  <div className="h-4 w-20 bg-gray-100 rounded" />
-                </div>
-              ))
-            : commodityPrices.map((item) => (
-                <PriceCard key={item.label} {...item} updatedAt={updatedAt} compact />
-              ))}
-        </div>
-      </div>
-
-      {/* 5. Editorial */}
+      {/* 3. Editorial */}
       <EditorialSection />
 
-      {/* 6. Son haberler */}
+      {/* 4. Son haberler */}
       <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-6 sm:pb-10">
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Son Haberler</p>
