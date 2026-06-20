@@ -11,7 +11,6 @@ const navLinks = [
   { label: "Karşılaştır", href: "/akaryakit/karsilastirma" },
   { label: "Doğalgaz", href: "/dogalgaz" },
   { label: "Haberler", href: "/haberler" },
-  { label: "Analizler", href: "/analizler" },
 ];
 
 export default function Navbar() {

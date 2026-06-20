@@ -115,18 +115,27 @@ export default function HomeComparisonTable() {
               </h1>
               {/* En ucuz özet */}
               {!isLoading && cheapestG ? (
-                <p className="text-white/70 text-[12px] mt-0.5 leading-snug">
-                  {PROVINCES[province]} · En ucuz benzin:{' '}
-                  <span className="text-[#BA7517] font-semibold">{cheapestG.brand}</span>{' '}
-                  <span className="text-white/80">{cheapestG.gasoline.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
-                  {cheapestD && (
-                    <>
-                      {' '}· Motorin:{' '}
-                      <span className="text-[#BA7517] font-semibold">{cheapestD.brand}</span>{' '}
-                      <span className="text-white/80">{cheapestD.diesel.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
-                    </>
+                <>
+                  <p className="text-white/70 text-[12px] mt-0.5 leading-snug">
+                    {PROVINCES[province]} · En ucuz benzin:{' '}
+                    <span className="text-[#BA7517] font-semibold">{cheapestG.brand}</span>{' '}
+                    <span className="text-white/80">{cheapestG.gasoline.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                    {cheapestD && (
+                      <>
+                        {' '}· Motorin:{' '}
+                        <span className="text-[#BA7517] font-semibold">{cheapestD.brand}</span>{' '}
+                        <span className="text-white/80">{cheapestD.diesel.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                      </>
+                    )}
+                  </p>
+                  {maxG > minG && (
+                    <p className="text-[#BA7517] font-semibold text-[12px] mt-1">
+                      50L&apos;de{' '}
+                      {((maxG - minG) * 50).toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₺
+                      {' '}tasarruf edebilirsin — en ucuz markayı seç
+                    </p>
                   )}
-                </p>
+                </>
               ) : (
                 <div className="h-3 w-48 bg-white/20 rounded animate-pulse mt-1" />
               )}

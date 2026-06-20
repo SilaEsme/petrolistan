@@ -93,13 +93,6 @@ export default function HamPetrolPage() {
         </div>
       </section>
 
-      <div className="mb-8 p-4 bg-blue-50/50 border border-blue-100 rounded-xl text-sm text-gray-600">
-        OPEC+&apos;ın Türkiye üzerindeki etkisini daha ayrıntılı okumak için{' '}
-        <Link href="/analizler/opec-turkiye-etkisi" className="text-[#185FA5] font-medium hover:underline">
-          OPEC Kararları Türkiye&apos;yi Nasıl Etkiler? →
-        </Link>
-      </div>
-
       <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-dark">Canlı fiyatları takip edin</p>

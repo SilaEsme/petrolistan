@@ -188,13 +188,6 @@ export default function AkaryakitPage() {
         ))}
       </div>
 
-      <div className="mb-8 p-4 bg-blue-50/50 border border-blue-100 rounded-xl text-sm text-gray-600">
-        Akaryakıt fiyatlarının oluşum mekanizmasını daha ayrıntılı anlamak için{' '}
-        <Link href="/analizler/benzin-fiyati-nasil-hesaplanir" className="text-[#185FA5] font-medium hover:underline">
-          Benzin Fiyatı Nasıl Hesaplanır? →
-        </Link>
-      </div>
-
       <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-dark">İl bazlı akaryakıt fiyatlarını karşılaştırın</p>

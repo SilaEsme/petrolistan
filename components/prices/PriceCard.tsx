@@ -65,7 +65,7 @@ export default function PriceCard({
         <span className="text-[#042C53] font-semibold text-xs sm:text-sm leading-tight">
           {label}
         </span>
-        <span className="hidden md:inline text-gray-400 text-[10px] font-medium uppercase tracking-wide shrink-0">
+        <span className="text-gray-400 text-[10px] font-medium bg-gray-100 px-1.5 py-0.5 rounded shrink-0">
           {source}
         </span>
       </div>

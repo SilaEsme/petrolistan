@@ -89,13 +89,6 @@ export default function DogalgazPage() {
         </div>
       </section>
 
-      <div className="mb-8 p-4 bg-blue-50/50 border border-blue-100 rounded-xl text-sm text-gray-600">
-        Türkiye&apos;nin enerji ithalatının ekonomiye etkilerini anlamak için{' '}
-        <Link href="/analizler/turkiye-enerji-ithalati-ekonomik-etkileri" className="text-[#185FA5] font-medium hover:underline">
-          Türkiye&apos;nin Enerji İthalatı: Ekonomik Etkiler →
-        </Link>
-      </div>
-
       <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-dark">Canlı fiyatları takip edin</p>

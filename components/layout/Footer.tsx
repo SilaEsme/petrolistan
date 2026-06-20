@@ -9,7 +9,6 @@ const footerLinks = {
   ],
   "İçerik": [
     { label: "Haberler", href: "/haberler" },
-    { label: "Analizler", href: "/analizler" },
     { label: "Marka Karşılaştırma", href: "/akaryakit/karsilastirma" },
   ],
   "Kurumsal": [
@@ -32,7 +31,7 @@ export default function Footer() {
             </div>
             <p className="text-white/50 text-sm leading-relaxed">
               Türkiye&apos;nin petrol ve enerji fiyatları için güvenilir kaynak.
-              Anlık veriler, haberler ve analizler.
+              Anlık veriler ve haberler.
             </p>
             <p className="text-white/30 text-xs mt-4">
               Veri kaynakları: EIA, TCMB, EPDK
