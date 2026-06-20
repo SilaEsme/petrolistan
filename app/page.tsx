@@ -4,6 +4,7 @@ import { usePrices, useNews } from '@/lib/api'
 import PriceCard from '@/components/prices/PriceCard'
 import HomeComparisonTable from '@/components/prices/HomeComparisonTable'
 import EditorialSection from '@/components/layout/EditorialSection'
+import CalculatorsSection from '@/components/calculators/CalculatorsSection'
 
 function formatDate(iso: string) {
   try {
@@ -25,7 +26,10 @@ export default function HomePage() {
       {/* 1+2. Hero + Marka karşılaştırma tablosu */}
       <HomeComparisonTable />
 
-      {/* 3. Piyasa fiyatları */}
+      {/* 3. Hesaplayıcılar */}
+      <CalculatorsSection />
+
+      {/* 4. Piyasa fiyatları */}
       <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-4 sm:pb-6">
         <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
           Ham Petrol &amp; Doğalgaz
@@ -48,10 +52,10 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 4. Editorial + Analizler */}
+      {/* 5. Editorial */}
       <EditorialSection />
 
-      {/* 5. Son haberler */}
+      {/* 6. Son haberler */}
       <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-6 sm:pb-10">
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Son Haberler</p>
