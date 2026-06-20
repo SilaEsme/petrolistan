@@ -42,6 +42,9 @@ export default function Navbar() {
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
+    // Exact match for links that have a more-specific sibling in the nav
+    const exactLinks = ["/akaryakit"];
+    if (exactLinks.includes(href)) return pathname === href;
     return pathname.startsWith(href);
   }
 
