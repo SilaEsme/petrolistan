@@ -40,19 +40,19 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {newsLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-24 bg-gray-100 rounded-xl animate-pulse" />
+                <div key={i} className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />
               ))
             : previewNews.map((item) => (
                 <Link
                   key={item.id}
                   href={`/haberler/${item.slug}`}
-                  className="block group p-4 rounded-xl border border-gray-100 hover:border-[#0C447C]/30 hover:bg-gray-50/60 transition-all"
+                  className="block group p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-[#0C447C]/30 dark:hover:border-[#5B9BD5]/30 hover:bg-gray-50/60 dark:hover:bg-white/5 transition-all"
                 >
-                  <p className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-[#0C447C] transition-colors mb-2 line-clamp-2">
+                  <p className="text-[13px] font-semibold text-gray-900 dark:text-gray-100 leading-snug group-hover:text-[#0C447C] dark:group-hover:text-[#5B9BD5] transition-colors mb-2 line-clamp-2">
                     {item.title}
                   </p>
                   <div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-2">
-                    <span className="font-semibold text-gray-500">{item.source}</span>
+                    <span className="font-semibold text-gray-500 dark:text-gray-400">{item.source}</span>
                     <span>·</span>
                     <span>{formatDate(item.publishedAt)}</span>
                   </div>

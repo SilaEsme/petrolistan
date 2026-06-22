@@ -4,15 +4,15 @@ import NewsCard from './NewsCard'
 
 function SkeletonCard({ isLast = false }: { isLast?: boolean }) {
   return (
-    <div className={`flex gap-3 py-3 animate-pulse ${!isLast ? 'border-b border-gray-100' : ''}`}>
+    <div className={`flex gap-3 py-3 animate-pulse ${!isLast ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}>
       <div className="flex-1 space-y-2">
-        <div className="h-3 w-16 bg-gray-100 rounded" />
-        <div className="h-4 w-full bg-gray-200 rounded" />
-        <div className="h-4 w-3/4 bg-gray-200 rounded" />
-        <div className="h-3 w-2/3 bg-gray-100 rounded" />
-        <div className="h-3 w-40 bg-gray-100 rounded" />
+        <div className="h-3 w-16 bg-gray-100 dark:bg-gray-800 rounded" />
+        <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded" />
+        <div className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded" />
+        <div className="h-3 w-2/3 bg-gray-100 dark:bg-gray-800 rounded" />
+        <div className="h-3 w-40 bg-gray-100 dark:bg-gray-800 rounded" />
       </div>
-      <div className="w-12 h-12 shrink-0 bg-gray-100 rounded-lg" />
+      <div className="w-12 h-12 shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg" />
     </div>
   )
 }
@@ -34,7 +34,7 @@ export default function NewsList({
   const hasMore = limit != null && items.length > limit
 
   return (
-    <section className="bg-white rounded-lg p-4">
+    <section className="bg-white dark:bg-[#0F1829] rounded-lg p-4">
       <h2 className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1">
         {title}
       </h2>
@@ -50,7 +50,7 @@ export default function NewsList({
       </div>
 
       {hasMore && !isLoading && (
-        <div className="mt-3 pt-3 border-t border-gray-100">
+        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800">
           <Link
             href="/haberler"
             className="text-xs text-[#0C447C] font-medium hover:underline"

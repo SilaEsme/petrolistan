@@ -28,7 +28,7 @@ export default function HaberlerClient({ initialNews }: Props) {
             className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
               activeCategory === cat
                 ? 'bg-[#0C447C] text-white'
-                : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400'
+                : 'bg-white dark:bg-[#0F1829] border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
             }`}
           >
             {cat}

@@ -36,12 +36,12 @@ export default function NewsCard({ item, isLast = false }: Props) {
       href={href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="block hover:bg-gray-50/50 transition-colors cursor-pointer"
+      className="block hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors cursor-pointer"
     >
       <article
         className={`py-4 ${
           item.featured ? 'border-l-[3px] border-[#0E7C7B] pl-4 -ml-4' : ''
-        } ${!isLast ? 'border-b border-gray-100' : ''}`}
+        } ${!isLast ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}
       >
         {/* Category + Time */}
         <div className="flex items-center gap-1.5 mb-1.5">
@@ -54,7 +54,7 @@ export default function NewsCard({ item, isLast = false }: Props) {
 
         {/* Title */}
         <h3
-          className={`font-semibold text-[#0A1628] leading-snug line-clamp-2 mb-1.5 ${
+          className={`font-semibold text-[#0A1628] dark:text-gray-100 leading-snug line-clamp-2 mb-1.5 ${
             item.featured ? 'text-[17px]' : 'text-[15px]'
           }`}
         >

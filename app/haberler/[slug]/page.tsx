@@ -81,12 +81,12 @@ export default async function HaberDetayPage({
       </div>
 
       {/* Başlık */}
-      <h1 className="text-2xl font-medium text-gray-900 leading-snug mb-4">
+      <h1 className="text-2xl font-medium text-gray-900 dark:text-white leading-snug mb-4">
         {item.title}
       </h1>
 
       {/* Excerpt / İçerik */}
-      <p className="text-base text-gray-600 leading-relaxed border-l-2 border-[#378ADD] pl-4 mb-8">
+      <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed border-l-2 border-[#378ADD] pl-4 mb-8">
         {item.excerpt}
       </p>
 
@@ -113,29 +113,29 @@ export default async function HaberDetayPage({
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(item.title)}&url=https://petrolistan.com/haberler/${slug}`}
           target="_blank" rel="noopener noreferrer"
-          className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded transition-colors">
+          className="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 px-3 py-1.5 rounded transition-colors">
           X&apos;te paylaş
         </a>
         <a
           href={`https://www.linkedin.com/sharing/share-offsite/?url=https://petrolistan.com/haberler/${slug}`}
           target="_blank" rel="noopener noreferrer"
-          className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded transition-colors">
+          className="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 px-3 py-1.5 rounded transition-colors">
           LinkedIn&apos;de paylaş
         </a>
       </div>
 
       {/* İlgili haberler */}
       {related.length > 0 && (
-        <div className="border-t border-gray-200 pt-8">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-8">
           <h2 className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-4">
             İlgili haberler
           </h2>
           <div className="space-y-3">
             {related.map((r: NewsItem) => (
               <a key={r.slug} href={`/haberler/${r.slug}`}
-                className="block hover:bg-gray-50 p-3 rounded-lg transition-colors">
-                <p className="text-sm font-medium text-gray-900">{r.title}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{r.source} · {r.readingTime} dk okuma</p>
+                className="block hover:bg-gray-50 dark:hover:bg-white/5 p-3 rounded-lg transition-colors">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{r.title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{r.source} · {r.readingTime} dk okuma</p>
               </a>
             ))}
           </div>
@@ -143,7 +143,7 @@ export default async function HaberDetayPage({
       )}
 
       {/* Geri dön */}
-      <div className="mt-10 pt-6 border-t border-gray-200">
+      <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-800">
         <a href="/haberler" className="text-sm text-[#185FA5] hover:underline">
           ← Tüm haberler
         </a>
