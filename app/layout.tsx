@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import { Topbar, Navbar, Ticker, Footer, BottomNav } from "@/components/layout";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { SiteShell } from "@/components/layout/SiteShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,12 +88,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <ThemeProvider>
-          <Topbar />
-          <Navbar />
-          <Ticker />
-          <main className="flex-1 pb-16 md:pb-0">{children}</main>
-          <Footer />
-          <BottomNav />
+          <SiteShell>{children}</SiteShell>
         </ThemeProvider>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
