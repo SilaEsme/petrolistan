@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { provinceSlugToCode } from '@/lib/provinces'
+import { YAZILAR } from '@/lib/yazilar'
 
 const base = 'https://petrolistan.com'
 
@@ -14,6 +15,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
+  const yaziPages: MetadataRoute.Sitemap = YAZILAR.map((yazi) => ({
+    url: `${base}/yazilar/${yazi.slug}`,
+    lastModified: new Date(yazi.tarih),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
   return [
     { url: base, lastModified: now, changeFrequency: 'daily', priority: 1 },
     { url: `${base}/haberler`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
@@ -21,10 +29,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/akaryakit/karsilastirma`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/ham-petrol`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${base}/dogalgaz`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${base}/yazilar`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/hakkimizda`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${base}/iletisim`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${base}/gizlilik`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${base}/reklam`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
+    ...yaziPages,
     ...ilPages,
   ]
 }

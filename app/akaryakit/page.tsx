@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
+import AdUnit, { AD_SLOTS } from '@/components/ads/AdUnit'
 
 export const metadata: Metadata = {
   title: 'EPDK Akaryakıt Fiyatları 2026 | Benzin Motorin Güncel Fiyat | Petrolistan',
@@ -53,6 +55,10 @@ export default function AkaryakitPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Akaryakıt', url: 'https://petrolistan.com/akaryakit' },
+      ]} />
 
       <h1 className="text-3xl font-bold text-dark mb-2">Akaryakıt Fiyatları</h1>
       <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
@@ -156,6 +162,8 @@ export default function AkaryakitPage() {
           </p>
         </div>
       </section>
+
+      <AdUnit slot={AD_SLOTS.articleInContent} format="rectangle" className="my-6" />
 
       {/* SSS */}
       <div className="my-10 space-y-4">

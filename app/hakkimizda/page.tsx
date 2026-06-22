@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
+import AdUnit, { AD_SLOTS } from '@/components/ads/AdUnit'
 
 export const metadata: Metadata = {
   title: 'Hakkımızda — Bağımsız Enerji Veri Platformu',
@@ -113,6 +114,8 @@ export default function HakkimizdaPage() {
             </div>
           </div>
         </section>
+
+        <AdUnit slot={AD_SLOTS.articleInContent} format="rectangle" className="my-6" />
 
         <section className="mb-10">
           <h2 className="text-xl font-semibold text-brand mb-3">Neden Güvenilir?</h2>

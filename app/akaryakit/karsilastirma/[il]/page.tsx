@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
 import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from '../ComparisonClient'
@@ -96,6 +97,12 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Akaryakıt', url: 'https://petrolistan.com/akaryakit' },
+        { name: 'Karşılaştırma', url: 'https://petrolistan.com/akaryakit/karsilastirma' },
+        { name: cityName, url: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
+      ]} />
       {savings && (
         <div className="max-w-5xl mx-auto px-4 md:px-8 pt-6">
           <div className="bg-[#042C53] text-white rounded-xl px-5 py-4 flex items-center justify-between gap-4">

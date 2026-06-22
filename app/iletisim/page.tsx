@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'İletişim | Petrolistan',
   description: 'Petrolistan ile iletişime geçin. Soru, öneri, reklam ve iş birliği teklifleri için formu doldurun.',
+  alternates: { canonical: 'https://petrolistan.com/iletisim' },
 }
 
 export default function IletisimPage() {

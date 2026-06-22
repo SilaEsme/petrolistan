@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Reklam Ver | Petrolistan',
   description: 'Petrolistan\'da reklam verin. Türkiye\'nin enerji sektöründeki profesyonellere ve araç sahiplerine ulaşın.',
+  alternates: { canonical: 'https://petrolistan.com/reklam' },
 }
 
 export default function ReklamPage() {

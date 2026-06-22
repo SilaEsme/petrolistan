@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import type { NewsItem } from '@/types'
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
 
 const ASCII_SLUG = /^[a-zA-Z0-9_\-]+$/
 
@@ -33,6 +34,7 @@ export async function generateMetadata({
     title: `${item.title} — Petrolistan`,
     description: item.excerpt,
     robots: { index: false, follow: true },
+    alternates: { canonical: `https://petrolistan.com/haberler/${slug}` },
   }
 }
 
@@ -67,6 +69,11 @@ export default async function HaberDetayPage({
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Haberler', url: 'https://petrolistan.com/haberler' },
+        { name: item.title, url: `https://petrolistan.com/haberler/${slug}` },
+      ]} />
       {/* Meta */}
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded"

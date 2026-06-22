@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Gizlilik Politikası ve Kullanım Şartları | Petrolistan',
   description: 'Petrolistan gizlilik politikası, kullanım şartları, sorumluluk reddi ve telif hakkı bildirimi.',
+  alternates: { canonical: 'https://petrolistan.com/gizlilik' },
 }
 
 export default function GizlilikPage() {

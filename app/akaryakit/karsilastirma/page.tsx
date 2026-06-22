@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
 import { PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from './ComparisonClient'
@@ -60,6 +61,11 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Akaryakıt', url: 'https://petrolistan.com/akaryakit' },
+        { name: 'Karşılaştırma', url: 'https://petrolistan.com/akaryakit/karsilastirma' },
+      ]} />
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
         <ComparisonClient initialData={initialData} />
       </Suspense>

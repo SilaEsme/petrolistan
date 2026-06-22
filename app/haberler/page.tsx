@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
+import AdUnit, { AD_SLOTS } from '@/components/ads/AdUnit';
 import type { NewsItem } from '@/types';
 import HaberlerClient from './HaberlerClient';
 
@@ -28,7 +30,12 @@ export default async function HaberlerPage() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-8">
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Haberler', url: 'https://petrolistan.com/haberler' },
+      ]} />
       <h1 className="text-2xl font-medium text-gray-900 dark:text-white mb-6">Haberler</h1>
+      <AdUnit slot={AD_SLOTS.pageTop} format="horizontal" className="mb-6" />
       <HaberlerClient initialNews={news} />
     </main>
   );

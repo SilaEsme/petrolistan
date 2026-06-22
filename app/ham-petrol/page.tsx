@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
+import AdUnit, { AD_SLOTS } from '@/components/ads/AdUnit'
 
 export const metadata: Metadata = {
   title: 'Ham Petrol Fiyatları 2026 | Brent, WTI ve Türkiye | Petrolistan',
@@ -10,6 +12,10 @@ export const metadata: Metadata = {
 export default function HamPetrolPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
+        { name: 'Ham Petrol', url: 'https://petrolistan.com/ham-petrol' },
+      ]} />
       <h1 className="text-3xl font-bold text-dark mb-2">Ham Petrol Fiyatları</h1>
       <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
         Küresel ham petrol piyasaları, Brent ve WTI fiyat endeksleri ile Türkiye&apos;nin enerji dengesi.
@@ -93,6 +99,8 @@ export default function HamPetrolPage() {
           </p>
         </div>
       </section>
+
+      <AdUnit slot={AD_SLOTS.articleInContent} format="rectangle" className="mb-8" />
 
       <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
