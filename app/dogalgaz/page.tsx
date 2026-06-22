@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Doğalgaz Fiyatları 2026 | TTF, BOTAŞ ve Türkiye | Petrolistan',
   description: 'Güncel TTF ve Henry Hub doğalgaz fiyatları. Türkiye\'nin doğalgaz ithalatı, BOTAŞ tarifeleri, TürkAkım ve TANAP boru hatları hakkında kapsamlı bilgi.',
+  alternates: { canonical: 'https://petrolistan.com/dogalgaz' },
 }
 
 export default function DogalgazPage() {

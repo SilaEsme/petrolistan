@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Ham Petrol Fiyatları 2026 | Brent, WTI ve Türkiye | Petrolistan',
   description: 'Güncel Brent ve WTI ham petrol fiyatları. Türkiye\'nin petrol ithalatı, tedarikçiler, Brent-WTI farkı ve akaryakıt fiyatlarına etkisi hakkında kapsamlı bilgi.',
+  alternates: { canonical: 'https://petrolistan.com/ham-petrol' },
 }
 
 export default function HamPetrolPage() {

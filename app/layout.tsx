@@ -38,6 +38,12 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Petrolistan' }],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Benzin ve Motorin Fiyatları | Petrolistan',
+    description: 'OPET, Shell, Petrol Ofisi fiyatlarını 81 ilde karşılaştırın. Güncel benzin, motorin, LPG ve ham petrol fiyatları.',
+    images: ['/opengraph-image'],
+  },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://petrolistan.com' },
 };

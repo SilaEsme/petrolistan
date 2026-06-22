@@ -19,6 +19,8 @@ const nextConfig: NextConfig = {
         destination: 'https://petrolistan.com/:path*',
         permanent: true,
       },
+      { source: '/analizler', destination: '/haberler', permanent: true },
+      { source: '/analizler/:slug*', destination: '/haberler', permanent: true },
     ]
   },
   async headers() {
