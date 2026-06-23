@@ -112,7 +112,7 @@ export function StationCard({ station, fuelType, isHighlighted = false }: {
           <span className="text-xs text-gray-400">—</span>
         )}
         <a
-          href={`https://www.google.com/maps/dir/?api=1&destination=${station.lat},${station.lng}`}
+          href={`https://www.google.com/maps/dir/?api=1&destination=${station.lat},${station.lng}&travelmode=driving`}
           target="_blank"
           rel="noreferrer noopener"
           className="flex items-center gap-1 text-xs font-medium text-white bg-[#0C447C] hover:bg-[#0a3d6e] px-2 py-1 rounded-lg transition-colors"
