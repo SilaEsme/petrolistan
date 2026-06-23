@@ -178,7 +178,7 @@ export default function CalculatorsSection() {
                         </div>
                         <p className="text-xl font-bold text-red-600 dark:text-red-400">{fmt(expensiveCost)} ₺</p>
                       </div>
-                      <div className="p-4 bg-[#042C53] dark:bg-[#162035] rounded-lg flex items-center justify-between">
+                      <div className="p-4 bg-[#0C447C] dark:bg-[#162035] rounded-lg flex items-center justify-between">
                         <p className="text-white/60 text-sm">
                           En ucuzu seçerek tasarrufun
                         </p>
@@ -274,7 +274,7 @@ export default function CalculatorsSection() {
                     </p>
                     <p className="text-[10px] text-gray-400 dark:text-gray-500">litre</p>
                   </div>
-                  <div className="p-4 bg-[#042C53] dark:bg-[#162035] rounded-lg text-center">
+                  <div className="p-4 bg-[#0C447C] dark:bg-[#162035] rounded-lg text-center">
                     <p className="text-[10px] text-white/50 uppercase tracking-wider font-medium">Tahmini maliyet</p>
                     <p className="text-lg font-bold text-white mt-1 tabular-nums leading-tight">
                       {fmt(routeCost)} ₺
