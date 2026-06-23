@@ -40,34 +40,37 @@ export default function AraClient() {
     }
     setGeo({ status: 'loading' })
 
-    const onSuccess = (pos: GeolocationPosition) => {
-      const lat = pos.coords.latitude
-      const lng = pos.coords.longitude
-      setGeo({ status: 'ready', lat, lng, province: findProvinceCode(lat, lng) })
-    }
+    let watchId: number | null = null
 
-    const onError = (err: GeolocationPositionError, isRetry: boolean) => {
-      if (err.code === err.PERMISSION_DENIED) {
-        setGeo({ status: 'denied' })
-      } else if (err.code === err.POSITION_UNAVAILABLE && !isRetry) {
-        // CoreLocation kCLErrorLocationUnknown — geçici, 2s sonra tekrar dene
-        setTimeout(() => {
-          navigator.geolocation.getCurrentPosition(
-            onSuccess,
-            (e) => onError(e, true),
-            { timeout: 20000, maximumAge: 0 }
-          )
-        }, 2000)
-      } else {
-        setGeo({ status: 'error', message: 'Konum alınamadı. Lütfen sayfayı yenileyin.' })
-      }
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      onSuccess,
-      (err) => onError(err, false),
-      { timeout: 15000, maximumAge: 60000 }
+    // watchPosition, getCurrentPosition'dan farklı olarak CoreLocation'ın
+    // kCLErrorLocationUnknown geçici hatalarında denemeye devam eder.
+    watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        if (watchId !== null) {
+          navigator.geolocation.clearWatch(watchId)
+          watchId = null
+        }
+        const lat = pos.coords.latitude
+        const lng = pos.coords.longitude
+        setGeo({ status: 'ready', lat, lng, province: findProvinceCode(lat, lng) })
+      },
+      (err) => {
+        if (watchId !== null) {
+          navigator.geolocation.clearWatch(watchId)
+          watchId = null
+        }
+        if (err.code === err.PERMISSION_DENIED) {
+          setGeo({ status: 'denied' })
+        } else {
+          setGeo({ status: 'error', message: 'Konum alınamadı. Lütfen sayfayı yenileyin.' })
+        }
+      },
+      { enableHighAccuracy: false, maximumAge: 60000, timeout: 30000 }
     )
+
+    return () => {
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId)
+    }
   }, [])
 
   const apiKey =
