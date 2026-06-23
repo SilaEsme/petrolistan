@@ -87,16 +87,23 @@ export default function AraClient() {
     // Remove stations with no brand AND no name (show up as "Bilinmeyen")
     const filtered = (data?.stations ?? []).filter(s => s.brand || s.name)
 
-    // Deduplicate nodes within ~100m (OSM sometimes has 2 nodes for the same physical station)
+    // Deduplicate: first by osm_id (same OSM node imported multiple times),
+    // then by coordinate proximity ~55m (different OSM nodes for same physical station)
+    const seenOsmIds = new Set<number>()
     const deduped: NearbyStation[] = []
     for (const s of filtered) {
+      if (s.osm_id && seenOsmIds.has(s.osm_id)) continue
+
       const dupIdx = deduped.findIndex(
-        k => Math.abs(k.lat - s.lat) < 0.001 && Math.abs(k.lng - s.lng) < 0.001
+        k => Math.abs(k.lat - s.lat) < 0.0005 && Math.abs(k.lng - s.lng) < 0.0005
       )
       if (dupIdx === -1) {
         deduped.push(s)
+        if (s.osm_id) seenOsmIds.add(s.osm_id)
       } else if (s.address && !deduped[dupIdx].address) {
-        deduped[dupIdx] = s // prefer the node that has an address
+        if (deduped[dupIdx].osm_id) seenOsmIds.delete(deduped[dupIdx].osm_id)
+        deduped[dupIdx] = s
+        if (s.osm_id) seenOsmIds.add(s.osm_id)
       }
     }
 
