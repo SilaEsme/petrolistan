@@ -1,154 +1,86 @@
+import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'İletişim | Petrolistan',
-  description: 'Petrolistan ile iletişime geçin. Soru, öneri, reklam ve iş birliği teklifleri için formu doldurun.',
+  description: 'Petrolistan ile iletişime geçin. Soru, öneri ve veri hatası bildirimleri için info@petrolistan.com adresine yazabilirsiniz.',
   alternates: { canonical: 'https://petrolistan.com/iletisim' },
 }
 
 export default function IletisimPage() {
   return (
-    <main className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-medium text-gray-900 mb-2">İletişim</h1>
-      <p className="text-sm text-gray-500 mb-10 border-b border-gray-100 pb-6">
-        Soru, öneri veya iş birliği teklifleriniz için aşağıdaki formu doldurun.
+    <main className="max-w-3xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-dark dark:text-gray-100 mb-2">İletişim</h1>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-10 border-b border-gray-100 dark:border-gray-800 pb-6">
+        Soru, öneri veya geri bildirimleriniz için aşağıdaki adresten ulaşabilirsiniz.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-10">
-        {/* Form */}
-        <form className="space-y-5" action="mailto:info@petrolistan.com" method="post" encType="text/plain">
-          <div>
-            <label htmlFor="name" className="block text-xs font-medium text-gray-600 mb-1.5">
-              Ad Soyad
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Adınız Soyadınız"
-              required
-              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
-            />
+      <div className="space-y-4 mb-10">
+        <div className="flex items-start gap-4 p-5 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800">
+          <div className="w-9 h-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0 mt-0.5">
+            <span className="text-brand text-base">✉</span>
           </div>
-
           <div>
-            <label htmlFor="email" className="block text-xs font-medium text-gray-600 mb-1.5">
-              E-posta
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="ornek@email.com"
-              required
-              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="konu" className="block text-xs font-medium text-gray-600 mb-1.5">
-              Konu
-            </label>
-            <select
-              id="konu"
-              name="konu"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition"
+            <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-1">Genel sorular &amp; geri bildirim</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-2">
+              Platform hakkında sorularınız, önerileriniz veya paylaşmak istediğiniz görüşleriniz için.
+            </p>
+            <a
+              href="mailto:info@petrolistan.com"
+              className="text-sm text-[#185FA5] dark:text-[#5B9BD5] hover:underline font-medium"
             >
-              <option value="">Konu seçin</option>
-              <option value="genel">Genel soru / öneri</option>
-              <option value="veri">Veri hatası bildirimi</option>
-              <option value="reklam">Reklam & iş birliği</option>
-              <option value="basin">Basın & medya</option>
-              <option value="diger">Diğer</option>
-            </select>
+              info@petrolistan.com
+            </a>
           </div>
+        </div>
 
+        <div className="flex items-start gap-4 p-5 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800">
+          <div className="w-9 h-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0 mt-0.5">
+            <span className="text-brand text-base">⚠</span>
+          </div>
           <div>
-            <label htmlFor="mesaj" className="block text-xs font-medium text-gray-600 mb-1.5">
-              Mesaj
-            </label>
-            <textarea
-              id="mesaj"
-              name="mesaj"
-              rows={5}
-              placeholder="Mesajınızı buraya yazın..."
-              required
-              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0C447C]/20 focus:border-[#0C447C]/60 transition resize-none"
-            />
+            <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-1">Veri hatası bildirimi</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-2">
+              Sitede gördüğünüz yanlış fiyat veya veri hataları için lütfen mail gönderin.
+              Konu satırına &ldquo;Veri hatası&rdquo; yazarsanız öncelikli incelenir.
+            </p>
+            <a
+              href="mailto:info@petrolistan.com?subject=Veri%20hatas%C4%B1"
+              className="text-sm text-[#185FA5] dark:text-[#5B9BD5] hover:underline font-medium"
+            >
+              info@petrolistan.com
+            </a>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            className="w-full bg-[#0C447C] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#0a3a6b] transition-colors"
-          >
-            Mesaj Gönder
-          </button>
-
-          <p className="text-xs text-gray-400 text-center">
-            Mesajınıza genellikle 1-2 iş günü içinde yanıt verilir.
-          </p>
-        </form>
-
-        {/* İletişim bilgileri */}
-        <div className="space-y-6 text-sm text-gray-600">
+        <div className="flex items-start gap-4 p-5 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800">
+          <div className="w-9 h-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0 mt-0.5">
+            <span className="text-brand text-base">📰</span>
+          </div>
           <div>
-            <h2 className="text-base font-medium text-gray-800 mb-3">Doğrudan İletişim</h2>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <span className="text-[#0C447C] font-medium shrink-0 mt-0.5">@</span>
-                <div>
-                  <p className="text-xs text-gray-400 mb-0.5">Genel sorular</p>
-                  <a href="mailto:info@petrolistan.com" className="text-[#185FA5] hover:underline font-medium">
-                    info@petrolistan.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-[#0C447C] font-medium shrink-0 mt-0.5">@</span>
-                <div>
-                  <p className="text-xs text-gray-400 mb-0.5">Reklam &amp; iş birliği</p>
-                  <a href="mailto:reklam@petrolistan.com" className="text-[#185FA5] hover:underline font-medium">
-                    reklam@petrolistan.com
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-2">
-            <p className="text-xs font-medium text-gray-700">Veri hatası mı buldunuz?</p>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Sitedeki fiyat veya veri hatalarını bildirmek için lütfen e-posta gönderin. Tüm bildirimler en kısa sürede incelenmektedir.
+            <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-1">Basın &amp; medya</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+              Petrolistan verilerini veya analizlerini haberlerinizde kaynak göstererek kullanabilirsiniz.
+              İçerik lisansı veya işbirliği talepleriniz için bizimle iletişime geçin.
             </p>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-2">
-            <p className="text-xs font-medium text-gray-700">Basın &amp; Medya</p>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Petrolistan verilerini veya analizlerini haberlerinizde kullanmak için lütfen iletişime geçin. Kaynak gösterimi şartıyla içeriklerimiz kullanılabilir.
-            </p>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-2">
-            <p className="text-xs font-medium text-gray-700">Kuruluş Bilgileri</p>
-            <div className="text-xs text-gray-500 leading-relaxed space-y-1">
-              <p><strong className="text-gray-600">Petrolistan</strong></p>
-              <p>İstanbul, Türkiye</p>
-              <p>
-                Editöryal ekip:{' '}
-                <a href="/hakkimizda" className="text-[#185FA5] hover:underline">
-                  Hakkımızda sayfasına bakın
-                </a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-10 pt-6 border-t border-gray-200">
-        <a href="/" className="text-sm text-[#185FA5] hover:underline">
-          ← Ana sayfaya dön
-        </a>
+      <div className="bg-dark/5 dark:bg-white/5 border border-brand/20 dark:border-white/10 rounded-xl p-5">
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          Mesajlarınıza genellikle <strong className="text-gray-800 dark:text-gray-200">1–2 iş günü</strong> içinde yanıt verilmektedir.
+          Reklam ve iş birliği teklifleri için de aynı adresi kullanabilirsiniz.
+        </p>
+      </div>
+
+      <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-800 flex gap-6">
+        <Link href="/" className="text-sm text-[#185FA5] dark:text-[#5B9BD5] hover:underline">
+          ← Ana sayfa
+        </Link>
+        <Link href="/hakkimizda" className="text-sm text-[#185FA5] dark:text-[#5B9BD5] hover:underline">
+          Hakkımızda →
+        </Link>
       </div>
     </main>
   )
