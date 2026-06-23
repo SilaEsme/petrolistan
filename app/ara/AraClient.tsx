@@ -67,9 +67,24 @@ export default function AraClient() {
   })
 
   const stations = useMemo(() => {
-    const list = data?.stations ?? []
+    // Remove stations with no brand AND no name (show up as "Bilinmeyen")
+    const filtered = (data?.stations ?? []).filter(s => s.brand || s.name)
+
+    // Deduplicate nodes within ~100m (OSM sometimes has 2 nodes for the same physical station)
+    const deduped: NearbyStation[] = []
+    for (const s of filtered) {
+      const dupIdx = deduped.findIndex(
+        k => Math.abs(k.lat - s.lat) < 0.001 && Math.abs(k.lng - s.lng) < 0.001
+      )
+      if (dupIdx === -1) {
+        deduped.push(s)
+      } else if (s.address && !deduped[dupIdx].address) {
+        deduped[dupIdx] = s // prefer the node that has an address
+      }
+    }
+
     if (sortBy === 'ucuz') {
-      return [...list].sort((a, b) => {
+      return [...deduped].sort((a, b) => {
         const pa = fuelType === 'motorin' ? a.price_motorin : fuelType === 'lpg' ? a.price_lpg : a.price_benzin
         const pb = fuelType === 'motorin' ? b.price_motorin : fuelType === 'lpg' ? b.price_lpg : b.price_benzin
         if (!pa && !pb) return 0
@@ -78,7 +93,7 @@ export default function AraClient() {
         return pa - pb
       })
     }
-    return list // already sorted by distance from API
+    return deduped // already sorted by distance from API
   }, [data, sortBy, fuelType])
 
   return (

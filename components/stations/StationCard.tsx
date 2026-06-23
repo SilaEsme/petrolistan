@@ -3,17 +3,26 @@
 import { BrandLogo } from '@/components/prices/BrandLogo'
 
 const BRAND_KEY_TO_NAME: Record<string, string> = {
-  opet: 'Opet',
-  shell: 'Shell',
+  opet:        'Opet',
+  shell:       'Shell',
   petrolofisi: 'Petrol Ofisi',
-  aytemiz: 'Aytemiz',
-  lukoil: 'Lukoil',
-  total: 'Total',
-  moil: 'Moil',
-  alpet: 'Alpet',
-  bpet: 'Bpet',
-  sunpet: 'Sunpet',
-  kadoil: 'Kadoil',
+  aytemiz:     'Aytemiz',
+  lukoil:      'Lukoil',
+  total:       'Total',
+  moil:        'Moil',
+  alpet:       'Alpet',
+  bpet:        'Bpet',
+  sunpet:      'Sunpet',
+  kadoil:      'Kadoil',
+  classpetrol: 'Class Petrol',
+  tp:          'Türkiye Petrolleri',
+  onur:        'Onur',
+  omsan:       'Ömsan',
+  gopetrol:    'Go Petrol',
+  ural:        'Ural',
+  hdpetrol:    'HD Petrol',
+  akpet:       'Akpet',
+  bepetrol:    'Be Petrol',
 }
 
 export interface NearbyStation {
@@ -61,12 +70,16 @@ export function StationCard({ station, fuelType }: { station: NearbyStation; fue
 
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold text-gray-800 dark:text-white truncate">{label}</div>
-        {station.address && (
-          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{station.address}</div>
-        )}
-        {station.city && !station.address && (
-          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{station.city}</div>
-        )}
+        {(() => {
+          const subtitle =
+            station.address ||
+            (station.name && station.name !== brandName ? station.name : undefined) ||
+            station.city ||
+            undefined
+          return subtitle ? (
+            <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{subtitle}</div>
+          ) : null
+        })()}
         <div className="flex items-center gap-2 mt-0.5">
           <span className="text-xs text-gray-400 dark:text-gray-500">
             {station.distance_km < 1

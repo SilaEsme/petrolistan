@@ -3,17 +3,26 @@
 import { useState } from 'react'
 
 export const BRAND_LOGOS: Record<string, string> = {
-  'Opet':         '/brands/opet.png',
-  'Shell':        '/brands/shell.png',
-  'Petrol Ofisi': '/brands/petrolofisi.png',
-  'Aytemiz':      '/brands/aytemiz.jpg',
-  'Lukoil':       '/brands/lukoil.svg',
-  'Total':        '/brands/total.png',
-  'Moil':         '/brands/moil.png',
-  'Alpet':        '/brands/alpet.png',
-  'Bpet':         '/brands/bpet.png',
-  'Sunpet':       '/brands/sunpet.png',
-  'Kadoil':       '/brands/kadoil.png',
+  'Opet':                '/brands/opet.png',
+  'Shell':               '/brands/shell.png',
+  'Petrol Ofisi':        '/brands/petrolofisi.png',
+  'Aytemiz':             '/brands/aytemiz.jpg',
+  'Lukoil':              '/brands/lukoil.svg',
+  'Total':               '/brands/total.png',
+  'Moil':                '/brands/moil.png',
+  'Alpet':               '/brands/alpet.png',
+  'Bpet':                '/brands/bpet.png',
+  'Sunpet':              '/brands/sunpet.png',
+  'Kadoil':              '/brands/kadoil.png',
+  'Class Petrol':        '/brands/classpetrol.png',
+  'Türkiye Petrolleri':  '/brands/tp.png',
+  'Onur':                '/brands/onur.png',
+  'Ömsan':               '/brands/omsan.png',
+  'Go Petrol':           '/brands/gopetrol.png',
+  'Ural':                '/brands/ural.png',
+  'HD Petrol':           '/brands/hdpetrol.png',
+  'Akpet':               '/brands/akpet.png',
+  'Be Petrol':           '/brands/bepetrol.png',
 }
 
 function brandInitials(name: string): string {
