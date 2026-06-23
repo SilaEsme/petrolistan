@@ -125,9 +125,6 @@ export default function AraClient() {
 
   const handleStationClick = useCallback((id: number) => {
     setSelectedId(prev => prev === id ? null : id)
-    setTimeout(() => {
-      cardRefs.current.get(id)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-    }, 50)
   }, [])
 
   const handleStationHover = useCallback((id: number | null) => {
