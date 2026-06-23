@@ -15,11 +15,11 @@ const userIcon = L.divIcon({
   iconAnchor: [10, 10],
 })
 
-const makeStationIcon = (rank: number) => L.divIcon({
+const makeStationIcon = (_rank: number) => L.divIcon({
   className: '',
-  html: `<div style="width:24px;height:24px;background:#BA7517;border:2px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700;font-family:sans-serif;">${rank}</div>`,
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  html: `<div style="width:18px;height:18px;background:#BA7517;border:2px solid white;border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,0.4)"></div>`,
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
 })
 
 const makeClusterIcon = (count: number) => L.divIcon({
