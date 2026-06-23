@@ -99,7 +99,7 @@ function ClusteredMarkers({ stations, fuelType, onStationClick, onStationHover }
 
       wrap.appendChild(document.createElement('br'))
       const linkEl = document.createElement('a')
-      linkEl.href = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}`
+      linkEl.href = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`
       linkEl.target = '_blank'
       linkEl.rel = 'noreferrer noopener'
       linkEl.style.cssText = 'color:#0C447C;text-decoration:underline;font-size:12px'
