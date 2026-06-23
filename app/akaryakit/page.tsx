@@ -60,14 +60,14 @@ export default function AkaryakitPage() {
         { name: 'Akaryakıt', url: 'https://petrolistan.com/akaryakit' },
       ]} />
 
-      <h1 className="text-3xl font-bold text-dark mb-2">Akaryakıt Fiyatları</h1>
-      <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
+      <h1 className="text-3xl font-bold text-dark dark:text-white mb-2">Akaryakıt Fiyatları</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-10 border-b border-gray-100 dark:border-gray-700/50 pb-6">
         Türkiye&apos;de EPDK tarafından belirlenen akaryakıt fiyatları, etkileyen faktörler ve marka karşılaştırması.
       </p>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">EPDK Akaryakıt Fiyatlarını Nasıl Belirler?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">EPDK Akaryakıt Fiyatlarını Nasıl Belirler?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Türkiye&apos;de akaryakıt fiyatları, <strong>EPDK (Enerji Piyasası Düzenleme Kurumu)</strong> tarafından
             belirlenen tavan fiyat sistemi çerçevesinde şekillenmektedir. EPDK, her hafta Salı veya Çarşamba günü
@@ -92,8 +92,8 @@ export default function AkaryakitPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Türkiye&apos;de Akaryakıt Fiyatları Neden Yüksek?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Türkiye&apos;de Akaryakıt Fiyatları Neden Yüksek?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             <strong>ÖTV (Özel Tüketim Vergisi)</strong> ve <strong>KDV (Katma Değer Vergisi)</strong>, Türkiye&apos;deki
             akaryakıt maliyetinin yaklaşık yüzde elli beş ile altmışını oluşturmaktadır. Bu nedenle uluslararası
@@ -108,8 +108,8 @@ export default function AkaryakitPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Benzin, Motorin ve LPG Farkları</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Benzin, Motorin ve LPG Farkları</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Türkiye&apos;de tüketicilere sunulan başlıca akaryakıt çeşitleri <strong>benzin (95 oktan)</strong>,
             <strong> motorin (dizel)</strong> ve <strong>LPG (otogaz)</strong>&apos;dır. Her birinin fiyatı
@@ -129,8 +129,8 @@ export default function AkaryakitPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">İller Arasındaki Fiyat Farkı Neden Oluşur?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">İller Arasındaki Fiyat Farkı Neden Oluşur?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Türkiye&apos;nin 81 ilinde akaryakıt fiyatları birbirinden farklı olabilmektedir. Bu farkın temel nedenleri:
           </p>
@@ -149,8 +149,8 @@ export default function AkaryakitPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">EPDK Akaryakıt Fiyatları Ne Zaman Açıklanır?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">EPDK Akaryakıt Fiyatları Ne Zaman Açıklanır?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             EPDK akaryakıt tavan fiyatları her hafta <strong>Salı veya Çarşamba günü</strong> resmi web sitesinde
             yayımlanır. Yeni fiyatlar o gece yarısından itibaren geçerli olur. Bayiler tavan fiyat
@@ -167,7 +167,7 @@ export default function AkaryakitPage() {
 
       {/* SSS */}
       <div className="my-10 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Sık Sorulan Sorular</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Sık Sorulan Sorular</h2>
         {[
           {
             q: 'EPDK akaryakıt fiyatlarını nasıl belirler?',
@@ -186,20 +186,20 @@ export default function AkaryakitPage() {
             a: 'İle ve konuma göre değişir. Petrolistan karşılaştırma sayfasından OPET, Shell, Petrol Ofisi ve diğer markaların güncel fiyatlarını yan yana görebilirsiniz.',
           },
         ].map(({ q, a }) => (
-          <details key={q} className="border border-gray-200 rounded-lg group">
-            <summary className="px-4 py-3 text-sm font-medium text-gray-800 cursor-pointer list-none flex justify-between items-center">
+          <details key={q} className="border border-gray-200 dark:border-gray-700 rounded-lg group">
+            <summary className="px-4 py-3 text-sm font-medium text-gray-800 dark:text-gray-200 cursor-pointer list-none flex justify-between items-center">
               {q}
-              <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+              <span className="text-gray-400 dark:text-gray-500 group-open:rotate-180 transition-transform">▾</span>
             </summary>
-            <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{a}</p>
+            <p className="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{a}</p>
           </details>
         ))}
       </div>
 
-      <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-dark/5 dark:bg-white/5 border border-brand/20 dark:border-blue-400/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-dark">İl bazlı akaryakıt fiyatlarını karşılaştırın</p>
-          <p className="text-xs text-gray-500 mt-0.5">Şehirler arasındaki fiyat farklarını inceleyin.</p>
+          <p className="text-sm font-medium text-dark dark:text-white">İl bazlı akaryakıt fiyatlarını karşılaştırın</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Şehirler arasındaki fiyat farklarını inceleyin.</p>
         </div>
         <Link
           href="/akaryakit/karsilastirma"

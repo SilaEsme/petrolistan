@@ -16,14 +16,14 @@ export default function HamPetrolPage() {
         { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
         { name: 'Ham Petrol', url: 'https://petrolistan.com/ham-petrol' },
       ]} />
-      <h1 className="text-3xl font-bold text-dark mb-2">Ham Petrol Fiyatları</h1>
-      <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
+      <h1 className="text-3xl font-bold text-dark dark:text-white mb-2">Ham Petrol Fiyatları</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-10 border-b border-gray-100 dark:border-gray-700/50 pb-6">
         Küresel ham petrol piyasaları, Brent ve WTI fiyat endeksleri ile Türkiye&apos;nin enerji dengesi.
       </p>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Brent ve WTI Nedir?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Brent ve WTI Nedir?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             <strong>Brent ham petrolü</strong>, Kuzey Denizi&apos;nden çıkarılan ve dünya petrol fiyatlarına temel referans oluşturan bir petrol çeşididir.
             Avrupa, Afrika ve Orta Doğu kaynaklı petrollerin büyük bölümü Brent fiyatı üzerinden alınıp satılır.
@@ -42,8 +42,8 @@ export default function HamPetrolPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Türkiye&apos;de Ham Petrol</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Türkiye&apos;de Ham Petrol</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Türkiye, günlük yaklaşık <strong>700–800 bin varil</strong> ham petrol tüketmektedir; bu miktarın büyük bölümü ithalatla karşılanır.
             Yurt içi üretim oldukça sınırlı kalmakta olup ülke, enerjide dışa bağımlılığını azaltmak için yenilenebilir enerji
@@ -63,8 +63,8 @@ export default function HamPetrolPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Ham Petrol Fiyatını Etkileyen Faktörler</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Ham Petrol Fiyatını Etkileyen Faktörler</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Ham petrol fiyatları son derece volatil bir yapıya sahiptir. Fiyatları etkileyen başlıca faktörler şunlardır:
           </p>
@@ -89,8 +89,8 @@ export default function HamPetrolPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Brent Fiyatı Akaryakıta Nasıl Yansır?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Brent Fiyatı Akaryakıta Nasıl Yansır?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Brent ham petrol fiyatı ile Türkiye&apos;deki pompa fiyatı arasında doğrudan bir ilişki bulunmaktadır; ancak bu yansıma anlık değildir. Ham petrolün rafinajı, ürüne dönüştürülmesi, depolanması ve bayilere dağıtılması süreçleri ortalama <strong>iki ila dört haftalık</strong> bir gecikmeyle fiyat değişikliklerine yol açar.
           </p>
@@ -102,10 +102,10 @@ export default function HamPetrolPage() {
 
       <AdUnit slot={AD_SLOTS.articleInContent} format="rectangle" className="mb-8" />
 
-      <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-dark/5 dark:bg-white/5 border border-brand/20 dark:border-blue-400/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-dark">Canlı fiyatları takip edin</p>
-          <p className="text-xs text-gray-500 mt-0.5">Brent, WTI ve doğalgaz fiyatlarını anlık izleyin.</p>
+          <p className="text-sm font-medium text-dark dark:text-white">Canlı fiyatları takip edin</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Brent, WTI ve doğalgaz fiyatlarını anlık izleyin.</p>
         </div>
         <Link
           href="/"

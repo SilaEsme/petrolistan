@@ -16,14 +16,14 @@ export default function DogalgazPage() {
         { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
         { name: 'Doğalgaz', url: 'https://petrolistan.com/dogalgaz' },
       ]} />
-      <h1 className="text-3xl font-bold text-dark mb-2">Doğalgaz Fiyatları</h1>
-      <p className="text-gray-500 text-sm mb-10 border-b border-gray-100 pb-6">
+      <h1 className="text-3xl font-bold text-dark dark:text-white mb-2">Doğalgaz Fiyatları</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-10 border-b border-gray-100 dark:border-gray-700/50 pb-6">
         Küresel doğalgaz piyasaları, TTF endeksi ve Türkiye&apos;nin doğalgaz tedarik dengesi.
       </p>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">TTF ve Henry Hub Nedir?</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">TTF ve Henry Hub Nedir?</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             <strong>TTF (Title Transfer Facility)</strong>, Hollanda merkezli Avrupa doğalgaz piyasasının temel referans fiyat endeksidir.
             Avrupa&apos;da doğalgaz alım-satım sözleşmelerinin büyük çoğunluğu TTF üzerinden fiyatlanmaktadır.
@@ -39,8 +39,8 @@ export default function DogalgazPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Türkiye&apos;de Doğalgaz</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Türkiye&apos;de Doğalgaz</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Türkiye, doğalgaz ihtiyacının büyük bölümünü ithalatla karşılamakta olup tedarikçiler arasında
             <strong> Rusya</strong>, <strong>Azerbaycan</strong> ve <strong>İran</strong> öne çıkmaktadır.
@@ -59,8 +59,8 @@ export default function DogalgazPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Doğalgaz Fiyatını Etkileyen Faktörler</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Doğalgaz Fiyatını Etkileyen Faktörler</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             Doğalgaz fiyatları, ham petrole kıyasla farklı dinamikler tarafından şekillenmektedir. Başlıca faktörler şunlardır:
           </p>
@@ -85,8 +85,8 @@ export default function DogalgazPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-brand mb-3">Türkiye&apos;nin Sakarya Gaz Sahası</h2>
-        <div className="space-y-4 text-gray-700 text-[15px] leading-relaxed">
+        <h2 className="text-xl font-semibold text-brand dark:text-blue-400 mb-3">Türkiye&apos;nin Sakarya Gaz Sahası</h2>
+        <div className="space-y-4 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
           <p>
             2020 yılında Karadeniz&apos;de keşfedilen Sakarya doğalgaz sahası, Türkiye tarihinin en büyük doğalgaz keşfi olarak kayıtlara geçmiştir. Rezervlerin <strong>540 milyar metreküp</strong> civarında olduğu tahmin edilmektedir. Saha, Filyos kıyılarına bağlı boru hatları aracılığıyla 2023 yılında üretime geçmiş ve aşamalı olarak kapasitesi artırılmaktadır.
           </p>
@@ -98,10 +98,10 @@ export default function DogalgazPage() {
 
       <AdUnit slot={AD_SLOTS.articleInContent} format="rectangle" className="mb-8" />
 
-      <div className="bg-dark/5 border border-brand/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-dark/5 dark:bg-white/5 border border-brand/20 dark:border-blue-400/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-dark">Canlı fiyatları takip edin</p>
-          <p className="text-xs text-gray-500 mt-0.5">TTF başta olmak üzere güncel enerji fiyatlarını izleyin.</p>
+          <p className="text-sm font-medium text-dark dark:text-white">Canlı fiyatları takip edin</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">TTF başta olmak üzere güncel enerji fiyatlarını izleyin.</p>
         </div>
         <Link
           href="/"
