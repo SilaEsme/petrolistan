@@ -76,12 +76,14 @@ export default function RootLayout({
   const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID ?? 'ca-pub-5969246291079798';
   return (
     <html lang="tr" className={`${geistSans.variable} h-full antialiased`} suppressHydrationWarning>
-      <Script
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
+      <head>
+        {/* Plain script tag — avoids data-nscript attribute that AdSense doesn't support */}
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#F5F5F0] dark:bg-[#09121E] text-gray-900 dark:text-[#E2E8F0]">
         <script
           type="application/ld+json"
