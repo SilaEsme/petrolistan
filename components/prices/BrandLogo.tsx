@@ -6,7 +6,7 @@ export const BRAND_LOGOS: Record<string, string> = {
   'Opet':                '/brands/opet.png',
   'Shell':               '/brands/shell.png',
   'Petrol Ofisi':        '/brands/petrolofisi.png',
-  'Aytemiz':             '/brands/aytemiz.jpg',
+  'Aytemiz':             '/brands/aytemiz.png',
   'Lukoil':              '/brands/lukoil.svg',
   'Total':               '/brands/total.svg',
   'Moil':                '/brands/moil.png',
