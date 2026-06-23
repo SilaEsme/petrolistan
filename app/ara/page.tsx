@@ -4,7 +4,7 @@ import AraClient from './AraClient'
 export const metadata: Metadata = {
   title: 'Yakınımdaki Benzin İstasyonları | Petrolistan',
   description: 'Konumunuza en yakın akaryakıt istasyonlarını bulun. Benzin, motorin ve LPG fiyatlarına göre sıralayın, Google Maps üzerinden yol tarifi alın.',
-  robots: 'index, follow',
+  robots: { index: true, follow: true },
   alternates: { canonical: 'https://petrolistan.com/ara' },
   openGraph: {
     title: 'Yakınımdaki Benzin İstasyonları | Petrolistan',

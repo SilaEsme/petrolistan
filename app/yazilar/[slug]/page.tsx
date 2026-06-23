@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { YAZILAR, getYazi, getYaziIcerik } from '@/lib/yazilar'
 import { ArticleSchema } from '@/components/ads/ArticleSchema'
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
@@ -43,6 +44,9 @@ export default async function YaziDetayPage({ params }: { params: Params }) {
         title={yazi.baslik}
         description={yazi.ozet}
         datePublished={yazi.tarih}
+        dateModified={yazi.tarih}
+        articleBody={icerik}
+        imageUrl={yazi.gorselUrl}
         url={`https://petrolistan.com/yazilar/${slug}`}
       />
       <BreadcrumbSchema
@@ -92,9 +96,9 @@ export default async function YaziDetayPage({ params }: { params: Params }) {
 
       {/* Geri dön */}
       <div className="mt-10 pt-6 border-t border-gray-200">
-        <a href="/yazilar" className="text-sm text-[#185FA5] hover:underline">
+        <Link href="/yazilar" className="text-sm text-[#185FA5] hover:underline">
           ← Tüm yazılar
-        </a>
+        </Link>
       </div>
     </main>
   )

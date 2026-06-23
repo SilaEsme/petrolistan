@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/haberler`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
     { url: `${base}/akaryakit`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
     { url: `${base}/akaryakit/karsilastirma`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/ara`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
     { url: `${base}/ham-petrol`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${base}/dogalgaz`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${base}/yazilar`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },

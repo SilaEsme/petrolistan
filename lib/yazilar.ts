@@ -10,6 +10,7 @@ export interface Yazi {
   ozet: string
   tarih: string // ISO 8601
   etiketler: string[]
+  gorselUrl?: string // Featured image for schema
 }
 
 export const YAZILAR: Yazi[] = [
