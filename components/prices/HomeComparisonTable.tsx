@@ -88,7 +88,7 @@ function TableSkeleton() {
 export default function HomeComparisonTable() {
   const [province, setProvince] = useState('34')
   const [locating, setLocating] = useState(true)
-  const { data, isLoading } = useFuelBrands(province)
+  const { data, isLoading, isError } = useFuelBrands(province)
 
   useEffect(() => {
     if (!navigator.geolocation) { setLocating(false); return }
@@ -183,6 +183,12 @@ export default function HomeComparisonTable() {
         {/* Hero price cards */}
         {isLoading && !showData ? (
           <HeroPriceSkeleton />
+        ) : isError ? (
+          <div className="grid grid-cols-3">
+            <div className="col-span-3 px-5 py-8 text-center text-sm text-gray-400 dark:text-gray-600">
+              Fiyat verileri şu an yüklenemiyor. Lütfen sayfayı yenileyin.
+            </div>
+          </div>
         ) : cheapestG ? (
           <div className="grid grid-cols-3">
             {/* Benzin 95 */}
@@ -258,7 +264,7 @@ export default function HomeComparisonTable() {
         {/* Table */}
         {isLoading && !showData ? (
           <TableSkeleton />
-        ) : showData ? (
+        ) : isError ? null : showData ? (
           <table className="w-full" style={{ borderCollapse: 'collapse' }}>
             <colgroup>
               <col style={{ width: '36%' }} />
