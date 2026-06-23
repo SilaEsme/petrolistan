@@ -15,7 +15,7 @@ export const BRAND_LOGOS: Record<string, string> = {
   'Sunpet':              '/brands/sunpet.png',
   'Kadoil':              '/brands/kadoil.png',
   'Class Petrol':        '/brands/classpetrol.png',
-  'Türkiye Petrolleri':  '/brands/tp.png',
+  'Türkiye Petrolleri':  '/brands/tp.svg',
   'Onur':                '/brands/onur.png',
   'Ömsan':               '/brands/omsan.png',
   'Go Petrol':           '/brands/gopetrol.png',
