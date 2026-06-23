@@ -4,10 +4,10 @@ import { usePathname } from 'next/navigation'
 
 const NAV = [
   { label: 'Ana Sayfa', href: '/', exact: true },
+  { label: 'İstasyonlar', href: '/ara', exact: false },
   { label: 'Karşılaştır', href: '/akaryakit/karsilastirma', exact: false },
   { label: 'Haberler', href: '/haberler', exact: false },
   { label: 'Ham Petrol', href: '/ham-petrol', exact: false },
-  { label: 'Doğalgaz', href: '/dogalgaz', exact: false },
 ]
 
 function HomeIcon() {
@@ -47,16 +47,16 @@ function OilIcon() {
   )
 }
 
-function FlameIcon() {
+function PinIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-      <path d="M12 2c0 6-6 9-6 14a6 6 0 0012 0C18 11 12 2 12 2z" />
-      <path d="M12 12c0 3-3 4.5-3 7a3 3 0 006 0c0-2.5-3-4-3-7z" />
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+      <circle cx="12" cy="9" r="2.5" />
     </svg>
   )
 }
 
-const ICONS = [HomeIcon, ChartIcon, NewsIcon, OilIcon, FlameIcon]
+const ICONS = [HomeIcon, PinIcon, ChartIcon, NewsIcon, OilIcon]
 
 export default function BottomNav() {
   const pathname = usePathname()

@@ -1,0 +1,105 @@
+'use client'
+
+import { BrandLogo } from '@/components/prices/BrandLogo'
+
+const BRAND_KEY_TO_NAME: Record<string, string> = {
+  opet: 'Opet',
+  shell: 'Shell',
+  petrolofisi: 'Petrol Ofisi',
+  aytemiz: 'Aytemiz',
+  lukoil: 'Lukoil',
+  total: 'Total',
+  moil: 'Moil',
+  alpet: 'Alpet',
+  bpet: 'Bpet',
+  sunpet: 'Sunpet',
+  kadoil: 'Kadoil',
+}
+
+export interface NearbyStation {
+  id: number
+  osm_id: number
+  name: string
+  brand: string
+  brand_key: string
+  lat: number
+  lng: number
+  address: string
+  city: string
+  province: string
+  has_benzin: boolean
+  has_motorin: boolean
+  has_lpg: boolean
+  distance_km: number
+  price_benzin?: number
+  price_motorin?: number
+  price_lpg?: number
+}
+
+function DirectionsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
+      strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <path d="M3 12l18-9-9 18-2-8-7-1z" />
+    </svg>
+  )
+}
+
+export function StationCard({ station, fuelType }: { station: NearbyStation; fuelType: string }) {
+  const brandName = BRAND_KEY_TO_NAME[station.brand_key] || station.brand || 'Bilinmeyen'
+
+  const price =
+    fuelType === 'motorin' ? station.price_motorin
+    : fuelType === 'lpg'   ? station.price_lpg
+    : station.price_benzin
+
+  const label = station.name || brandName
+
+  return (
+    <div className="flex items-center gap-3 p-3 bg-white dark:bg-[#0F1E33] rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#0C447C]/30 dark:hover:border-white/20 transition-colors">
+      <BrandLogo name={brandName} size={40} />
+
+      <div className="flex-1 min-w-0">
+        <div className="text-sm font-semibold text-gray-800 dark:text-white truncate">{label}</div>
+        {station.address && (
+          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{station.address}</div>
+        )}
+        {station.city && !station.address && (
+          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{station.city}</div>
+        )}
+        <div className="flex items-center gap-2 mt-0.5">
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            {station.distance_km < 1
+              ? `${Math.round(station.distance_km * 1000)} m`
+              : `${station.distance_km.toFixed(1)} km`}
+          </span>
+          <span className="text-gray-200 dark:text-gray-700">·</span>
+          <div className="flex gap-1">
+            {station.has_benzin  && <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-medium">Benzin</span>}
+            {station.has_motorin && <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-medium">Motorin</span>}
+            {station.has_lpg     && <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 font-medium">LPG</span>}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-end gap-2 flex-shrink-0">
+        {price ? (
+          <span className="text-base font-bold tabular-nums text-[#0C447C] dark:text-[#5B9FD4]">
+            {price.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺
+          </span>
+        ) : (
+          <span className="text-xs text-gray-400">—</span>
+        )}
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${station.lat},${station.lng}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="flex items-center gap-1 text-xs font-medium text-white bg-[#0C447C] hover:bg-[#0a3d6e] px-2 py-1 rounded-lg transition-colors"
+        >
+          <DirectionsIcon />
+          Yol tarifi
+        </a>
+      </div>
+    </div>
+  )
+}
