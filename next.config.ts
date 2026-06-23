@@ -5,7 +5,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const csp = [
   "default-src 'self'",
   // 'unsafe-eval' required by React dev mode for stack trace reconstruction — never used in production
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google-analytics.com`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google-analytics.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https: blob:",
   "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://pagead2.googlesyndication.com https://ep1.adtrafficquality.google",
