@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const cityName = PROVINCES[String(code).padStart(2, '0')] ?? il
 
   return {
-    title: `OPET, Shell, Petrol Ofisi ${cityName} Fiyatları (Güncel) | Petrolistan`,
-    description: `${cityName}'de bugün OPET, Shell, Petrol Ofisi, Alpet, Lukoil ve diğer markaların benzin, motorin ve LPG fiyatları. Tüm markaları karşılaştır, en ucuz yakıtı bul.`,
+    title: `Opet, Shell, Petrol Ofisi ${cityName} Fiyatları (Güncel) | Petrolistan`,
+    description: `${cityName}'de bugün Opet, Shell, Petrol Ofisi, Alpet, Lukoil ve diğer markaların benzin, motorin ve LPG fiyatları. Tüm markaları karşılaştır, en ucuz yakıtı bul.`,
     alternates: { canonical: `https://petrolistan.com/akaryakit/karsilastirma/${il}` },
     robots: { index: true, follow: true },
   }
