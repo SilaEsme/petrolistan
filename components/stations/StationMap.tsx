@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -38,8 +38,16 @@ function MapResizer({ trigger }: { trigger: boolean }) {
   return null
 }
 
-function ClusteredMarkers({ stations, fuelType }: { stations: NearbyStation[]; fuelType: string }) {
+function ClusteredMarkers({ stations, fuelType, onStationClick, onStationHover }: {
+  stations: NearbyStation[]
+  fuelType: string
+  onStationClick?: (id: number) => void
+  onStationHover?: (id: number | null) => void
+}) {
   const map = useMap()
+  // Keep callbacks current without adding them to effect deps
+  const cbRef = useRef({ onStationClick, onStationHover })
+  cbRef.current = { onStationClick, onStationHover }
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -99,6 +107,9 @@ function ClusteredMarkers({ stations, fuelType }: { stations: NearbyStation[]; f
       wrap.appendChild(linkEl)
 
       marker.bindPopup(wrap)
+      marker.on('click', () => cbRef.current.onStationClick?.(s.id))
+      marker.on('mouseover', () => cbRef.current.onStationHover?.(s.id))
+      marker.on('mouseout', () => cbRef.current.onStationHover?.(null))
       cluster.addLayer(marker)
     })
 
@@ -114,9 +125,11 @@ interface StationMapProps {
   userLat: number
   userLng: number
   fuelType: string
+  onStationClick?: (id: number) => void
+  onStationHover?: (id: number | null) => void
 }
 
-export default function StationMap({ stations, userLat, userLng, fuelType }: StationMapProps) {
+export default function StationMap({ stations, userLat, userLng, fuelType, onStationClick, onStationHover }: StationMapProps) {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -137,7 +150,12 @@ export default function StationMap({ stations, userLat, userLng, fuelType }: Sta
         <Marker position={[userLat, userLng]} icon={userIcon}>
           <Popup>Konumunuz</Popup>
         </Marker>
-        <ClusteredMarkers stations={stations} fuelType={fuelType} />
+        <ClusteredMarkers
+          stations={stations}
+          fuelType={fuelType}
+          onStationClick={onStationClick}
+          onStationHover={onStationHover}
+        />
         <Circle center={[userLat, userLng]} radius={200} color="#0C447C" fillOpacity={0.05} weight={1} />
       </MapContainer>
 

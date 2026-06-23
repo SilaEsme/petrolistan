@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/api'
@@ -32,6 +32,9 @@ export default function AraClient() {
   const [geo, setGeo] = useState<GeoState>({ status: 'idle' })
   const [fuelType, setFuelType] = useState<FuelType>('benzin')
   const [sortBy, setSortBy] = useState<SortBy>('yakin')
+  const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const cardRefs = useRef<Map<number, HTMLElement>>(new Map())
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -120,6 +123,17 @@ export default function AraClient() {
     return deduped // already sorted by distance from API
   }, [data, sortBy, fuelType])
 
+  const handleStationClick = useCallback((id: number) => {
+    setSelectedId(prev => prev === id ? null : id)
+    setTimeout(() => {
+      cardRefs.current.get(id)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 50)
+  }, [])
+
+  const handleStationHover = useCallback((id: number | null) => {
+    setHoveredId(id)
+  }, [])
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
       {/* Filters */}
@@ -181,6 +195,8 @@ export default function AraClient() {
           userLat={geo.lat}
           userLng={geo.lng}
           fuelType={fuelType}
+          onStationClick={handleStationClick}
+          onStationHover={handleStationHover}
         />
       )}
 
@@ -210,7 +226,16 @@ export default function AraClient() {
       {/* Station list */}
       <div className="space-y-2">
         {stations.map((s) => (
-          <StationCard key={s.id} station={s} fuelType={fuelType} />
+          <div
+            key={s.id}
+            ref={el => { if (el) cardRefs.current.set(s.id, el); else cardRefs.current.delete(s.id) }}
+          >
+            <StationCard
+              station={s}
+              fuelType={fuelType}
+              isHighlighted={s.id === selectedId || s.id === hoveredId}
+            />
+          </div>
         ))}
       </div>
 

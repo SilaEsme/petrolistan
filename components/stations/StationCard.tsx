@@ -54,7 +54,11 @@ function DirectionsIcon() {
   )
 }
 
-export function StationCard({ station, fuelType }: { station: NearbyStation; fuelType: string }) {
+export function StationCard({ station, fuelType, isHighlighted = false }: {
+  station: NearbyStation
+  fuelType: string
+  isHighlighted?: boolean
+}) {
   const brandName = BRAND_KEY_TO_NAME[station.brand_key] || station.brand || 'Bilinmeyen'
 
   const price =
@@ -65,7 +69,11 @@ export function StationCard({ station, fuelType }: { station: NearbyStation; fue
   const label = station.name || brandName
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-white dark:bg-[#0F1E33] rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#0C447C]/30 dark:hover:border-white/20 transition-colors">
+    <div className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${
+      isHighlighted
+        ? 'bg-[#0C447C]/5 dark:bg-[#0C447C]/20 border-[#0C447C]/40 dark:border-[#0C447C]/50'
+        : 'bg-white dark:bg-[#0F1E33] border-gray-100 dark:border-white/5 hover:border-[#0C447C]/30 dark:hover:border-white/20'
+    }`}>
       <BrandLogo name={brandName} size={40} />
 
       <div className="flex-1 min-w-0">
