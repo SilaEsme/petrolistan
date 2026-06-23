@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
   try {
     const goUrl = process.env.GO_BACKEND_URL ?? 'http://localhost:8080'
-    const res = await fetchWithTimeout(`${goUrl}/stations/nearby?${params}`, { timeoutMs: 10000 })
+    const res = await fetchWithTimeout(`${goUrl}/stations/nearby?${params}`, { timeoutMs: 45000 })
     if (!res.ok) throw new Error(`Go backend: ${res.status}`)
     const json = await res.json()
     return NextResponse.json(json, {
