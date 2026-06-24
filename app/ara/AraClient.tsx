@@ -4,9 +4,10 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/api'
-import { findProvinceCode, getProvinceCenter } from '@/lib/geo'
+import { findProvinceCode, getProvinceCenter, haversineKm } from '@/lib/geo'
 import { PROVINCES } from '@/lib/provinces'
 import { StationCard, type NearbyStation } from '@/components/stations/StationCard'
+import type { MapBounds } from '@/components/stations/StationMap'
 
 const StationMap = dynamic(() => import('@/components/stations/StationMap'), {
   ssr: false,
@@ -27,6 +28,7 @@ type GeoState =
   | { status: 'ready'; lat: number; lng: number; province: string; isDefault: boolean }
 
 const ISTANBUL = { lat: 41.01, lng: 28.97, province: '34' } as const
+const MIN_ZOOM = 9 // altında Türkiye çapı çok fazla pin olur
 
 export default function AraClient() {
   const [geo, setGeo] = useState<GeoState>({ status: 'loading' })
@@ -34,8 +36,11 @@ export default function AraClient() {
   const [sortBy, setSortBy] = useState<SortBy>('yakin')
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [hoveredId, setHoveredId] = useState<number | null>(null)
-  const [selectedProvince, setSelectedProvince] = useState<string | null>(null)
+  const [jumpProvince, setJumpProvince] = useState<string>('')
+  const [jumpTarget, setJumpTarget] = useState<{ lat: number; lng: number; zoom: number } | null>(null)
   const [selectedCity, setSelectedCity] = useState<string | null>(null)
+  const [viewport, setViewport] = useState<MapBounds | null>(null)
+  const [zoom, setZoom] = useState(13)
   const cardRefs = useRef<Map<number, HTMLElement>>(new Map())
 
   useEffect(() => {
@@ -77,25 +82,37 @@ export default function AraClient() {
     []
   )
 
-  // İl seçiliyse il merkezi, yoksa kullanıcı/default konumu
-  const queryLat = geo.status === 'ready'
-    ? (selectedProvince ? getProvinceCenter(selectedProvince).lat : geo.lat)
-    : ISTANBUL.lat
-  const queryLng = geo.status === 'ready'
-    ? (selectedProvince ? getProvinceCenter(selectedProvince).lng : geo.lng)
-    : ISTANBUL.lng
-  const queryProvince = geo.status === 'ready' ? (selectedProvince ?? geo.province) : ISTANBUL.province
-  const queryRadius = selectedProvince ? 200 : 50
+  // Harita pan/zoom olaylarını 300ms debounce'la — hızlı kaydırmada istek spam'i önlenir.
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const handleViewportChange = useCallback((b: MapBounds, z: number) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      setViewport(b)
+      setZoom(z)
+    }, 300)
+  }, [])
+  useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current) }, [])
+
+  // Fiyat zenginleştirmesi için harita merkezinin ili.
+  const centerProvince = viewport
+    ? findProvinceCode((viewport.north + viewport.south) / 2, (viewport.east + viewport.west) / 2)
+    : ISTANBUL.province
 
   const apiKey =
-    geo.status === 'ready'
-      ? `/api/stations/nearby?lat=${queryLat.toFixed(5)}&lng=${queryLng.toFixed(5)}&province=${queryProvince}&fuel_type=${fuelType}&radius=${queryRadius}`
+    viewport && zoom >= MIN_ZOOM
+      ? `/api/stations/bbox?north=${viewport.north.toFixed(4)}&south=${viewport.south.toFixed(4)}` +
+        `&east=${viewport.east.toFixed(4)}&west=${viewport.west.toFixed(4)}` +
+        `&fuel_type=${fuelType}&province=${centerProvince}`
       : null
 
   const { data, isLoading, error } = useSWR<NearbyResponse>(apiKey, fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 60_000,
+    keepPreviousData: true,
+    dedupingInterval: 10_000,
   })
+
+  const userLat = geo.status === 'ready' ? geo.lat : ISTANBUL.lat
+  const userLng = geo.status === 'ready' ? geo.lng : ISTANBUL.lng
 
   const stations = useMemo(() => {
     const filtered = (data?.stations ?? []).filter(s => s.brand || s.name)
@@ -119,15 +136,16 @@ export default function AraClient() {
       }
     }
 
-    // İl filtresi: DB province kolonu boş olduğu için koordinat bazlı
-    const provinceFiltered = selectedProvince
-      ? deduped.filter(s => findProvinceCode(s.lat, s.lng) === selectedProvince)
-      : deduped
+    // Mesafe client-side hesaplanır (bbox endpoint distance döndürmez)
+    const withDistance = deduped.map(s => ({
+      ...s,
+      distance_km: haversineKm(userLat, userLng, s.lat, s.lng),
+    }))
 
     // İlçe filtresi
     const cityFiltered = selectedCity
-      ? provinceFiltered.filter(s => s.city === selectedCity)
-      : provinceFiltered
+      ? withDistance.filter(s => s.city === selectedCity)
+      : withDistance
 
     if (sortBy === 'ucuz') {
       return [...cityFiltered].sort((a, b) => {
@@ -139,23 +157,22 @@ export default function AraClient() {
         return pa - pb
       })
     }
-    return cityFiltered
-  }, [data, sortBy, fuelType, selectedProvince, selectedCity])
+    return [...cityFiltered].sort((a, b) => a.distance_km - b.distance_km)
+  }, [data, sortBy, fuelType, selectedCity, userLat, userLng])
 
-  // İlçe seçenekleri: province filtrelenmiş ama city filtresi uygulanmamış listeden
+  // İlçe seçenekleri: yüklü viewport verisindeki unique city değerleri
   const availableCities = useMemo(() => {
-    const all = (data?.stations ?? []).filter(s => s.brand || s.name)
-    const provinceFiltered = selectedProvince
-      ? all.filter(s => findProvinceCode(s.lat, s.lng) === selectedProvince)
-      : all
-    return [...new Set(provinceFiltered.map(s => s.city).filter(Boolean))].sort((a, b) =>
-      a.localeCompare(b, 'tr')
-    )
-  }, [data, selectedProvince])
+    const cities = (data?.stations ?? []).map(s => s.city).filter(Boolean)
+    return [...new Set(cities)].sort((a, b) => a.localeCompare(b, 'tr'))
+  }, [data])
 
-  const handleProvinceChange = useCallback((code: string | null) => {
-    setSelectedProvince(code)
+  const handleProvinceJump = useCallback((code: string) => {
+    setJumpProvince(code)
     setSelectedCity(null)
+    if (code) {
+      const c = getProvinceCenter(code)
+      setJumpTarget({ lat: c.lat, lng: c.lng, zoom: 11 })
+    }
   }, [])
 
   const handleStationClick = useCallback((id: number) => {
@@ -165,6 +182,8 @@ export default function AraClient() {
   const handleStationHover = useCallback((id: number | null) => {
     setHoveredId(id)
   }, [])
+
+  const tooFarOut = viewport !== null && zoom < MIN_ZOOM
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
@@ -210,15 +229,15 @@ export default function AraClient() {
         </div>
       </div>
 
-      {/* Filtreler satır 2: il + ilçe */}
+      {/* Filtreler satır 2: il (haritayı uçur) + ilçe (filtre) */}
       {geo.status === 'ready' && (
         <div className="flex gap-3">
           <select
-            value={selectedProvince ?? ''}
-            onChange={e => handleProvinceChange(e.target.value || null)}
+            value={jumpProvince}
+            onChange={e => handleProvinceJump(e.target.value)}
             className="flex-1 px-3 py-2 rounded-xl bg-gray-100 dark:bg-[#0F1E33] text-sm text-gray-700 dark:text-gray-200 border-0 outline-none cursor-pointer"
           >
-            <option value="">İl: Tümü</option>
+            <option value="">İl: Haritada git…</option>
             {provinceOptions.map(([code, name]) => (
               <option key={code} value={code}>{name}</option>
             ))}
@@ -245,20 +264,29 @@ export default function AraClient() {
         </div>
       )}
 
-      {/* Harita */}
-      {geo.status === 'ready' && stations.length > 0 && (
-        <StationMap
-          stations={stations}
-          userLat={queryLat}
-          userLng={queryLng}
-          fuelType={fuelType}
-          onStationClick={handleStationClick}
-          onStationHover={handleStationHover}
-        />
+      {/* Harita — yükleme motorunu sürükler, geo hazır olunca her zaman göster */}
+      {geo.status === 'ready' && (
+        <div className="relative">
+          <StationMap
+            stations={stations}
+            userLat={userLat}
+            userLng={userLng}
+            fuelType={fuelType}
+            onStationClick={handleStationClick}
+            onStationHover={handleStationHover}
+            onViewportChange={handleViewportChange}
+            flyTo={jumpTarget}
+          />
+          {tooFarOut && (
+            <div className="absolute inset-x-0 top-3 z-[1000] mx-auto w-max max-w-[90%] rounded-lg bg-black/70 px-3 py-1.5 text-xs font-medium text-white shadow-lg pointer-events-none">
+              Daha fazla istasyon için haritada yakınlaştırın
+            </div>
+          )}
+        </div>
       )}
 
-      {/* Loading skeleton */}
-      {isLoading && (
+      {/* Loading skeleton (ilk yükleme) */}
+      {isLoading && !data && (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-20 rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse" />
@@ -274,12 +302,9 @@ export default function AraClient() {
       )}
 
       {/* İstasyon sayısı */}
-      {!isLoading && data && (
+      {data && !tooFarOut && (
         <div className="text-xs text-gray-400 dark:text-gray-500">
-          {stations.length} istasyon
-          {selectedProvince
-            ? ` — ${PROVINCES[selectedProvince] ?? ''}`
-            : ' — 50 km yarıçap'}
+          {stations.length} istasyon — haritada görünen alanda
         </div>
       )}
 
@@ -299,7 +324,7 @@ export default function AraClient() {
         ))}
       </div>
 
-      {!isLoading && data && stations.length === 0 && (
+      {data && !tooFarOut && stations.length === 0 && (
         <div className="text-center py-12 text-sm text-gray-400">
           Bu alanda kayıtlı istasyon bulunamadı.
         </div>

@@ -84,6 +84,18 @@ const PROVINCE_CENTERS: { code: string; lat: number; lng: number }[] = [
   { code: '81', lat: 40.84, lng: 31.16 }, // Düzce
 ]
 
+// Great-circle distance in km between two coordinates.
+export function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371
+  const toRad = (d: number) => (d * Math.PI) / 180
+  const dLat = toRad(lat2 - lat1)
+  const dLng = toRad(lng2 - lng1)
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
 export function getProvinceCenter(code: string): { lat: number; lng: number } {
   return PROVINCE_CENTERS.find(p => p.code === code) ?? PROVINCE_CENTERS[33] // fallback İstanbul
 }

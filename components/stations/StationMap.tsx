@@ -38,6 +38,51 @@ function MapResizer({ trigger }: { trigger: boolean }) {
   return null
 }
 
+export interface MapBounds {
+  north: number
+  south: number
+  east: number
+  west: number
+}
+
+// Reports the current viewport bounds + zoom on map load and after pan/zoom.
+function ViewportReporter({ onViewportChange }: { onViewportChange: (b: MapBounds, zoom: number) => void }) {
+  const map = useMap()
+  const cbRef = useRef(onViewportChange)
+  cbRef.current = onViewportChange
+
+  useEffect(() => {
+    const emit = () => {
+      const b = map.getBounds()
+      const north = b.getNorth(), south = b.getSouth(), east = b.getEast(), west = b.getWest()
+      // İlk mount'ta harita genişliği 0 olabilir → degenerate bounds; invalidateSize
+      // sonrası gelen 'resize' olayı gerçek bounds'u verir. Bozuk olanı atla.
+      if (north <= south || east <= west) return
+      cbRef.current({ north, south, east, west }, map.getZoom())
+    }
+    emit() // moveend doesn't fire on initial load
+    map.on('moveend', emit)
+    map.on('zoomend', emit)
+    map.on('resize', emit)
+    return () => {
+      map.off('moveend', emit)
+      map.off('zoomend', emit)
+      map.off('resize', emit)
+    }
+  }, [map])
+
+  return null
+}
+
+// Flies the map to a target when the `flyTo` prop changes (province jump).
+function FlyController({ flyTo }: { flyTo?: { lat: number; lng: number; zoom: number } | null }) {
+  const map = useMap()
+  useEffect(() => {
+    if (flyTo) map.setView([flyTo.lat, flyTo.lng], flyTo.zoom)
+  }, [flyTo, map])
+  return null
+}
+
 function ClusteredMarkers({ stations, fuelType, onStationClick, onStationHover }: {
   stations: NearbyStation[]
   fuelType: string
@@ -127,9 +172,11 @@ interface StationMapProps {
   fuelType: string
   onStationClick?: (id: number) => void
   onStationHover?: (id: number | null) => void
+  onViewportChange?: (bounds: MapBounds, zoom: number) => void
+  flyTo?: { lat: number; lng: number; zoom: number } | null
 }
 
-export default function StationMap({ stations, userLat, userLng, fuelType, onStationClick, onStationHover }: StationMapProps) {
+export default function StationMap({ stations, userLat, userLng, fuelType, onStationClick, onStationHover, onViewportChange, flyTo }: StationMapProps) {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -147,6 +194,8 @@ export default function StationMap({ stations, userLat, userLng, fuelType, onSta
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
         <MapResizer trigger={expanded} />
+        {onViewportChange && <ViewportReporter onViewportChange={onViewportChange} />}
+        <FlyController flyTo={flyTo} />
         <Marker position={[userLat, userLng]} icon={userIcon}>
           <Popup>Konumunuz</Popup>
         </Marker>
