@@ -7,6 +7,7 @@ import { fetcher } from '@/lib/api'
 import { findProvinceCode, getProvinceCenter, haversineKm } from '@/lib/geo'
 import { PROVINCES } from '@/lib/provinces'
 import { StationCard, type NearbyStation } from '@/components/stations/StationCard'
+import { cleanCity } from '@/lib/address'
 import type { MapBounds } from '@/components/stations/StationMap'
 
 const StationMap = dynamic(() => import('@/components/stations/StationMap'), {
@@ -151,9 +152,9 @@ export default function AraClient() {
       distance_km: haversineKm(userLat, userLng, s.lat, s.lng),
     }))
 
-    // İlçe filtresi
+    // İlçe filtresi (cleanCity ile normalize edilmiş değerle karşılaştır)
     const cityFiltered = selectedCity
-      ? withDistance.filter(s => s.city === selectedCity)
+      ? withDistance.filter(s => cleanCity(s.city) === selectedCity)
       : withDistance
 
     if (sortBy === 'ucuz') {
@@ -169,9 +170,9 @@ export default function AraClient() {
     return [...cityFiltered].sort((a, b) => a.distance_km - b.distance_km)
   }, [data, sortBy, fuelType, selectedCity, userLat, userLng])
 
-  // İlçe seçenekleri: yüklü viewport verisindeki unique city değerleri
+  // İlçe seçenekleri: cleanCity ile normalize edip unique al
   const availableCities = useMemo(() => {
-    const cities = (data?.stations ?? []).map(s => s.city).filter(Boolean)
+    const cities = (data?.stations ?? []).map(s => cleanCity(s.city)).filter(Boolean)
     return [...new Set(cities)].sort((a, b) => a.localeCompare(b, 'tr'))
   }, [data])
 

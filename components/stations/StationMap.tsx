@@ -7,6 +7,7 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster'
 import type { NearbyStation } from './StationCard'
+import { normalizeText, formatStationAddress } from '@/lib/address'
 
 const userIcon = L.divIcon({
   className: '',
@@ -108,7 +109,7 @@ function ClusteredMarkers({ stations, fuelType, onStationClick, onStationHover }
         fuelType === 'motorin' ? s.price_motorin
         : fuelType === 'lpg'   ? s.price_lpg
         : s.price_benzin
-      const name = s.brand || s.name || 'İstasyon'
+      const name = normalizeText(s.brand || s.name) || 'İstasyon'
       const marker = L.marker([s.lat, s.lng], { icon: makeStationIcon(i + 1) })
 
       const wrap = document.createElement('div')
@@ -118,11 +119,12 @@ function ClusteredMarkers({ stations, fuelType, onStationClick, onStationHover }
       nameEl.textContent = name
       wrap.appendChild(nameEl)
 
-      if (s.address) {
+      const addrStr = formatStationAddress(s)
+      if (addrStr) {
         wrap.appendChild(document.createElement('br'))
         const addrEl = document.createElement('span')
         addrEl.style.color = '#6b7280'
-        addrEl.textContent = s.address
+        addrEl.textContent = addrStr
         wrap.appendChild(addrEl)
       }
 

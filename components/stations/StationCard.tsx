@@ -1,6 +1,7 @@
 'use client'
 
 import { BrandLogo } from '@/components/prices/BrandLogo'
+import { normalizeText, formatStationAddress } from '@/lib/address'
 
 const BRAND_KEY_TO_NAME: Record<string, string> = {
   opet:        'Opet',
@@ -66,7 +67,8 @@ export function StationCard({ station, fuelType, isHighlighted = false }: {
     : fuelType === 'lpg'   ? station.price_lpg
     : station.price_benzin
 
-  const label = station.name || brandName
+  const cleanName = normalizeText(station.name)
+  const label = cleanName || brandName
 
   return (
     <div className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${
@@ -79,10 +81,10 @@ export function StationCard({ station, fuelType, isHighlighted = false }: {
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold text-gray-800 dark:text-white truncate">{label}</div>
         {(() => {
+          const addrStr = formatStationAddress(station)
           const subtitle =
-            station.address ||
-            (station.name && station.name !== brandName ? station.name : undefined) ||
-            station.city ||
+            addrStr ||
+            (cleanName && cleanName !== brandName ? cleanName : undefined) ||
             undefined
           return subtitle ? (
             <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{subtitle}</div>
