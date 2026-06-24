@@ -9,6 +9,7 @@ const footerLinks = {
   ],
   "İçerik": [
     { label: "Haberler", href: "/haberler" },
+    { label: "Yazılar", href: "/yazilar" },
     { label: "Marka Karşılaştırma", href: "/akaryakit/karsilastirma" },
   ],
   "Kurumsal": [

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useFuelBrands } from '@/lib/api'
 import { PROVINCES } from '@/lib/provinces'
 import { BrandLogo } from '@/components/prices/BrandLogo'
-import type { BrandPrice } from '@/types'
+import type { BrandPrice, BrandsResponse } from '@/types'
 
 const NATIONAL_BRANDS = new Set(['Moil'])
 
@@ -85,10 +85,10 @@ function TableSkeleton() {
   )
 }
 
-export default function HomeComparisonTable() {
+export default function HomeComparisonTable({ initialData }: { initialData?: BrandsResponse }) {
   const [province, setProvince] = useState('34')
   const [locating, setLocating] = useState(true)
-  const { data, isLoading, isError } = useFuelBrands(province)
+  const { data, isLoading, isError } = useFuelBrands(province, initialData)
 
   useEffect(() => {
     if (!navigator.geolocation) { setLocating(false); return }

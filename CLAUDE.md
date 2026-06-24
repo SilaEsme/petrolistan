@@ -14,8 +14,8 @@ npm run build
 ## Yapı
 - `app/` — App Router. Route başına `page.tsx` + `layout.tsx`.
   - `api/` — Next.js route handlers (Brent, USD/TRY, doğalgaz proxy)
-  - `akaryakit/karsilastirma/[il]/` — 81 il sayfaları (noindex)
-  - `analizler/[slug]/` — statik analiz yazıları
+  - `akaryakit/karsilastirma/[il]/` — 81 il sayfaları (index: true, Mayıs 2026)
+  - `yazilar/[slug]/` — statik analiz yazıları
   - `haberler/[slug]/` — haber detay (noindex, graceful fallback)
 - `components/` — `layout/`, `prices/`, `news/`, `sidebar/`, plus `icons.tsx`
 - `lib/` — `api.ts` (fetch helpers), `provinces.ts` (81 il listesi), `rss.ts`
@@ -23,7 +23,7 @@ npm run build
 
 ## Frontend-Özel Kurallar
 - Türkçe karakter URL'de YASAK — `lib/provinces.ts` ASCII slug'lar tutar
-- Haber ve 81-il sayfaları noindex (`metadata.robots`)
+- Haber sayfaları noindex; 81 il sayfaları index: true (Mayıs 2026'dan itibaren)
 - SWR cache süreleri veri tipiyle uyumlu olmalı (root CLAUDE.md "Veri Kaynakları" tablosuna bak)
 - Renkler kod içinde literal — Tailwind config'e taşınmadı (deliberate)
 - Footer/navbar broken link olmamalı

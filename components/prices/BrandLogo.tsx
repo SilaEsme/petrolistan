@@ -57,6 +57,8 @@ export function BrandLogo({ name, size = 26 }: { name: string; size?: number }) 
         alt={name}
         width={size}
         height={size}
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-contain"
         onError={() => setFailed(true)}
       />

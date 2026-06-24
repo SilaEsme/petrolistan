@@ -14,6 +14,7 @@ const navLinks = [
   { label: "İstasyonlar", href: "/ara" },
   { label: "Doğalgaz", href: "/dogalgaz" },
   { label: "Haberler", href: "/haberler" },
+  { label: "Yazılar", href: "/yazilar" },
 ];
 
 function SunIcon() {

@@ -52,9 +52,11 @@ const PriceCell = memo(PriceCellInner)
 export default function ComparisonClient({
   initialData,
   initialProvince,
+  heading,
 }: {
   initialData: BrandsResponse | null
   initialProvince?: string
+  heading?: string
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -110,7 +112,7 @@ export default function ComparisonClient({
         <div>
           <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Akaryakıt</p>
           <h1 className="text-2xl font-bold text-[#042C53] dark:text-white tracking-tight">
-            {provinceName} — Marka Karşılaştırması
+            {heading ?? `${provinceName} — Marka Karşılaştırması`}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             EPDK ve marka kaynaklarından toplanan güncel pompa fiyatları

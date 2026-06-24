@@ -1,11 +1,64 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
 import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
-import type { BrandsResponse } from '@/types'
+import type { BrandsResponse, BrandPrice } from '@/types'
 import ComparisonClient from '../ComparisonClient'
 import { buildFaqSchema } from '../faqSchema'
+
+// Büyük metropoller — il çapraz linkleri için curated liste (slug sırası)
+const POPULAR_SLUGS = [
+  'istanbul', 'ankara', 'izmir', 'bursa', 'antalya', 'adana',
+  'konya', 'gaziantep', 'sanliurfa', 'kocaeli', 'mersin', 'diyarbakir',
+]
+
+function nonZeroVals(brands: BrandPrice[], key: 'gasoline' | 'diesel' | 'lpg') {
+  return brands.map((b) => b[key]).filter((v) => v > 0)
+}
+
+function buildIlContent(cityName: string, initialData: BrandsResponse | null): {
+  brandCount: number
+  brandNames: string[]
+  avgG: number | null
+  avgD: number | null
+  minG: number | null
+  maxG: number | null
+  minD: number | null
+  maxD: number | null
+  hasLpg: boolean
+  cheapestG: BrandPrice | null
+  cheapestD: BrandPrice | null
+} | null {
+  if (!initialData?.data?.length) return null
+  const brands = initialData.data.filter((b: BrandPrice) => b.brand !== 'Moil')
+  const available = brands.filter((b: BrandPrice) => b.gasoline > 0 || b.diesel > 0)
+  if (!available.length) return null
+
+  const gVals = nonZeroVals(available, 'gasoline')
+  const dVals = nonZeroVals(available, 'diesel')
+  const lVals = nonZeroVals(available, 'lpg')
+
+  const avg = (arr: number[]) => arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : null
+
+  const sortedG = available.filter((b: BrandPrice) => b.gasoline > 0).sort((a: BrandPrice, b: BrandPrice) => a.gasoline - b.gasoline)
+  const sortedD = available.filter((b: BrandPrice) => b.diesel > 0).sort((a: BrandPrice, b: BrandPrice) => a.diesel - b.diesel)
+
+  return {
+    brandCount: available.length,
+    brandNames: available.map((b: BrandPrice) => b.brand),
+    avgG: avg(gVals),
+    avgD: avg(dVals),
+    minG: gVals.length ? Math.min(...gVals) : null,
+    maxG: gVals.length ? Math.max(...gVals) : null,
+    minD: dVals.length ? Math.min(...dVals) : null,
+    maxD: dVals.length ? Math.max(...dVals) : null,
+    hasLpg: lVals.length > 0,
+    cheapestG: sortedG[0] ?? null,
+    cheapestD: sortedD[0] ?? null,
+  }
+}
 
 type Params = Promise<{ il: string }>
 
@@ -76,6 +129,14 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
   const initialData = await fetchInitialData(provinceStr)
   const cityName = PROVINCES[provinceStr] ?? il
   const savings = calcSavings(initialData)
+  const ilContent = buildIlContent(cityName, initialData)
+  const popularLinks = POPULAR_SLUGS
+    .filter((s) => s !== il)
+    .map((s) => {
+      const code = provinceSlugToCode[s]
+      const name = PROVINCES[String(code).padStart(2, '0')] ?? s
+      return { slug: s, name }
+    })
 
   const itemListSchema = {
     '@context': 'https://schema.org',
@@ -120,26 +181,81 @@ export default async function IlKarsilastirmaPage({ params }: { params: Params }
         </div>
       )}
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
-        <ComparisonClient initialData={initialData} initialProvince={provinceStr} />
+        <ComparisonClient
+          initialData={initialData}
+          initialProvince={provinceStr}
+          heading={`${cityName} Benzin, Motorin ve LPG Fiyatları`}
+        />
       </Suspense>
       <div className="max-w-5xl mx-auto px-4 md:px-8 pb-10">
-        <section className="mt-8 prose prose-sm max-w-none text-gray-600">
-          <h2 className="text-base font-semibold text-gray-800 mb-2">
+        <section className="mt-8 prose prose-sm max-w-none text-gray-600 dark:text-gray-400">
+          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
             {cityName} Akaryakıt Fiyatları Hakkında
           </h2>
-          <p>
-            {cityName} ili için güncel benzin 95, motorin ve LPG fiyatları
-            yukarıdaki tabloda anlık olarak güncellenmektedir.
-            OPET, Shell, Petrol Ofisi, Alpet, Lukoil, Total ve daha fazlası gibi
-            başlıca akaryakıt markalarının {cityName} pompa fiyatlarını
-            karşılaştırarak en uygun istasyonu bulabilirsiniz.
-          </p>
-          <p>
-            Akaryakıt fiyatları EPDK (Enerji Piyasası Düzenleme Kurumu)
-            düzenlemeleri çerçevesinde belirlenmekte olup günlük
-            değişkenlik gösterebilir. Petrolistan, {cityName} için
-            tüm marka fiyatlarını saatlik olarak güncellemektedir.
-          </p>
+          {ilContent ? (
+            <>
+              <p>
+                {cityName} ilinde {ilContent.brandCount} akaryakıt markası aktif olarak hizmet vermektedir
+                ({ilContent.brandNames.join(', ')}).
+                {ilContent.minG !== null && ilContent.maxG !== null && ilContent.cheapestG && (
+                  <> Bugün {cityName}&apos;da benzin 95 fiyatları{' '}
+                  <strong>{ilContent.minG.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺/L</strong>{' '}
+                  ile {ilContent.maxG.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺/L arasında seyretmekte olup
+                  en uygun benzin <strong>{ilContent.cheapestG.brand}</strong> istasyonlarında sunulmaktadır.</>
+                )}
+                {ilContent.minD !== null && ilContent.cheapestD && (
+                  <> Motorin için en düşük fiyat <strong>{ilContent.minD.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺/L</strong> ile{' '}
+                  <strong>{ilContent.cheapestD.brand}</strong> markasında görülmektedir.</>
+                )}
+                {ilContent.hasLpg && <> {cityName}&apos;da LPG fiyatları da yukarıdaki tabloda listelenmektedir.</>}
+              </p>
+              <p>
+                Akaryakıt fiyatları EPDK (Enerji Piyasası Düzenleme Kurumu) düzenlemeleri çerçevesinde
+                belirlenmekte olup haftalık değişkenlik gösterebilir. Petrolistan, {cityName} için
+                tüm marka fiyatlarını saatlik olarak güncellemekte; doğrudan markaların resmi kaynaklarından veri çekmektedir.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                {cityName} ili için güncel benzin 95, motorin ve LPG fiyatları
+                yukarıdaki tabloda anlık olarak güncellenmektedir.
+                OPET, Shell, Petrol Ofisi, Alpet, Lukoil ve daha fazlası gibi
+                başlıca akaryakıt markalarının {cityName} pompa fiyatlarını
+                karşılaştırarak en uygun istasyonu bulabilirsiniz.
+              </p>
+              <p>
+                Akaryakıt fiyatları EPDK (Enerji Piyasası Düzenleme Kurumu)
+                düzenlemeleri çerçevesinde belirlenmekte olup haftalık
+                değişkenlik gösterebilir. Petrolistan, {cityName} için
+                tüm marka fiyatlarını saatlik olarak güncellemektedir.
+              </p>
+            </>
+          )}
+        </section>
+
+        {/* Diğer iller — çapraz iç bağlantı */}
+        <section className="mt-8">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            Diğer İllerde Fiyatlar
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {popularLinks.map(({ slug, name }) => (
+              <Link
+                key={slug}
+                href={`/akaryakit/karsilastirma/${slug}`}
+                className="text-xs px-3 py-1.5 rounded-full border border-[#0C447C]/25 dark:border-gray-700 text-[#0C447C] dark:text-[#5B9BD5] hover:bg-[#0C447C]/5 dark:hover:bg-white/5 transition-colors"
+              >
+                {name}
+              </Link>
+            ))}
+            <Link
+              href="/akaryakit/karsilastirma"
+              className="text-xs px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            >
+              Tüm iller →
+            </Link>
+          </div>
         </section>
       </div>
     </>

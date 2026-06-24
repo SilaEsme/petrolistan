@@ -1,7 +1,8 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
-import { PROVINCES } from '@/lib/provinces'
+import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from './ComparisonClient'
 import { buildFaqSchema } from './faqSchema'
@@ -69,6 +70,29 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
         <ComparisonClient initialData={initialData} />
       </Suspense>
+
+      {/* 81 il hub'ı — crawler için gerçek <a> linkleri */}
+      <div className="max-w-5xl mx-auto px-4 md:px-8 pb-10">
+        <section className="mt-8">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            İle Göre Akaryakıt Fiyatları
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(provinceSlugToCode).map(([slug, code]) => {
+              const name = PROVINCES[String(code).padStart(2, '0')] ?? slug
+              return (
+                <Link
+                  key={slug}
+                  href={`/akaryakit/karsilastirma/${slug}`}
+                  className="text-xs px-3 py-1.5 rounded-full border border-[#0C447C]/25 dark:border-gray-700 text-[#0C447C] dark:text-[#5B9BD5] hover:bg-[#0C447C]/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  {name}
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      </div>
     </>
   )
 }

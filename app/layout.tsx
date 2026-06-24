@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -7,8 +7,19 @@ import { SiteShell } from "@/components/layout/SiteShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0C447C" },
+    { media: "(prefers-color-scheme: dark)", color: "#070E1A" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://petrolistan.com'),

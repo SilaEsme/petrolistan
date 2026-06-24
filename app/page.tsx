@@ -1,27 +1,30 @@
-'use client'
-import Link from 'next/link'
-import { useNews } from '@/lib/api'
+import type { BrandsResponse } from '@/types'
 import HomeComparisonTable from '@/components/prices/HomeComparisonTable'
 import EditorialSection from '@/components/layout/EditorialSection'
 import CalculatorsSection from '@/components/calculators/CalculatorsSection'
+import HomeNewsPreview from '@/components/HomeNewsPreview'
 
-function formatDate(iso: string) {
+async function fetchIstanbulData(): Promise<BrandsResponse | undefined> {
   try {
-    return new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+    const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+    const res = await fetch(`${base}/api/fuel/brands?province=34`, {
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(10000),
+    })
+    if (!res.ok) return undefined
+    return res.json()
   } catch {
-    return ''
+    return undefined
   }
 }
 
-export default function HomePage() {
-  const { news, isLoading: newsLoading } = useNews()
-
-  const previewNews = news.slice(0, 3)
+export default async function HomePage() {
+  const initialData = await fetchIstanbulData()
 
   return (
     <>
       {/* 1. Hero + Marka karşılaştırma tablosu */}
-      <HomeComparisonTable />
+      <HomeComparisonTable initialData={initialData} />
 
       {/* 2. Hesaplayıcılar */}
       <CalculatorsSection />
@@ -29,40 +32,8 @@ export default function HomePage() {
       {/* 3. Editorial */}
       <EditorialSection />
 
-      {/* 4. Son haberler */}
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 pb-6 sm:pb-10">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Son Haberler</p>
-          <Link href="/haberler" className="text-xs text-[#185FA5] hover:underline">
-            Tümünü gör →
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {newsLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />
-              ))
-            : previewNews.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/haberler/${item.slug}`}
-                  className="block group p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-[#0C447C]/30 dark:hover:border-[#5B9BD5]/30 hover:bg-gray-50/60 dark:hover:bg-white/5 transition-all"
-                >
-                  <p className="text-[13px] font-semibold text-gray-900 dark:text-gray-100 leading-snug group-hover:text-[#0C447C] dark:group-hover:text-[#5B9BD5] transition-colors mb-2 line-clamp-2">
-                    {item.title}
-                  </p>
-                  <div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-2">
-                    <span className="font-semibold text-gray-500 dark:text-gray-400">{item.source}</span>
-                    <span>·</span>
-                    <span>{formatDate(item.publishedAt)}</span>
-                  </div>
-                  <span className="text-[11px] text-[#185FA5] group-hover:underline">
-                    Devamını oku →
-                  </span>
-                </Link>
-              ))}
-        </div>
-      </div>
+      {/* 4. Son haberler — client (SWR) */}
+      <HomeNewsPreview />
     </>
   )
 }
