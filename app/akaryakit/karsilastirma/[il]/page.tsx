@@ -23,8 +23,10 @@ async function fetchInitialData(province: string): Promise<BrandsResponse | null
   }
 }
 
+export const dynamicParams = true // on-demand ISR: build'de önceden üretme, ilk istekte render et + cache'le
+
 export async function generateStaticParams() {
-  return Object.keys(provinceSlugToCode).map((il) => ({ il }))
+  return [] // boş → 81 il build sırasında canlı fetch yapmaz; her il ilk istekte SSR edilir
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
