@@ -116,11 +116,13 @@ export default function AraClient() {
 
   const stations = useMemo(() => {
     const DEPOT_RE = /depo|dolum/i
+    const letterCount = (x?: string) => (x ?? '').replace(/[^A-Za-z]/g, '').length
     const filtered = (data?.stations ?? []).filter(s => {
-      const nameLen  = s.name?.trim().length  ?? 0
-      const brandLen = s.brand?.trim().length ?? 0
-      if (!s.brand_key && nameLen < 2 && brandLen < 2) return false
       if (DEPOT_RE.test(s.name ?? '')) return false
+      if (!s.brand_key) {
+        const eff = s.name?.trim() ? s.name : (s.brand ?? '')
+        if (letterCount(eff) < 2) return false
+      }
       return true
     })
 
