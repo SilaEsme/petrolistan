@@ -84,6 +84,10 @@ const PROVINCE_CENTERS: { code: string; lat: number; lng: number }[] = [
   { code: '81', lat: 40.84, lng: 31.16 }, // Düzce
 ]
 
+export function getProvinceCenter(code: string): { lat: number; lng: number } {
+  return PROVINCE_CENTERS.find(p => p.code === code) ?? PROVINCE_CENTERS[33] // fallback İstanbul
+}
+
 export function findProvinceCode(lat: number, lng: number): string {
   let best = PROVINCE_CENTERS[33] // default İstanbul
   let minDist = Infinity
