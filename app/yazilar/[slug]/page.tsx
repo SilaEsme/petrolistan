@@ -44,7 +44,7 @@ export default async function YaziDetayPage({ params }: { params: Params }) {
         title={yazi.baslik}
         description={yazi.ozet}
         datePublished={yazi.tarih}
-        dateModified={yazi.tarih}
+        dateModified={yazi.guncellenmeTarihi ?? yazi.tarih}
         articleBody={icerik}
         imageUrl={yazi.gorselUrl}
         url={`https://petrolistan.com/yazilar/${slug}`}
@@ -72,9 +72,15 @@ export default async function YaziDetayPage({ params }: { params: Params }) {
       {/* Başlık */}
       <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">{yazi.baslik}</h1>
       <div className="flex items-center gap-3 text-xs text-gray-400 mb-8 pb-6 border-b border-gray-100">
-        <time dateTime={yazi.tarih}>{formatDate(yazi.tarih)}</time>
+        <span>Petrolistan Editöryal Ekibi</span>
         <span>·</span>
-        <span>Petrolistan Editöryal</span>
+        <time dateTime={yazi.tarih}>{formatDate(yazi.tarih)}</time>
+        {yazi.guncellenmeTarihi && yazi.guncellenmeTarihi !== yazi.tarih && (
+          <>
+            <span>·</span>
+            <span>Güncellendi: <time dateTime={yazi.guncellenmeTarihi}>{formatDate(yazi.guncellenmeTarihi)}</time></span>
+          </>
+        )}
       </div>
 
       {/* İçerik */}

@@ -19,16 +19,16 @@ const icerik = `
 <p>Ancak bu karşılaştırma aynı segment içindeyken geçerlidir. Dizel motorun verimi, özellikle uzun yol ve sabit hız (otoban) koşullarında belirginleşir. Şehir içi kısa mesafeli kullanımda avantaj azalır çünkü dizel motor en verimli sıcaklığa ulaşamadan durup kalkar.</p>
 
 <h2>Km Başına Maliyet Hesabı</h2>
-<p>2026 fiyatlarına göre örnek bir hesap (pompa fiyatları il ve markaya göre değişebilir):</p>
+<p>Haziran 2026 fiyatlarına göre örnek bir hesap (pompa fiyatları il ve markaya göre değişebilir; güncel fiyatlar için <a href="/akaryakit/karsilastirma">karşılaştırma aracını</a> kullanın):</p>
 <ul>
-  <li><strong>Benzinli araç:</strong> 8 L/100 km × 23 TL/L = <strong>184 TL / 100 km</strong></li>
-  <li><strong>Dizel araç:</strong> 6 L/100 km × 21 TL/L = <strong>126 TL / 100 km</strong></li>
+  <li><strong>Benzinli araç:</strong> 8 L/100 km × 50 TL/L = <strong>400 TL / 100 km</strong></li>
+  <li><strong>Dizel araç:</strong> 6 L/100 km × 47 TL/L = <strong>282 TL / 100 km</strong></li>
 </ul>
-<p>Fark: 100 km'de 58 TL. Yılda 20.000 km yapan bir sürücü için bu <strong>11.600 TL/yıl</strong> tasarruf anlamına gelir. Ancak bu tasarrufun araç alım fiyatı, bakım maliyeti ve sigorta gibi kalemlerle birlikte değerlendirilmesi gerekir.</p>
+<p>Fark: 100 km'de 118 TL. Yılda 20.000 km yapan bir sürücü için bu <strong>23.600 TL/yıl</strong> tasarruf anlamına gelir. Ancak bu tasarrufun araç alım fiyatı, bakım maliyeti ve sigorta gibi kalemlerle birlikte değerlendirilmesi gerekir.</p>
 
 <h2>Araç Alım Fiyatı Farkı</h2>
 <p>Aynı modelin dizel versiyonu, benzinliye göre genellikle <strong>80.000–150.000 TL daha pahalı</strong>dır (2026 piyasa fiyatlarıyla). Bu fark, yüksek fiyatlı SUV ve ticari araçlarda nispi olarak daha küçük, küçük segmentte ise oransal olarak büyüktür.</p>
-<p>Örnek: Yakıtta yılda 11.600 TL tasarruf ediliyorsa 120.000 TL'lik araç fiyatı farkını geri kazanmak yaklaşık <strong>10 yıl</strong> sürer. Bu süre zarfında her iki araç modeli de piyasadan çekilmiş olabilir.</p>
+<p>Örnek: Yakıtta yılda 23.600 TL tasarruf ediliyorsa 120.000 TL'lik araç fiyatı farkını geri kazanmak yaklaşık <strong>5 yıl</strong> sürer. Bu süre zarfında her iki araç modeli de piyasadan çekilmiş olabilir.</p>
 <p>Sonuç: Yılda 30.000 km ve üzeri otoban ağırlıklı kullananlar için dizel ekonomik avantaj sunar. Yılda 10.000 km'nin altında, şehir içi ağırlıklı kullananlar için benzinli genellikle daha akıllıca bir seçimdir.</p>
 
 <h2>Bakım Maliyetleri</h2>
@@ -51,7 +51,13 @@ const icerik = `
 </ul>
 
 <h2>Sonuç</h2>
-<p>Benzin-motorin kararında sihirli bir formül yoktur; doğru seçim kullanım profilinize bağlıdır. Uzun yol, yüksek km ve büyük motor için dizel; kısa mesafe, şehir içi ve düşük km için benzin çoğu zaman daha akılcı bir tercihtir. Hesabınızı yaparken yalnızca günlük yakıt fiyatını değil; araç fiyatı farkını, tahmini km kullanımını ve bakım giderlerini de dahil edin. Yakıt fiyatlarını il ve marka bazında karşılaştırmak için <a href="/akaryakit/karsilastirma">Petrolistan marka karşılaştırma aracını</a> kullanabilirsiniz.</p>
+<p>Benzin-motorin kararında sihirli bir formül yoktur; doğru seçim kullanım profilinize bağlıdır. Uzun yol, yüksek km ve büyük motor için dizel; kısa mesafe, şehir içi ve düşük km için benzin çoğu zaman daha akılcı bir tercihtir. Hesabınızı yaparken yalnızca günlük yakıt fiyatını değil; araç fiyatı farkını, tahmini km kullanımını ve bakım giderlerini de dahil edin.</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:16px 20px;margin-top:32px">
+  <p style="margin:0 0 8px;font-weight:600;color:#1D4ED8">Bulunduğunuz ilde benzin ve motorin fiyatlarını karşılaştırın</p>
+  <p style="margin:0 0 10px;font-size:14px;color:#374151">OPET, Shell, Petrol Ofisi ve diğer markaların güncel fiyatlarını 81 ilde anlık görün.</p>
+  <a href="/akaryakit/karsilastirma" style="color:#1D4ED8;font-size:14px;font-weight:500">→ Marka karşılaştırma aracını kullan</a>
+</div>
 `
 
 export default icerik

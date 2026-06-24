@@ -60,6 +60,12 @@ const icerik = `
 
 <h2>Sonuç</h2>
 <p>Brent petrol fiyatı Türkiye'nin yakıt maliyetini belirleyen en önemli dış faktördür; ancak tek belirleyici değildir. TL'nin dolar karşısındaki değeri, EPDK haftalık döngüsü, stok yönetimi ve vergi yapısı, Brent'in sinyallerini Türk tüketiciye ulaşmadan önce filtreler ve geciktirir. Bu nedenle "Brent düştü, benzin neden düşmedi?" sorusunun yanıtı çoğu zaman kurun yükselmiş olmasında ya da düşüşün henüz stok döngüsüne yansımamış olmasında yatar.</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:16px 20px;margin-top:32px">
+  <p style="margin:0 0 8px;font-weight:600;color:#1D4ED8">Brent fiyatını ve pompa yansımasını anlık takip edin</p>
+  <p style="margin:0 0 10px;font-size:14px;color:#374151">Petrolistan'da güncel Brent grafiği ile 81 ilde marka bazlı pompa fiyatlarını aynı anda görün.</p>
+  <a href="/ham-petrol" style="color:#1D4ED8;font-size:14px;font-weight:500">→ Ham petrol fiyatları sayfasına git</a>
+</div>
 `
 
 export default icerik

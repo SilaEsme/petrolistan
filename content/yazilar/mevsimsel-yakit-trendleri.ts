@@ -64,6 +64,12 @@ const icerik = `
 
 <h2>Sonuç</h2>
 <p>Türkiye'de akaryakıt fiyatları mevsimden mevsime düzenli dalgalanmalar yaşar: Yaz turizminin benzini, kış ısıtmasının motorini yukarı çektiği bir döngü söz konusudur. Bu döngüyü anlamak, hem EPDK açıklamalarını daha doğru yorumlamanızı sağlar hem de yakıt alım zamanlamanızı optimize etmenize yardımcı olur. Güncel fiyatları her zaman Petrolistan üzerinden takip edebilir, bölgenizdeki en uygun markayı ve en avantajlı zamanı belirleyebilirsiniz.</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:16px 20px;margin-top:32px">
+  <p style="margin:0 0 8px;font-weight:600;color:#1D4ED8">EPDK açıklamalarını haftalık takip edin</p>
+  <p style="margin:0 0 10px;font-size:14px;color:#374151">Mevsimsel fiyat değişimlerini erkenden görmek için Petrolistan'ı düzenli kontrol edin. 81 ilde marka bazlı anlık fiyatlar.</p>
+  <a href="/akaryakit/karsilastirma" style="color:#1D4ED8;font-size:14px;font-weight:500">→ Şehrinizde fiyatları karşılaştır</a>
+</div>
 `
 
 export default icerik

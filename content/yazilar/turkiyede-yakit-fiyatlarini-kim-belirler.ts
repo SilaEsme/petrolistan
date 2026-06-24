@@ -31,15 +31,15 @@ const icerik = `
 
 <h2>Vergi Oranı Ne Kadar?</h2>
 <p>Türkiye, akaryakıt vergileri bakımından Avrupa'nın en yüksek oranlarından birini uygular. Bir litrelik benzinin pompa fiyatının genellikle <strong>%55–62'si</strong> ÖTV ve KDV'den oluşur. Bu yüksek vergi payı, ham petrol fiyatının düşüşünün tüketiciye tam olarak yansımamasının temel nedenidir.</p>
-<p>Bir örnek üzerinden açıklayalım (2026 yılı yaklaşık değerleri):</p>
+<p>Bir örnek üzerinden açıklayalım (Haziran 2026 yaklaşık değerleri, 95 oktan benzin için):</p>
 <ul>
-  <li>Ham petrol + rafinaj: ~8 TL/L</li>
-  <li>ÖTV: ~8–9 TL/L</li>
-  <li>Dağıtım + bayi marjı: ~2 TL/L</li>
-  <li>KDV (%20 oranında): ~4 TL/L</li>
-  <li><strong>Toplam pompa fiyatı: ~22–23 TL/L</strong></li>
+  <li>Ham petrol + rafinaj: ~26 TL/L</li>
+  <li>ÖTV: ~10 TL/L</li>
+  <li>Dağıtım + bayi marjı: ~4 TL/L</li>
+  <li>KDV (%20 oranında): ~8 TL/L</li>
+  <li><strong>Toplam pompa fiyatı: ~48–52 TL/L</strong></li>
 </ul>
-<p>Bu örnekte ÖTV tek başına nihai fiyatın yaklaşık üçte birini oluştururken ÖTV ve KDV birlikte toplam fiyatın yarısından fazlasını kapsar.</p>
+<p>Bu örnekte ÖTV tek başına nihai fiyatın yaklaşık %20'sini oluştururken ÖTV ve KDV birlikte toplam fiyatın yaklaşık %35–40'ını kapsar. Fiyatlar EPDK kararları, Brent fiyatı ve kur hareketlerine göre haftalık değişebilir.</p>
 
 <h2>Markalar Arası Fiyat Farkı Neden Oluşur?</h2>
 <p>OPET, Shell, Petrol Ofisi, Alpet, Lukoil, Total ve diğer markalar aynı EPDK tavan fiyatı altında faaliyet gösterse de aralarındaki fiyat farklılıkları gerçektir ve birkaç kaynaktan beslenir:</p>
@@ -72,7 +72,13 @@ const icerik = `
 </ul>
 
 <h2>Sonuç</h2>
-<p>Türkiye'de akaryakıt fiyatları; ham petrol maliyeti, rafinaj, ÖTV, KDV, dağıtım ve bayi marjının bileşimi olarak oluşur ve EPDK'nın haftalık belirlediği tavan fiyatla sınırlandırılır. Vergiler pompa fiyatının yarısından fazlasını oluşturduğundan küresel ham petrol dalgalanmaları tüketiciye tam olarak yansımaz. Bu yapıyı anlamak, hem fiyat değişimlerini daha doğru yorumlamanızı hem de bilinçli tüketici kararları vermenizi sağlar.</p>
+<p>Türkiye'de akaryakıt fiyatları; ham petrol maliyeti, rafinaj, ÖTV, KDV, dağıtım ve bayi marjının bileşimi olarak oluşur ve EPDK'nın haftalık belirlediği tavan fiyatla sınırlandırılır. Vergiler pompa fiyatının yaklaşık %35–40'ını oluşturduğundan küresel ham petrol dalgalanmaları tüketiciye tam olarak yansımaz. Bu yapıyı anlamak, hem fiyat değişimlerini daha doğru yorumlamanızı hem de bilinçli tüketici kararları vermenizi sağlar.</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:16px 20px;margin-top:32px">
+  <p style="margin:0 0 8px;font-weight:600;color:#1D4ED8">Güncel EPDK fiyatlarını takip etmek ister misiniz?</p>
+  <p style="margin:0 0 10px;font-size:14px;color:#374151">Petrolistan her gün OPET, Shell, Petrol Ofisi ve diğer 8 markanın fiyatını 81 ilde anlık olarak izler.</p>
+  <a href="/akaryakit/karsilastirma" style="color:#1D4ED8;font-size:14px;font-weight:500">→ Şehrinizde en ucuz markayı karşılaştırın</a>
+</div>
 `
 
 export default icerik

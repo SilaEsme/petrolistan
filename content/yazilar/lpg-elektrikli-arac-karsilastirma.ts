@@ -15,13 +15,13 @@ const icerik = `
 <p>Türkiye'de elektrikli araç (EV) penetrasyonu hızla artmaktadır. Devlet teşvikleri (ÖTV muafiyeti), TOGG'un yerli üretim modelleri ve artan şarj altyapısı bu büyümeyi desteklemektedir. Bununla birlikte 2026 itibarıyla EV'ler araç parkının yalnızca <strong>%2–3'ünü</strong> oluşturmaktadır; yani LPG'ye kıyasla henüz çok erken evre bir ekosistemdir.</p>
 
 <h2>100 km'de Kaç Lira Harcarsınız?</h2>
-<p>2026 yılı ortalama fiyatlarıyla yaklaşık bir karşılaştırma (fiyatlar il ve markaya göre değişir):</p>
+<p>Haziran 2026 ortalama fiyatlarıyla yaklaşık bir karşılaştırma (fiyatlar il ve markaya göre değişir; güncel fiyatlar için <a href="/akaryakit">akaryakıt sayfamızı</a> ziyaret edin):</p>
 <ul>
-  <li><strong>Benzinli araç:</strong> 9–10 L/100 km × 23 TL/L = <strong>207–230 TL/100 km</strong></li>
-  <li><strong>Dizel araç:</strong> 6–7 L/100 km × 21 TL/L = <strong>126–147 TL/100 km</strong></li>
-  <li><strong>LPG'li araç:</strong> 11–12 L/100 km × 11 TL/L = <strong>121–132 TL/100 km</strong></li>
-  <li><strong>Elektrikli araç (ev şarjı):</strong> 15–18 kWh/100 km × 5–7 TL/kWh = <strong>75–126 TL/100 km</strong></li>
-  <li><strong>Elektrikli araç (hızlı şarj istasyonu):</strong> 15–18 kWh/100 km × 12–18 TL/kWh = <strong>180–324 TL/100 km</strong></li>
+  <li><strong>Benzinli araç:</strong> 9–10 L/100 km × 50 TL/L = <strong>450–500 TL/100 km</strong></li>
+  <li><strong>Dizel araç:</strong> 6–7 L/100 km × 47 TL/L = <strong>282–329 TL/100 km</strong></li>
+  <li><strong>LPG'li araç:</strong> 11–12 L/100 km × 25 TL/L = <strong>275–300 TL/100 km</strong></li>
+  <li><strong>Elektrikli araç (ev şarjı):</strong> 15–18 kWh/100 km × 9 TL/kWh = <strong>135–162 TL/100 km</strong></li>
+  <li><strong>Elektrikli araç (hızlı şarj istasyonu):</strong> 15–18 kWh/100 km × 17 TL/kWh = <strong>255–306 TL/100 km</strong></li>
 </ul>
 <p>Dikkat edilmesi gereken kritik nokta: Ev şarjıyla gecenin bir yarısı dolduran EV sahibi ile her seyahat sonrası hızlı şarj kullanan EV sahibinin maliyeti arasında dramatik bir fark vardır. Ev şarjı mümkün olan kullanıcılar için EV, LPG'ye yakın ya da daha avantajlı bir konuma gelebilir.</p>
 
@@ -52,6 +52,12 @@ const icerik = `
 
 <h2>Sonuç</h2>
 <p>LPG, 2026 Türkiye koşullarında hâlâ maliyet liderliğini korumaktadır: Düşük ilk yatırım, geniş altyapı ve hızlı dolum süresi. Elektrikli araç ise evde şarj olanağı olan, uzun vadeli bakım ve enerji tasarrufu hesabı yapan sürücüler için cazip bir seçenek haline gelmiştir; ancak yüksek araç fiyatı ve altyapı sınırlılıkları hâlâ engel oluşturmaktadır. İki yakıt arasında net bir üstün yok; doğru seçim kullanım alışkanlığınıza, bütçenize ve ev şarjı erişiminize göre değişir.</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:16px 20px;margin-top:32px">
+  <p style="margin:0 0 8px;font-weight:600;color:#1D4ED8">Türkiye genelinde LPG fiyatlarını karşılaştırın</p>
+  <p style="margin:0 0 10px;font-size:14px;color:#374151">OPET, Shell, Petrol Ofisi ve diğer markaların LPG fiyatlarını bulunduğunuz ilde anlık görün.</p>
+  <a href="/akaryakit" style="color:#1D4ED8;font-size:14px;font-weight:500">→ Güncel LPG fiyatlarını incele</a>
+</div>
 `
 
 export default icerik

@@ -13,11 +13,11 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   metadataBase: new URL('https://petrolistan.com'),
   title: {
-    default: 'Benzin ve Motorin Fiyatları — Güncel Karşılaştırma | Petrolistan',
+    default: 'Güncel Benzin Motorin Fiyatları 2026 — Tüm Markalar | Petrolistan',
     template: '%s | Petrolistan',
   },
   description:
-    'Türkiye\'de güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi, Aytemiz fiyatlarını 81 ilde karşılaştırın. Brent ham petrol ve döviz kurunu anlık takip edin.',
+    'Türkiye\'de bugünkü benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi ve 8 marka fiyatlarını 81 ilde karşılaştırın. Canlı Brent ham petrol ve döviz takibi.',
   keywords: [
     'benzin fiyatı',
     'motorin fiyatı',
@@ -48,18 +48,28 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://petrolistan.com' },
 };
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://petrolistan.com/#organization',
+  name: 'Petrolistan',
+  url: 'https://petrolistan.com',
+  logo: { '@type': 'ImageObject', url: 'https://petrolistan.com/favicon.ico' },
+  description: 'Türkiye\'de güncel akaryakıt fiyatları, ham petrol ve doğalgaz takip platformu.',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'info@petrolistan.com',
+    contactType: 'customer service',
+  },
+};
+
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Petrolistan',
   url: 'https://petrolistan.com',
   description: 'Türkiye\'de güncel benzin, motorin ve LPG fiyatları. OPET, Shell, Petrol Ofisi karşılaştırması.',
-  publisher: {
-    '@type': 'Organization',
-    name: 'Petrolistan',
-    url: 'https://petrolistan.com',
-    logo: { '@type': 'ImageObject', url: 'https://petrolistan.com/favicon.ico' },
-  },
+  publisher: { '@id': 'https://petrolistan.com/#organization' },
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://petrolistan.com/akaryakit/karsilastirma?province={search_term_string}',
@@ -83,8 +93,13 @@ export default function RootLayout({
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
           crossOrigin="anonymous"
         />
+        <link rel="alternate" type="application/rss+xml" title="Petrolistan Haberler" href="/api/news/rss" />
       </head>
       <body className="min-h-full flex flex-col bg-[#F5F5F0] dark:bg-[#09121E] text-gray-900 dark:text-[#E2E8F0]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}

@@ -9,6 +9,7 @@ export interface Yazi {
   baslik: string
   ozet: string
   tarih: string // ISO 8601
+  guncellenmeTarihi?: string // ISO 8601
   etiketler: string[]
   gorselUrl?: string // Featured image for schema
 }
@@ -20,7 +21,9 @@ export const YAZILAR: Yazi[] = [
     ozet:
       "Pompada ödediğiniz yakıt fiyatının büyük bölümü vergi. EPDK tavan fiyatı, ÖTV, KDV ve maliyet bileşenlerini adım adım açıklıyoruz.",
     tarih: '2026-01-15',
+    guncellenmeTarihi: '2026-06-24',
     etiketler: ['EPDK', 'ÖTV', 'Akaryakıt Fiyatı', 'Vergi'],
+    gorselUrl: 'https://petrolistan.com/opengraph-image',
   },
   {
     slug: 'brent-petrol-fiyati-turkiyeyi-nasil-etkiler',
@@ -28,7 +31,9 @@ export const YAZILAR: Yazi[] = [
     ozet:
       "Brent petrol fiyatı düşünce Türkiye'de pompa fiyatları neden hemen düşmüyor? Kur, gecikme süresi ve OPEC+ etkisini analiz ediyoruz.",
     tarih: '2026-02-10',
+    guncellenmeTarihi: '2026-06-24',
     etiketler: ['Brent Petrol', 'Ham Petrol', 'USD/TRY', 'OPEC+'],
+    gorselUrl: 'https://petrolistan.com/opengraph-image',
   },
   {
     slug: 'benzin-mi-motorin-mi-yakit-ekonomisi',
@@ -36,7 +41,9 @@ export const YAZILAR: Yazi[] = [
     ozet:
       "Km başına maliyet, araç seçimi ve uzun vadeli yakıt ekonomisi hesabı. Hangi yakıt sizin kullanım profiliniz için daha kazançlı?",
     tarih: '2026-03-05',
+    guncellenmeTarihi: '2026-06-24',
     etiketler: ['Benzin', 'Motorin', 'Yakıt Ekonomisi', 'Araç Seçimi'],
+    gorselUrl: 'https://petrolistan.com/opengraph-image',
   },
   {
     slug: 'lpg-elektrikli-arac-karsilastirma',
@@ -44,7 +51,9 @@ export const YAZILAR: Yazi[] = [
     ozet:
       "100 km'de kaç lira harcarsınız? LPG dönüşüm maliyeti, elektrikli araç şarj ücreti ve altyapı durumunu karşılaştıran kapsamlı analiz.",
     tarih: '2026-04-01',
+    guncellenmeTarihi: '2026-06-24',
     etiketler: ['LPG', 'Elektrikli Araç', 'Yakıt Maliyeti', 'EV'],
+    gorselUrl: 'https://petrolistan.com/opengraph-image',
   },
   {
     slug: 'mevsimsel-yakit-trendleri',
@@ -52,7 +61,9 @@ export const YAZILAR: Yazi[] = [
     ozet:
       "Yaz tatil sezonunda benzin, kışın motorin fiyatları neden yükselir? Mevsimsel talep döngülerini ve OPEC+ zamanlamasını açıklıyoruz.",
     tarih: '2026-05-12',
+    guncellenmeTarihi: '2026-06-24',
     etiketler: ['Mevsimsel Trend', 'Benzin', 'Motorin', 'Talep'],
+    gorselUrl: 'https://petrolistan.com/opengraph-image',
   },
 ]
 
