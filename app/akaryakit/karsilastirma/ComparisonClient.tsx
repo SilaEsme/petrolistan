@@ -53,10 +53,12 @@ export default function ComparisonClient({
   initialData,
   initialProvince,
   heading,
+  faqItems,
 }: {
   initialData: BrandsResponse | null
   initialProvince?: string
   heading?: string
+  faqItems?: { q: string; a: string }[]
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -339,7 +341,7 @@ export default function ComparisonClient({
           <section className="mt-8">
             <h2 className="text-lg font-semibold text-[#0C447C] dark:text-[#5B9BD5] mb-4">Sıkça Sorulan Sorular</h2>
             <div className="space-y-3">
-              {[
+              {(faqItems ?? [
                 {
                   q: `${provinceName}'da benzin 95 kaç lira?`,
                   a: cheapestGasoline && expensiveGasoline
@@ -366,7 +368,7 @@ export default function ComparisonClient({
                   q: 'Akaryakıt fiyatları ne zaman güncellenir?',
                   a: 'EPDK akaryakıt tavan fiyatlarını her hafta Salı veya Çarşamba günü açıklar; yeni fiyatlar gece yarısından itibaren geçerli olur. Markalar bu tavan fiyatın altında kalmak koşuluyla kendi pompa fiyatlarını belirleyebilir. Petrolistan fiyatları saatlik olarak günceller.',
                 },
-              ].map(({ q, a }) => (
+              ]).map(({ q, a }) => (
                 <details key={q} className="border border-gray-200 dark:border-gray-800/60 rounded-lg p-4 dark:bg-[#0F1829]">
                   <summary className="font-medium cursor-pointer text-gray-800 dark:text-gray-200">{q}</summary>
                   <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{a}</p>

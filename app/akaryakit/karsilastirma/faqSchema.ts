@@ -4,6 +4,38 @@ function fmt(val: number) {
   return val.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
+// Şehir adı geçmeyen jenerik SSS — base karşılaştırma sayfası için
+export const GENERIC_COMPARISON_FAQ: { q: string; a: string }[] = [
+  {
+    q: 'Akaryakıt markaları arasında fiyat farkı neden var?',
+    a: 'EPDK her hafta Salı veya Çarşamba günü ulusal tavan fiyatını açıklar. Markalar bu tavanın altında kalmak koşuluyla kendi pompa fiyatlarını serbestçe belirleyebilir. Bu nedenle aynı ilde OPET, Shell, Petrol Ofisi ve diğer markalar arasında litre başına birkaç kuruşluk fark oluşabilir.',
+  },
+  {
+    q: 'Hangi akaryakıt markaları karşılaştırılıyor?',
+    a: 'Petrolistan; OPET, Shell, Petrol Ofisi, Aytemiz, Alpet, Lukoil, Total, Moil, Bpet, Sunpet ve Kadoil olmak üzere 11 markanın benzin 95, motorin ve LPG fiyatlarını karşılaştırmaktadır. Veriler markaların resmi web siteleri ve EPDK kaynaklarından saatlik olarak güncellenmektedir.',
+  },
+  {
+    q: 'Akaryakıt fiyatları ne sıklıkla güncellenir?',
+    a: 'Petrolistan fiyatları saatlik olarak günceller. EPDK ulusal tavan fiyatını her hafta Salı veya Çarşamba günü açıklar; yeni fiyatlar o gece yarısından itibaren geçerli olur. Marka pompa fiyatları bu tavan dahilinde hafta içinde ufak değişiklik gösterebilir.',
+  },
+  {
+    q: 'Bulunduğum ile göre fiyatları nasıl görürüm?',
+    a: 'Sayfanın sağ üst köşesindeki il seçiciden ilinizi seçebilirsiniz. Ayrıca sayfanın altındaki il listesinden doğrudan ilinize tıklayarak o ile özel karşılaştırma sayfasına gidebilirsiniz.',
+  },
+]
+
+export function buildGenericFaqSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: GENERIC_COMPARISON_FAQ.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  }
+}
+
 export function buildFaqSchema(cityName: string, initialData: BrandsResponse | null) {
   if (!initialData?.data) return null
   const eligible = initialData.data.filter((b) => b.brand !== 'Moil')

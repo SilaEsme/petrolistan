@@ -5,7 +5,7 @@ import { BreadcrumbSchema } from '@/components/BreadcrumbSchema'
 import { provinceSlugToCode, PROVINCES } from '@/lib/provinces'
 import type { BrandsResponse } from '@/types'
 import ComparisonClient from './ComparisonClient'
-import { buildFaqSchema } from './faqSchema'
+import { buildGenericFaqSchema, GENERIC_COMPARISON_FAQ } from './faqSchema'
 
 type SearchParams = Promise<{ province?: string }>
 
@@ -23,32 +23,26 @@ async function fetchInitialData(province: string): Promise<BrandsResponse | null
   }
 }
 
-export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
-  const { province = '34' } = await searchParams
-  const name = PROVINCES[province] ?? 'Türkiye'
-
-  return {
-    title: `${name} Benzin Motorin Fiyatları — Marka Karşılaştırması | Petrolistan`,
-    description: `${name} için OPET, Shell, Petrol Ofisi, Alpet, Lukoil, Total, Bpet, Sunpet, Kadoil ve daha fazlası — 11 markada güncel benzin ve motorin fiyat karşılaştırması.`,
-    keywords: `${name} akaryakıt fiyatları, ${name} benzin fiyatı, ${name} motorin fiyatı, OPET Shell Petrol Ofisi fiyat karşılaştırması`,
-    alternates: { canonical: 'https://petrolistan.com/akaryakit/karsilastirma' },
-  }
+export const metadata: Metadata = {
+  title: 'Akaryakıt Fiyatları Karşılaştırma — 11 Marka, 81 İl',
+  description: 'OPET, Shell, Petrol Ofisi, Alpet, Lukoil ve diğer markaların güncel benzin, motorin ve LPG fiyatlarını il il karşılaştırın. 81 ilde en ucuz akaryakıtı bulun.',
+  keywords: 'akaryakıt fiyatları karşılaştırma, benzin motorin fiyat karşılaştırması, marka akaryakıt fiyatları, en ucuz akaryakıt',
+  alternates: { canonical: 'https://petrolistan.com/akaryakit/karsilastirma' },
 }
 
 export default async function KarsilastirmaPage({ searchParams }: { searchParams: SearchParams }) {
   const { province = '34' } = await searchParams
   const initialData = await fetchInitialData(province)
-  const cityName = PROVINCES[province] ?? 'Türkiye'
 
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `${cityName} Akaryakıt Fiyatları Karşılaştırması`,
-    description: `${cityName} için güncel benzin, motorin ve LPG fiyatları`,
-    url: `https://petrolistan.com/akaryakit/karsilastirma?province=${province}`,
+    name: 'Akaryakıt Markaları Fiyat Karşılaştırması',
+    description: 'OPET, Shell, Petrol Ofisi ve diğer 11 markanın güncel benzin, motorin ve LPG fiyatları',
+    url: 'https://petrolistan.com/akaryakit/karsilastirma',
   }
 
-  const faqSchema = buildFaqSchema(cityName, initialData)
+  const faqSchema = buildGenericFaqSchema()
 
   return (
     <>
@@ -56,19 +50,21 @@ export default async function KarsilastirmaPage({ searchParams }: { searchParams
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      {faqSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <BreadcrumbSchema items={[
         { name: 'Ana Sayfa', url: 'https://petrolistan.com' },
         { name: 'Akaryakıt', url: 'https://petrolistan.com/akaryakit' },
         { name: 'Karşılaştırma', url: 'https://petrolistan.com/akaryakit/karsilastirma' },
       ]} />
       <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-400">Yükleniyor…</div>}>
-        <ComparisonClient initialData={initialData} />
+        <ComparisonClient
+          initialData={initialData}
+          heading="Akaryakıt Markaları Fiyat Karşılaştırması"
+          faqItems={GENERIC_COMPARISON_FAQ}
+        />
       </Suspense>
 
       {/* 81 il hub'ı — crawler için gerçek <a> linkleri */}
