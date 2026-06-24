@@ -115,7 +115,14 @@ export default function AraClient() {
   const userLng = geo.status === 'ready' ? geo.lng : ISTANBUL.lng
 
   const stations = useMemo(() => {
-    const filtered = (data?.stations ?? []).filter(s => s.brand || s.name)
+    const DEPOT_RE = /depo|dolum/i
+    const filtered = (data?.stations ?? []).filter(s => {
+      const nameLen  = s.name?.trim().length  ?? 0
+      const brandLen = s.brand?.trim().length ?? 0
+      if (!s.brand_key && nameLen < 2 && brandLen < 2) return false
+      if (DEPOT_RE.test(s.name ?? '')) return false
+      return true
+    })
 
     // Dedup: önce osm_id, sonra koordinat yakınlığı ~55m
     const seenOsmIds = new Set<number>()
