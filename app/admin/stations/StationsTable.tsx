@@ -1,6 +1,13 @@
 'use client'
 
 import { useRef, useState, useTransition } from 'react'
+import dynamic from 'next/dynamic'
+import { BRANDS, BRAND_KEY_TO_NAME } from '@/lib/brands'
+
+const LocationPicker = dynamic(() => import('@/components/stations/LocationPicker'), {
+  ssr: false,
+  loading: () => <div className="h-56 w-full rounded-lg bg-gray-100 dark:bg-gray-800 animate-pulse" />,
+})
 
 export interface AdminStation {
   id: number
@@ -73,7 +80,7 @@ function Modal({
           onKeyDown={(e) => (e.key === 'Enter' || e.key === 'Escape') && onClose()}
           aria-label="Kapat"
         />
-      <div className="relative bg-white dark:bg-[#0D1B2A] rounded-xl shadow-xl border border-gray-200 dark:border-white/10 w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white dark:bg-[#0D1B2A] rounded-xl shadow-xl border border-gray-200 dark:border-white/10 w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-semibold text-gray-900 dark:text-white">{title}</h2>
           <button
@@ -172,23 +179,25 @@ function EditStationModal({
           />
         </Field>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Field label="Marka">
-            <input
-              className={inputClass}
-              value={form.brand}
-              onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))}
-            />
-          </Field>
-          <Field label="Brand Key">
-            <input
-              className={inputClass}
-              value={form.brand_key}
-              onChange={(e) => setForm((f) => ({ ...f, brand_key: e.target.value }))}
-              placeholder="opet, shell, tp..."
-            />
-          </Field>
-        </div>
+        <Field label="Marka">
+          <select
+            className={inputClass}
+            value={form.brand_key}
+            onChange={(e) => {
+              const key = e.target.value
+              setForm((f) => ({ ...f, brand_key: key, brand: BRAND_KEY_TO_NAME[key] ?? f.brand }))
+            }}
+          >
+            <option value="">— Markasız —</option>
+            {/* Protect current value if it's not in the registry */}
+            {form.brand_key && !BRANDS.some((b) => b.key === form.brand_key) && (
+              <option value={form.brand_key}>{form.brand || form.brand_key} (kayıtlı değil)</option>
+            )}
+            {BRANDS.map((b) => (
+              <option key={b.key} value={b.key}>{b.name}</option>
+            ))}
+          </select>
+        </Field>
 
         <Field label="Adres">
           <input
@@ -216,6 +225,24 @@ function EditStationModal({
           </Field>
         </div>
 
+        <div>
+          <LocationPicker
+            lat={form.lat}
+            lng={form.lng}
+            onChange={(lat, lng) => setForm((f) => ({ ...f, lat, lng }))}
+          />
+          <div className="mt-1.5 flex items-center justify-between">
+            <span className="text-xs text-gray-400 dark:text-gray-500">Marker&apos;ı sürükle veya haritaya tıkla</span>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${form.lat},${form.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[#0C447C] dark:text-blue-400 hover:underline"
+            >
+              Google Haritalar&apos;da aç ↗
+            </a>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-4">
           <Field label="Enlem (lat)">
             <input
