@@ -367,7 +367,7 @@ function FuelBadges({ benzin, motorin, lpg }: { benzin: boolean; motorin: boolea
 interface Props {
   initialStations: AdminStation[]
   initialTotal: number
-  initialFilters: { q: string; province: string; brand_key: string }
+  initialFilters: { q: string; province: string; brand_key: string; needsReview?: boolean }
   pageSize: number
 }
 
@@ -379,7 +379,7 @@ export default function StationsTable({
 }: Props) {
   const [rows, setRows] = useState(initialStations)
   const [total, setTotal] = useState(initialTotal)
-  const [filters, setFilters] = useState(initialFilters)
+  const [filters, setFilters] = useState({ ...initialFilters, needsReview: initialFilters.needsReview ?? false })
   const [page, setPage] = useState(1)
   const [isPending, startTransition] = useTransition()
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -393,6 +393,7 @@ export default function StationsTable({
         ...(f.q ? { q: f.q } : {}),
         ...(f.province ? { province: f.province } : {}),
         ...(f.brand_key ? { brand_key: f.brand_key } : {}),
+        ...(f.needsReview ? { needs_review: '1' } : {}),
         limit: String(pageSize),
         offset: String((p - 1) * pageSize),
       })
@@ -421,6 +422,13 @@ export default function StationsTable({
 
   function handleFilterChange(key: 'province' | 'brand_key', val: string) {
     const newFilters = { ...filters, [key]: val }
+    setFilters(newFilters)
+    setPage(1)
+    fetchPage(newFilters, 1)
+  }
+
+  function handleNeedsReviewChange(val: boolean) {
+    const newFilters = { ...filters, needsReview: val }
     setFilters(newFilters)
     setPage(1)
     fetchPage(newFilters, 1)
@@ -480,6 +488,15 @@ export default function StationsTable({
           placeholder="Brand key (ör. opet)"
           className={`${inputClass} max-w-[180px]`}
         />
+        <label className="flex items-center gap-2 cursor-pointer self-center text-xs text-gray-700 dark:text-gray-300 select-none">
+          <input
+            type="checkbox"
+            checked={filters.needsReview}
+            onChange={(e) => handleNeedsReviewChange(e.target.checked)}
+            className="w-3.5 h-3.5 rounded accent-[#BA7517]"
+          />
+          Sadece haritada gizli olanlar
+        </label>
         {isPending && (
           <span className="self-center text-xs text-gray-400 dark:text-gray-500">Yükleniyor…</span>
         )}
@@ -506,13 +523,23 @@ export default function StationsTable({
                   {s.id}
                 </td>
                 <td className="px-4 py-3 max-w-[180px]">
-                  <div className="flex items-start gap-1.5">
+                  <div className="flex items-start gap-1.5 flex-wrap">
                     <span className="font-medium text-gray-900 dark:text-white truncate">
                       {s.name || <span className="text-gray-400 italic text-xs">—</span>}
                     </span>
                     {s.edited && (
                       <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#0C447C]/10 text-[#0C447C] dark:bg-blue-900/30 dark:text-blue-400">
                         ✎
+                      </span>
+                    )}
+                    {!s.edited && s.brand_source === 'name' && (
+                      <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                        Şüpheli marka
+                      </span>
+                    )}
+                    {!s.edited && !s.brand_key && (
+                      <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                        Markasız
                       </span>
                     )}
                   </div>
