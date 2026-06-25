@@ -19,6 +19,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
         </form>
       </header>
+      <nav className="bg-[#0a386a] text-white/80 px-6 py-2 flex gap-5 text-sm">
+        <a href="/admin/keys" className="hover:text-white transition-colors">
+          API Anahtarları
+        </a>
+        <a href="/admin/brands" className="hover:text-white transition-colors">
+          Markalar
+        </a>
+      </nav>
       <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
     </div>
   )
