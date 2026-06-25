@@ -26,6 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <a href="/admin/brands" className="hover:text-white transition-colors">
           Markalar
         </a>
+        <a href="/admin/stations" className="hover:text-white transition-colors">
+          İstasyonlar
+        </a>
       </nav>
       <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
     </div>
