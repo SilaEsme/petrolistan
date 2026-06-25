@@ -30,6 +30,29 @@ type GeoState =
 
 const ISTANBUL = { lat: 41.01, lng: 28.97, province: '34' } as const
 const MIN_ZOOM = 9 // altında Türkiye çapı çok fazla pin olur
+const PAD_KM = 10  // görünür alanın ~10km dışını da çek — pan'da kenarlar boş kalmasın
+
+// Backend geçerli aralıkları: lat [35,43], lng [25,45]. Padding bu sınırları aşmasın → 400 önlenir.
+const clampBounds = (b: MapBounds): MapBounds => ({
+  north: Math.min(43, b.north),
+  south: Math.max(35, b.south),
+  east: Math.min(45, b.east),
+  west: Math.max(25, b.west),
+})
+
+// km → derece. 1° lat ≈ 111km; 1° lng ≈ 111·cos(lat) km (boylam enlemle daralır).
+const padBounds = (b: MapBounds, km: number): MapBounds => {
+  const latPad = km / 111
+  const midLat = (b.north + b.south) / 2
+  const cosLat = Math.max(0.01, Math.cos((midLat * Math.PI) / 180))
+  const lngPad = km / (111 * cosLat)
+  return { north: b.north + latPad, south: b.south - latPad, east: b.east + lngPad, west: b.west - lngPad }
+}
+
+// inner dikdörtgeni tamamen outer'ın içinde mi?
+const boundsContain = (outer: MapBounds, inner: MapBounds): boolean =>
+  outer.north >= inner.north && outer.south <= inner.south &&
+  outer.east >= inner.east && outer.west <= inner.west
 
 export default function AraClient() {
   const [geo, setGeo] = useState<GeoState>({ status: 'loading' })
@@ -40,8 +63,11 @@ export default function AraClient() {
   const [jumpProvince, setJumpProvince] = useState<string>('')
   const [jumpTarget, setJumpTarget] = useState<{ lat: number; lng: number; zoom: number } | null>(null)
   const [selectedCity, setSelectedCity] = useState<string | null>(null)
-  const [viewport, setViewport] = useState<MapBounds | null>(null)
-  const [zoom, setZoom] = useState(13)
+  // fetchBounds = backend'e sorduğumuz PADDED bölge; yalnızca anlamlı harekette güncellenir → liste sabit kalır.
+  const [fetchBounds, setFetchBounds] = useState<MapBounds | null>(null)
+  const [zoom, setZoom] = useState(13) // canlı zoom (overlay + apiKey gating)
+  const fetchedBoundsRef = useRef<MapBounds | null>(null)
+  const fetchedZoomRef = useRef<number | null>(null)
   const cardRefs = useRef<Map<number, HTMLElement>>(new Map())
 
   useEffect(() => {
@@ -88,21 +114,31 @@ export default function AraClient() {
   const handleViewportChange = useCallback((b: MapBounds, z: number) => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
-      setViewport(b)
-      setZoom(z)
+      setZoom(z) // canlı zoom her zaman güncellenir (overlay + apiKey gating için)
+      const zi = Math.round(z)
+      const prev = fetchedBoundsRef.current
+      // Görünür alan son padded kutunun İÇİNDE ve tam sayı zoom aynıysa:
+      // state değişmez → refetch yok → liste ve marker'lar olduğu gibi kalır.
+      if (prev && fetchedZoomRef.current === zi && boundsContain(prev, b)) return
+      // Anlamlı hareket: yeni padded bölgeyi hesapla, clamp et, SWR'ı tetikle.
+      const padded = clampBounds(padBounds(b, PAD_KM))
+      fetchedBoundsRef.current = padded
+      fetchedZoomRef.current = zi
+      setFetchBounds(padded)
     }, 300)
   }, [])
   useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current) }, [])
 
-  // Fiyat zenginleştirmesi için harita merkezinin ili.
-  const centerProvince = viewport
-    ? findProvinceCode((viewport.north + viewport.south) / 2, (viewport.east + viewport.west) / 2)
+  // Fiyat zenginleştirmesi için bölge merkezinin ili.
+  // Padding simetrik olduğundan padded merkez ≈ görünür merkez — il seçimi pratikte değişmez.
+  const centerProvince = fetchBounds
+    ? findProvinceCode((fetchBounds.north + fetchBounds.south) / 2, (fetchBounds.east + fetchBounds.west) / 2)
     : ISTANBUL.province
 
   const apiKey =
-    viewport && zoom >= MIN_ZOOM
-      ? `/api/stations/bbox?north=${viewport.north.toFixed(4)}&south=${viewport.south.toFixed(4)}` +
-        `&east=${viewport.east.toFixed(4)}&west=${viewport.west.toFixed(4)}` +
+    fetchBounds && zoom >= MIN_ZOOM
+      ? `/api/stations/bbox?north=${fetchBounds.north.toFixed(4)}&south=${fetchBounds.south.toFixed(4)}` +
+        `&east=${fetchBounds.east.toFixed(4)}&west=${fetchBounds.west.toFixed(4)}` +
         `&fuel_type=${fuelType}&province=${centerProvince}`
       : null
 
@@ -193,7 +229,7 @@ export default function AraClient() {
     setHoveredId(id)
   }, [])
 
-  const tooFarOut = viewport !== null && zoom < MIN_ZOOM
+  const tooFarOut = fetchBounds !== null && zoom < MIN_ZOOM
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
@@ -314,7 +350,7 @@ export default function AraClient() {
       {/* İstasyon sayısı */}
       {data && !tooFarOut && (
         <div className="text-xs text-gray-400 dark:text-gray-500">
-          {stations.length} istasyon — haritada görünen alanda
+          {stations.length} istasyon — yakındaki bölgede
         </div>
       )}
 
