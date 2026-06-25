@@ -1,29 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-export const BRAND_LOGOS: Record<string, string> = {
-  'Opet':                '/brands/opet.png',
-  'Shell':               '/brands/shell.png',
-  'Petrol Ofisi':        '/brands/petrolofisi.png',
-  'Aytemiz':             '/brands/aytemiz.png',
-  'Lukoil':              '/brands/lukoil.svg',
-  'Total':               '/brands/total.svg',
-  'Moil':                '/brands/moil.png',
-  'Alpet':               '/brands/alpet.png',
-  'Bpet':                '/brands/bpet.png',
-  'Sunpet':              '/brands/sunpet.png',
-  'Kadoil':              '/brands/kadoil.png',
-  'Class Petrol':        '/brands/classpetrol.svg',
-  'Türkiye Petrolleri':  '/brands/tp.svg',
-  'Onur':                '/brands/onur.png',
-  'Ömsan':               '/brands/omsan.png',
-  'Go Petrol':           '/brands/gopetrol.png',
-  'Ural':                '/brands/ural.png',
-  'HD Petrol':           '/brands/hdpetrol.png',
-  'Akpet':               '/brands/akpet.png',
-  'Be Petrol':           '/brands/bepetrol.png',
-}
+import { NAME_TO_LOGO } from '@/lib/brands'
 
 function brandInitials(name: string): string {
   const words = name.trim().split(/\s+/)
@@ -33,7 +11,7 @@ function brandInitials(name: string): string {
 
 export function BrandLogo({ name, size = 26 }: { name: string; size?: number }) {
   const [failed, setFailed] = useState(false)
-  const src = BRAND_LOGOS[name]
+  const src = NAME_TO_LOGO[name]
 
   if (!src || failed) {
     return (

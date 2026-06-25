@@ -2,29 +2,7 @@
 
 import { BrandLogo } from '@/components/prices/BrandLogo'
 import { normalizeText, formatStationAddress } from '@/lib/address'
-
-const BRAND_KEY_TO_NAME: Record<string, string> = {
-  opet:        'Opet',
-  shell:       'Shell',
-  petrolofisi: 'Petrol Ofisi',
-  aytemiz:     'Aytemiz',
-  lukoil:      'Lukoil',
-  total:       'Total',
-  moil:        'Moil',
-  alpet:       'Alpet',
-  bpet:        'Bpet',
-  sunpet:      'Sunpet',
-  kadoil:      'Kadoil',
-  classpetrol: 'Class Petrol',
-  tp:          'Türkiye Petrolleri',
-  onur:        'Onur',
-  omsan:       'Ömsan',
-  gopetrol:    'Go Petrol',
-  ural:        'Ural',
-  hdpetrol:    'HD Petrol',
-  akpet:       'Akpet',
-  bepetrol:    'Be Petrol',
-}
+import { BRAND_KEY_TO_NAME } from '@/lib/brands'
 
 export interface NearbyStation {
   id: number
@@ -40,6 +18,11 @@ export interface NearbyStation {
   has_benzin: boolean
   has_motorin: boolean
   has_lpg: boolean
+  has_carwash: boolean
+  has_market: boolean
+  is_open_24h: boolean
+  has_ev: boolean
+  brand_source?: string
   distance_km: number
   price_benzin?: number
   price_motorin?: number
@@ -90,17 +73,21 @@ export function StationCard({ station, fuelType, isHighlighted = false }: {
             <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{subtitle}</div>
           ) : null
         })()}
-        <div className="flex items-center gap-2 mt-0.5">
+        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
           <span className="text-xs text-gray-400 dark:text-gray-500">
             {station.distance_km < 1
               ? `${Math.round(station.distance_km * 1000)} m`
               : `${station.distance_km.toFixed(1)} km`}
           </span>
           <span className="text-gray-200 dark:text-gray-700">·</span>
-          <div className="flex gap-1">
+          <div className="flex gap-1 flex-wrap">
             {station.has_benzin  && <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-medium">Benzin</span>}
             {station.has_motorin && <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-medium">Motorin</span>}
             {station.has_lpg     && <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 font-medium">LPG</span>}
+            {station.has_ev      && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 font-medium">EV</span>}
+            {station.has_carwash && <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400 font-medium">Yıkama</span>}
+            {station.has_market  && <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 font-medium">Market</span>}
+            {station.is_open_24h && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 font-medium">7/24</span>}
           </div>
         </div>
       </div>

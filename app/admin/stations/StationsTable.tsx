@@ -8,6 +8,7 @@ export interface AdminStation {
   name: string
   brand: string
   brand_key: string
+  brand_source?: string
   lat: number
   lng: number
   address: string
@@ -16,6 +17,10 @@ export interface AdminStation {
   has_benzin: boolean
   has_motorin: boolean
   has_lpg: boolean
+  has_carwash: boolean
+  has_market: boolean
+  is_open_24h: boolean
+  has_ev: boolean
   edited?: boolean
 }
 
@@ -122,6 +127,10 @@ function EditStationModal({
     has_benzin: station.has_benzin,
     has_motorin: station.has_motorin,
     has_lpg: station.has_lpg,
+    has_carwash: station.has_carwash,
+    has_market: station.has_market,
+    is_open_24h: station.is_open_24h,
+    has_ev: station.has_ev,
   })
 
   function handleSubmit(e: React.FormEvent) {
@@ -228,27 +237,71 @@ function EditStationModal({
           </Field>
         </div>
 
-        <div className="flex items-center gap-6 pt-1">
-          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-            <Toggle
-              checked={form.has_benzin}
-              onChange={() => setForm((f) => ({ ...f, has_benzin: !f.has_benzin }))}
-            />
-            <span>Benzin</span>
+        {station.brand_source && (
+          <div className="px-3 py-2 bg-gray-50 dark:bg-[#09121E] rounded-lg border border-gray-200 dark:border-white/10">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Marka Kaynağı</p>
+            <p className="text-xs font-mono text-gray-700 dark:text-gray-300">{station.brand_source}</p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-            <Toggle
-              checked={form.has_motorin}
-              onChange={() => setForm((f) => ({ ...f, has_motorin: !f.has_motorin }))}
-            />
-            <span>Motorin</span>
+        )}
+
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Yakıt</p>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_benzin}
+                onChange={() => setForm((f) => ({ ...f, has_benzin: !f.has_benzin }))}
+              />
+              <span>Benzin</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_motorin}
+                onChange={() => setForm((f) => ({ ...f, has_motorin: !f.has_motorin }))}
+              />
+              <span>Motorin</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_lpg}
+                onChange={() => setForm((f) => ({ ...f, has_lpg: !f.has_lpg }))}
+              />
+              <span>LPG</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_ev}
+                onChange={() => setForm((f) => ({ ...f, has_ev: !f.has_ev }))}
+              />
+              <span>EV</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-            <Toggle
-              checked={form.has_lpg}
-              onChange={() => setForm((f) => ({ ...f, has_lpg: !f.has_lpg }))}
-            />
-            <span>LPG</span>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Özellikler</p>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_carwash}
+                onChange={() => setForm((f) => ({ ...f, has_carwash: !f.has_carwash }))}
+              />
+              <span>Yıkama</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.has_market}
+                onChange={() => setForm((f) => ({ ...f, has_market: !f.has_market }))}
+              />
+              <span>Market</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+              <Toggle
+                checked={form.is_open_24h}
+                onChange={() => setForm((f) => ({ ...f, is_open_24h: !f.is_open_24h }))}
+              />
+              <span>7/24</span>
+            </div>
           </div>
         </div>
 
