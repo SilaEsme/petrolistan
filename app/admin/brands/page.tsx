@@ -30,15 +30,16 @@ export default async function AdminBrandsPage() {
   }
 
   const enabledCount = brands.filter((b) => b.enabled).length
+  const stationCount = brands.filter((b) => b.enabled_stations).length
 
   return (
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Marka Karşılaştırması
+          Marka Görünürlüğü
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          {enabledCount}/{brands.length} marka karşılaştırmada aktif
+          Karşılaştırma: {enabledCount}/{brands.length} · İstasyon: {stationCount}/{brands.length}
         </p>
       </div>
       {fetchError && (

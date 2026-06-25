@@ -6,6 +6,7 @@ export interface BrandSetting {
   slug: string
   name: string
   enabled: boolean
+  enabled_stations: boolean
   updated_at: string
 }
 
@@ -42,13 +43,13 @@ export default function BrandsTable({ initialBrands }: { initialBrands: BrandSet
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
 
-  function toggle(b: BrandSetting) {
+  function toggle(b: BrandSetting, field: 'enabled' | 'enabled_stations') {
     setError('')
     startTransition(async () => {
       const res = await fetch(`/api/admin/brands/${b.slug}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ enabled: !b.enabled }),
+        body: JSON.stringify({ [field]: !b[field] }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -60,6 +61,7 @@ export default function BrandsTable({ initialBrands }: { initialBrands: BrandSet
   }
 
   const enabledCount = brands.filter((b) => b.enabled).length
+  const stationCount = brands.filter((b) => b.enabled_stations).length
 
   return (
     <>
@@ -77,6 +79,9 @@ export default function BrandsTable({ initialBrands }: { initialBrands: BrandSet
               <th className="px-4 py-3 font-medium">
                 Karşılaştırmada ({enabledCount}/{brands.length})
               </th>
+              <th className="px-4 py-3 font-medium">
+                İstasyon Aramada ({stationCount}/{brands.length})
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5 bg-white dark:bg-[#09121E]">
@@ -90,7 +95,18 @@ export default function BrandsTable({ initialBrands }: { initialBrands: BrandSet
                   {b.slug}
                 </td>
                 <td className="px-4 py-3">
-                  <Toggle checked={b.enabled} onChange={() => toggle(b)} disabled={isPending} />
+                  <Toggle
+                    checked={b.enabled}
+                    onChange={() => toggle(b, 'enabled')}
+                    disabled={isPending}
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <Toggle
+                    checked={b.enabled_stations}
+                    onChange={() => toggle(b, 'enabled_stations')}
+                    disabled={isPending}
+                  />
                 </td>
               </tr>
             ))}
