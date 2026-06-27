@@ -5,6 +5,7 @@ import { useState, useTransition } from 'react'
 export interface AdminKey {
   id: number
   key: string
+  raw_key?: string
   name: string
   email: string
   tier: string
@@ -108,6 +109,8 @@ function CreateKeyModal({
 }) {
   const [pending, startTransition] = useTransition()
   const [error, setError] = useState('')
+  const [createdKey, setCreatedKey] = useState<AdminKey | null>(null)
+  const [copied, setCopied] = useState(false)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -129,8 +132,55 @@ function CreateKeyModal({
         setError(data.error ?? 'Bir hata oluştu')
         return
       }
-      onCreate(data.data)
+      setCreatedKey(data.data)
     })
+  }
+
+  function handleDone() {
+    if (createdKey) onCreate(createdKey)
+    onClose()
+  }
+
+  function copyRawKey() {
+    if (createdKey?.raw_key) {
+      navigator.clipboard.writeText(createdKey.raw_key)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  if (createdKey) {
+    return (
+      <Modal title="Anahtar Oluşturuldu" onClose={handleDone}>
+        <div className="flex flex-col gap-4">
+          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+            Bu anahtarı şimdi kopyalayın. Bir daha gösterilmeyecek.
+          </div>
+          <div className="bg-gray-50 dark:bg-[#09121E] rounded-lg border border-gray-200 dark:border-white/10 p-3">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">API Anahtarı</p>
+            <p className="text-xs font-mono text-gray-800 dark:text-gray-200 break-all leading-relaxed">
+              {createdKey.raw_key}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={copyRawKey}
+              className="flex-1 px-4 py-2 text-sm bg-[#0C447C] hover:bg-[#042C53] text-white rounded-lg font-medium transition-colors"
+            >
+              {copied ? 'Kopyalandı ✓' : 'Kopyala'}
+            </button>
+            <button
+              type="button"
+              onClick={handleDone}
+              className="flex-1 px-4 py-2 text-sm border border-gray-300 dark:border-white/20 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            >
+              Kapat
+            </button>
+          </div>
+        </div>
+      </Modal>
+    )
   }
 
   return (
