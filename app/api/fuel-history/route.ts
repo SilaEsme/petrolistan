@@ -20,9 +20,10 @@ export async function GET(request: Request) {
     )
     if (!res.ok) throw new Error(`Go backend: ${res.status}`)
     const json = await res.json()
-    return NextResponse.json(json, {
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    })
+    const headers: Record<string, string> = { 'Content-Type': 'application/json; charset=utf-8' }
+    const cc = res.headers.get('Cache-Control')
+    if (cc) headers['Cache-Control'] = cc
+    return NextResponse.json(json, { headers })
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
     console.error('[/api/fuel-history]', message)
